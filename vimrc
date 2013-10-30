@@ -1,4 +1,6 @@
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
+
 """ Basic operation settings
 set nocompatible
 set history=1000
