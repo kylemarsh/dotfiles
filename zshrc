@@ -128,7 +128,8 @@ export MYSQL_PS1="\d> "
 if [[ $(uname) == "Darwin" ]] ; then
 	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 elif [[ $(uname) == "Linux" ]] ; then
-	dircolors=~/dotfiles/dircolors.256dark
+	#dircolors=~/dotfiles/dircolors.256dark
+	dircolors=~/dotfiles/dircolors.ansi-dark
 	test -r $dircolors && eval "$(dircolors $dircolors)"
 fi
 
