@@ -137,6 +137,15 @@ function start_agent {
     ssh-add
 }
 
+# Set up ls colors for solarized
+
+if [[ $(uname) == "Darwin" ]] ; then
+	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+elif [[ $(uname) == "Linux" ]] ; then
+	dircolors=~/dotfiles/dircolors.256dark
+	test -r $dircolors && eval "$(dircolors $dircolors)"
+fi
+
 # test for identities
 function test_identities {
     # test whether standard identities have been added to the agent already
