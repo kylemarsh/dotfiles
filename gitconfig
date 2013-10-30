@@ -1,0 +1,26 @@
+[user]
+	name = Kyle Marsh
+	email = kyle.marsh@dreamhost.com
+
+[alias]
+	ci = commit
+	co = checkout
+	br = branch
+	stat = status
+	st = status
+	;review = "!git push origin HEAD:refs/for/$(git name-rev --name-only HEAD)"
+	;review = "!review() { branch=$1; [ -z $branch ] && branch=`git branch | grep -e '\\*' | awk '{ print $2 }'`; git push origin HEAD:refs/for/$branch; }; review"
+	; **use the system-wide review alias.
+	;review = "!review() { merge=$1; [ -z $merge ] && { branch=$(git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)); merge=$(git config --get branch.$branch.merge | cut -d/ -f3);}; [ -z $merge ] && merge=master; git push origin HEAD:refs/for/$merge;}; review"
+	;track = "!track() { newbranch=$1; [ -z $newbranch ] && echo 'Specify a branch' && exit 1; trackedbranch=$2; [ -z $trackedbranch ] && trackedbranch='origin/master'; git checkout -b $newbranch --track $trackedbranch;}; track"
+	;start = "!track() {newbranch=$1; [ -z $newbranch ] && echo 'Specify a branch' && exit 1; trackedbranch=$2; [ -z $trackedbranch ] && trackedbranch='origin/master'; git checkout -b $newbranch --track $trackedbranch;}; track"
+	;finish= "!finish() {deletebranch=$1; [ -z $deletebranch ] && deletebranch=$(git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)); [[ '$deletebranch' == 'master' ]] && echo 'Can't delete master' && exit 1; git checkout master && git pull --rebase && git branch -D $deletebranch; }; finish"
+
+
+[color]
+	ui = true
+	diff = true
+	pager = true
+	status = auto
+	branch = auto
+

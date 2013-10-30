@@ -1,0 +1,32 @@
+# Turn on 256 Color mode in screen.
+#term screen-256color
+
+#escape	_
+startup_message off
+vbell off
+
+hardstatus alwayslastline
+#hardstatus string "%{wk}[%w] %=[%H]"
+hardstatus string '%{= kG}[ %{G}%H ]%{g}[%{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+
+
+
+# custom commands
+register s "^an^aS^aR^aj^a^a^aj" # splits a window above with height 20
+
+# binds
+bind j focus
+bind k focus up
+bind R resize 20
+bind r process s
+bind \' title
+
+# buffers (such as with less) will disappear
+altscreen on
+
+# 5000 line buffer
+defscrollback 5000
+
+# Defines the time a message is displayed
+msgwait 1
+
