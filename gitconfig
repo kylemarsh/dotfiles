@@ -24,3 +24,5 @@
 	status = auto
 	branch = auto
 
+[push]
+	default = simple
