@@ -124,6 +124,14 @@ function yakko { ssh ${work_user}@yakko.sd.dreamhost.com }
 #export MYSQL_PS1="$(print '\e[1;31m')\d$(print '\e[0m')> "
 export MYSQL_PS1="\d> "
 
+# Set up ls colors for solarized
+if [[ $(uname) == "Darwin" ]] ; then
+	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+elif [[ $(uname) == "Linux" ]] ; then
+	dircolors=~/dotfiles/dircolors.256dark
+	test -r $dircolors && eval "$(dircolors $dircolors)"
+fi
+
 SSH_ENV="$HOME/.ssh/environment"
 
 # start the ssh-agent
@@ -136,15 +144,6 @@ function start_agent {
     . "$SSH_ENV" > /dev/null
     ssh-add
 }
-
-# Set up ls colors for solarized
-
-if [[ $(uname) == "Darwin" ]] ; then
-	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-elif [[ $(uname) == "Linux" ]] ; then
-	dircolors=~/dotfiles/dircolors.256dark
-	test -r $dircolors && eval "$(dircolors $dircolors)"
-fi
 
 # test for identities
 function test_identities {
