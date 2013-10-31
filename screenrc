@@ -1,5 +1,5 @@
 # Turn on 256 Color mode in screen.
-#term screen-256color
+term screen-256color
 
 #escape	_
 startup_message off
