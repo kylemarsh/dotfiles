@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="vimrc vim zshrc oh-my-zsh screenrc gitk gitconfig"    # list of files/folders to symlink in homedir
+files="slate vimrc vim zshrc oh-my-zsh screenrc gitk gitconfig"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -30,6 +30,5 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
-git submodule init
-git submodule update
-
+echo ""
+echo "Run 'git submodule init && git submodule update' to make sure everything works."
