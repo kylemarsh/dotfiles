@@ -34,7 +34,7 @@ set softtabstop=4
 " Turn off the setting in a makefile
 au FileType make setlocal noexpandtab
 
-""" Use latex-suite 
+""" Use latex-suite
 set grepprg=grep\ -nH\ $*
 
 """ Suggested settings for python
@@ -57,7 +57,8 @@ set showfulltag
 syntax on
 " make syntax hilighting always right, even in the middle of a big
 " javascript inside an html file
-autocmd BufEnter * :syntax sync fromstart
+" EDIT: I think this causes massive lag for huge files.
+"autocmd BufEnter * :syntax sync fromstart
 
 " press gi followed by a character will insert that character at cursor
 map gi i<space><esc>r
