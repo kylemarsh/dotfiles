@@ -54,6 +54,16 @@ export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin
 # adapted from twb's /zshrc_common
 # adapted from mbp's /zshrc_common
 
+# oh-my-zsh's vi mode bindings don't include nice vim-ness
+ set -o vi
+ bindkey -v
+# make vi bindings useful (more vim; less vi)
+bindkey '^R' history-incremental-search-backward
+bindkey '^?' backward-delete-char
+bindkey '^[OH' beginning-of-line
+bindkey '^[OF' end-of-line
+bindkey '^[[3~' delete-char
+
 # Environment Variables
 fullname=`hostname -f 2>/dev/null || hostname`
 
