@@ -41,7 +41,7 @@ ZSH_THEME="kylemarsh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 
-plugins=(git battery brew history history-substring-search screen terminalapp vi-mode)
+plugins=(git battery brew history history-substring-search perl pip screen terminalapp vi-mode virtualenvwrapper)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -71,7 +71,10 @@ export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export LD_LIBRARY_PATH='/usr/local/lib'
-export PROJECT_HOME="$HOME/proj"
+export PROJECT_HOME="$HOME/projects"
+export PIP_REQUIRE_VIRTUALENV=true
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
 
 if [ -d ~/ndn/perl ] ; then
 	PERL5LIB=~/ndn/perl
@@ -200,4 +203,8 @@ else
         start_agent
     fi
 fi
+
+function syspip {
+	PIP_REQUIRE_VIRTUALENV="" pip $@
+}
 
