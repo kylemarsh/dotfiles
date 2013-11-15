@@ -7,8 +7,7 @@ esac
 
 case $fullname in
 	*lilypad*)
-		machine_type="$machine_type:python"
-		machine_type="$machine_type:home"
+		machine_type="$machine_type:python:home"
 		;;
 	*dreamhost.com) ;&
 	*newdream.net)
