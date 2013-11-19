@@ -65,11 +65,13 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
-# oh-my-zsh's vi mode bindings don't include nice vim-ness
-set -o vi
-bindkey -v
+## Override things that oh-my-zsh doesn't do right ##
+# Turn off the damnable shared history
+unsetopt share_history
 
 # make vi bindings useful (more vim; less vi)
+set -o vi
+bindkey -v
 bindkey '^R' history-incremental-search-backward
 bindkey '^?' backward-delete-char
 bindkey '^[OH' beginning-of-line
