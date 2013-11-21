@@ -121,3 +121,22 @@ function! SuperTab()
 	endif
 endfunction
 imap <Tab> <C-R>=SuperTab()<CR>
+
+" Start Vim-Helper plugin: Fennec
+function! RunFennecLine()
+    let cur_line = line(".")
+    exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl %"
+endfunction
+
+function! RunFennecLineLess()
+    let cur_line = line(".")
+    exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl % 2>&1 | less"
+endfunction
+
+:map <F12> :w<cr>:call RunFennecLineLess()<cr>
+:map <F8> :w<cr>:call RunFennecLine()<cr>
+
+:imap <F12> <ESC>:w<cr>:call RunFennecLineLess()<cr>
+:imap <F8> <ESC>:w<cr>:call RunFennecLine()<cr>
+" End Vim-Helper plugin: Fennec
+
