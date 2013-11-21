@@ -109,6 +109,9 @@ vnoremap <F1> <ESC>
 inoremap <S-Up> <nop>
 inoremap <S-Down> <nop>
 
+" prevent showmarks plugin from turning on automatically
+let g:showmarks_enable=0
+
 set statusline=%<%f%=\ %{GitBranchInfoString()}\ [%1*%M%*%n%R%H]\ %-19(%3l,%02c%03V%)%O'%02b'
 let g:git_branch_status_head_current=1
 let g:git_branch_status_text=""
