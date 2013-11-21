@@ -12,7 +12,7 @@ set showmode
 set ruler
 set laststatus=2
 set number
-set textwidth=76
+"set textwidth=76 "causes code to wrap. Do not want.
 set autowrite
 set ignorecase
 set smartcase
@@ -55,6 +55,7 @@ set shiftwidth=4
 set showmatch
 set showfulltag
 syntax on
+
 " make syntax hilighting always right, even in the middle of a big
 " javascript inside an html file
 " EDIT: I think this causes massive lag for huge files.
