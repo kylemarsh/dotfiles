@@ -21,6 +21,7 @@ set mousemodel=popup_setpos
 set ttymouse=xterm2
 set lz  ""Don't redraw while running macros
 set whichwrap+=<,>,h,l  ""Backspace and cursors wrap.
+set backspace=indent,eol,start
 set scrolloff=5 " no more scrolling from the bottom
 set hlsearch
 set incsearch
@@ -48,8 +49,6 @@ set winfixheight
 hi Search ctermbg=124 ctermfg=White
 
 """ Coding Syntax Settings for autoindenting and bracket matching
-set autoindent
-set smartindent
 set cindent
 set shiftwidth=4
 set showmatch
