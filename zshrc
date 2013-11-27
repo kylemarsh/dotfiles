@@ -49,7 +49,7 @@ ZSH_THEME="kylemarsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 base_plugins=(git history history-substring-search screen vi-mode)
 ndn_plugins=(perl)
-python_plugins=(pip virtualenv wirtualenvwrapper)
+python_plugins=(pip virtualenv virtualenvwrapper)
 mac_plugins=(battery brew terminalapp)
 
 plugins=($base_plugins)
