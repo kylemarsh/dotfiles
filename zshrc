@@ -47,9 +47,9 @@ ZSH_THEME="kylemarsh"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-base_plugins=(git history history-substring-search screen vi-mode)
+base_plugins=(git history history-substring-search screen vi-mode virtualenv)
 ndn_plugins=(perl)
-python_plugins=(pip virtualenv virtualenvwrapper)
+python_plugins=(pip virtualenvwrapper)
 mac_plugins=(battery brew terminalapp)
 
 plugins=($base_plugins)
