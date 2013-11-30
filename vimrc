@@ -115,6 +115,8 @@ set statusline=%<%f%=\ %{GitBranchInfoString()}\ [%1*%M%*%n%R%H]\ %-19(%3l,%02c%
 let g:git_branch_status_head_current=1
 let g:git_branch_status_text=""
 
+let g:syntastic_python_checkers=['python', 'flake8']
+
 function! SuperTab()
 	if (strpart(getline('.'),col('.')-2,1) =~ '^\W\?$')
 		return "\<Tab>"
