@@ -132,6 +132,7 @@ if [[ $machine_type =~ ':ndn' ]]; then
 		export PATH
 	fi
 
+	alias dbc="nocorrect dbc"
 	alias reboot="/usr/local/ndn/dh/bin/reboot.pl"
 	alias rssh="ssh -l root"
 	alias servicectl="/usr/bin/sudo /dh/bin/servicectl"
