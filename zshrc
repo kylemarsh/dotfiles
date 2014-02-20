@@ -158,6 +158,12 @@ function fubar { ssh kylem@fubar.dreamhost.com }
 function yakko { ssh kylem@yakko.sd.dreamhost.com }
 SSH_ENV="$HOME/.ssh/environment"
 
+# add appropriate ssh keys to the agent
+function add_keys {
+	ssh-add -t 432000 # Basic ID active for 5 days
+	ssh-add -t 32400 ~/.ssh/*-ndn.rsa # NDN IDs active for 9 hours
+}
+
 # start the ssh-agent
 function start_agent {
     echo "Initializing new SSH agent..."
@@ -166,7 +172,7 @@ function start_agent {
     echo succeeded
     chmod 600 "$SSH_ENV"
     . "$SSH_ENV" > /dev/null
-    ssh-add
+    add_keys
 }
 
 # test for identities
@@ -174,7 +180,7 @@ function test_identities {
     # test whether standard identities have been added to the agent already
     ssh-add -l | grep "The agent has no identities" > /dev/null
     if [ $? -eq 0 ]; then
-        ssh-add
+        add_keys
         # $SSH_AUTH_SOCK broken so we start a new proper agent
         if [ $? -eq 2 ];then
             start_agent
