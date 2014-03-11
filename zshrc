@@ -25,7 +25,7 @@ ZSH_THEME="kylemarsh"
 # CASE_SENSITIVE="true"
 
 # Uncomment this to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how often before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=13
@@ -179,8 +179,8 @@ function start_agent {
 # test for identities
 function test_identities {
     # test whether standard identities have been added to the agent already
-    ssh-add -l | grep "The agent has no identities" > /dev/null
-    if [ $? -eq 0 ]; then
+    ssh-add -l | grep "ndn\.rsa" > /dev/null && (if [ -f ~/.ssh/id_rsa ]; then ssh-add -l | grep "id_rsa" > /dev/null; fi )
+    if [ $? -ne 0 ]; then
         add_keys
         # $SSH_AUTH_SOCK broken so we start a new proper agent
         if [ $? -eq 2 ];then
