@@ -40,6 +40,7 @@ if [[ $machine_type =~ ':python' ]]; then
 fi
 
 source $ZSH/oh-my-zsh.sh
+fpath=($HOME/lib/zsh/functions $fpath)
 
 ## Override things that oh-my-zsh doesn't do right ##
 # Turn off the damnable shared history
