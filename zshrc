@@ -46,6 +46,7 @@ source $ZSH/oh-my-zsh.sh
 unsetopt share_history
 
 # Make vi bindings useful (more vim; less vi)
+bindkey -v
 # Personalized viins bindings
 bindkey -M viins '^R' history-beginning-search-backward
 bindkey -M viins '^?' backward-delete-char
