@@ -7,7 +7,7 @@ esac
 
 case $fullname in
 	*lilypad*)
-		machine_type="$machine_type:python:home"
+		machine_type="$machine_type:python:home:ruby"
 		;;
 	*dreamhost.com) ;&
 	*newdream.net)
@@ -110,6 +110,12 @@ if [[ $machine_type =~ ':python' ]]; then
 	function syspip {
 		PIP_REQUIRE_VIRTUALENV="" pip $@
 	}
+fi
+
+# Ruby things o.O
+if [[ $machine_type =~ ':ruby' ]]; then
+	source $HOME/.rvm/scripts/rvm # Maybe needs conditionals
+	PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 fi
 
 # Mac (and not-mac) things
