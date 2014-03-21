@@ -107,6 +107,14 @@ export VISUAL=vim
 export PAGER=less
 export MYSQL_PS1="\d> "
 
+# disable full ssh host completion on yakko because SLOOOOOW
+function global_ssh_hosts() {
+	case $fullname in
+		yakko*) return;;
+		*) return (${${${${(f)"$(</etc/ssh/ssh_known_hosts)"}:#[\|]*}%%\ *}%%,*});;
+	esac
+}
+
 # set PATH so it includes user's private bin, local/bin and tools
 # directories if they exist
 if [ -d ~/bin ] ; then
