@@ -150,10 +150,6 @@ fi
 
 # Work paths and aliases
 if [[ $machine_type =~ ':ndn' ]]; then
-	if [ -d ~/ndn/perl ] ; then
-		PERL5LIB=~/ndn/perl
-		export PERL5LIB
-	fi
 	if [ -d /ndn/dh/bin ] ; then
 		PATH=/ndn/dh/bin:"${PATH}"
 		export PATH
