@@ -118,16 +118,16 @@ function global_ssh_hosts() {
 # set PATH so it includes user's private bin, local/bin and tools
 # directories if they exist
 if [ -d ~/bin ] ; then
-    PATH=~/bin:"${PATH}"
-    export PATH
+	PATH=~/bin:"${PATH}"
+	export PATH
 fi
 if [ -d ~/local/bin ] ; then
-    PATH=~/local/bin:"${PATH}"
-    export PATH
+	PATH=~/local/bin:"${PATH}"
+	export PATH
 fi
 if [ -d ~/tools ] ; then
-    PATH=~/tools:"${PATH}"
-    export PATH
+	PATH=~/tools:"${PATH}"
+	export PATH
 fi
 
 
@@ -186,69 +186,82 @@ fi
 # SSH-y things #
 ################
 
-function fubar { ssh kylem@fubar.dreamhost.com }
-function yakko { ssh kylem@yakko.sd.dreamhost.com }
+function fubar {
+	add_ndn_keys
+	ssh kylem@fubar.dreamhost.com
+}
+function yakko {
+	add_ndn_keys
+	ssh kylem@yakko.sd.dreamhost.com
+}
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
-function add_keys {
-	ssh-add -t 432000 # Basic ID active for 5 days
-	ssh-add -t 32400 ~/.ssh/*-ndn.rsa # NDN IDs active for 9 hours
+function add_personal_keys {
+	# test whether standard identities have been added to the agent already
+	if [ -f ~/.ssh/id_rsa ]; then
+		ssh-add -l | grep "id_rsa" > /dev/null
+		if [ $? -ne 0 ]; then
+			ssh-add -t 432000 # Basic ID active for 5 days
+			# $SSH_AUTH_SOCK broken so we start a new proper agent
+			if [ $? -eq 2 ];then
+				start_agent
+			fi
+		fi
+	fi
+}
+
+function add_ndn_keys {
+	ssh-add -l | grep "ndn\.rsa" > /dev/null
+	if [ $? -ne 0 ]; then
+		ssh-add -t 32400 ~/.ssh/*-ndn.rsa # NDN IDs active for 9 hours
+		# $SSH_AUTH_SOCK broken so we start a new proper agent
+		if [ $? -eq 2 ];then
+			start_agent
+		fi
+	fi
 }
 
 # start the ssh-agent
 function start_agent {
-    echo "Initializing new SSH agent..."
-    # spawn ssh-agent
-    ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
-    echo succeeded
-    chmod 600 "$SSH_ENV"
-    . "$SSH_ENV" > /dev/null
-    add_keys
-}
-
-# test for identities
-function test_identities {
-    # test whether standard identities have been added to the agent already
-    ssh-add -l | grep "ndn\.rsa" > /dev/null && (if [ -f ~/.ssh/id_rsa ]; then ssh-add -l | grep "id_rsa" > /dev/null; fi )
-    if [ $? -ne 0 ]; then
-        add_keys
-        # $SSH_AUTH_SOCK broken so we start a new proper agent
-        if [ $? -eq 2 ];then
-            start_agent
-        fi
-    fi
+	echo "Initializing new SSH agent..."
+	# spawn ssh-agent
+	ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
+	echo succeeded
+	chmod 600 "$SSH_ENV"
+	. "$SSH_ENV" > /dev/null
+	add_personal_keys
 }
 
 function reset_ssh_auth {
 	if [ -f "$SSH_ENV" ]; then
 	. "$SSH_ENV" > /dev/null
 	fi
-    ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-    if [ $? -eq 0 ]; then
-        test_identities
-    else
-        start_agent
-    fi
+	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
+	if [ $? -eq 0 ]; then
+		add_personal_keys
+	else
+		start_agent
+	fi
 }
 
 # check for running ssh-agent with proper $SSH_AGENT_PID
 if [ -n "$SSH_AGENT_PID" ]; then
-    ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-    if [ $? -eq 0 ]; then
-	test_identities
-    fi
+	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
+	if [ $? -eq 0 ]; then
+		add_personal_keys
+	fi
 # if $SSH_AGENT_PID is not properly set, we might be able to load one from
 # $SSH_ENV
 else
-    if [ -f "$SSH_ENV" ]; then
-	. "$SSH_ENV" > /dev/null
-    fi
-    ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-    if [ $? -eq 0 ]; then
-        test_identities
-    else
-        start_agent
-    fi
+	if [ -f "$SSH_ENV" ]; then
+		. "$SSH_ENV" > /dev/null
+	fi
+	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
+	if [ $? -eq 0 ]; then
+		add_personal_keys
+	else
+		start_agent
+	fi
 fi
 
