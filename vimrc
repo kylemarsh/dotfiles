@@ -79,6 +79,10 @@ autocmd WinLeave * setlocal nocursorline
 set cursorline
 
 autocmd FileType gitcommit DiffGitCached | wincmd L | wincmd p | vertical resize 83
+augroup markdown
+	au!
+	au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup end
 
 " quicker window navigation
 nnoremap <C-j> <C-w>j
