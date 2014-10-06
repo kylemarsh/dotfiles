@@ -46,8 +46,6 @@ au BufEnter *.pm,*.pl,*.tp set tw=0
 set winfixwidth
 set winfixheight
 
-hi Search ctermbg=124 ctermfg=White
-
 """ Coding Syntax Settings for autoindenting and bracket matching
 set cindent
 set shiftwidth=4
@@ -142,10 +140,10 @@ function! RunFennecLineLess()
 endfunction
 
 :map <F12> :w<cr>:call RunFennecLineLess()<cr>
-:map <F8> :w<cr>:call RunFennecLine()<cr>
+:map <F10> :w<cr>:call RunFennecLine()<cr>
 
 :imap <F12> <ESC>:w<cr>:call RunFennecLineLess()<cr>
-:imap <F8> <ESC>:w<cr>:call RunFennecLine()<cr>
+:imap <F10> <ESC>:w<cr>:call RunFennecLine()<cr>
 " End Vim-Helper plugin: Fennec
 
 " Run perltidy on selection with \dt
