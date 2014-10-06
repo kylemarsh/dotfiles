@@ -72,6 +72,14 @@ call togglebg#map("<F2>")
 " term colors
 set background=dark
 colorscheme solarized
+hi Search ctermbg=124 ctermfg=White
+
+" set up hilighting for trailing whitespace
+hi ExtraWhitespace ctermbg=52 guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=52 guibg=red
+match ExtraWhitespace /\[^\t]\zs\t\+/
+match ExtraWhitespace /\s\+$\| \+\ze\t/
+
 autocmd WinEnter * setlocal cursorline
 autocmd WinLeave * setlocal nocursorline
 set cursorline
