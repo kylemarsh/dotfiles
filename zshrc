@@ -211,6 +211,16 @@ function add_personal_keys {
 	fi
 }
 
+function encdir {
+	if [[ $machine_type =~ ':mac' ]]; then
+		rmcmd='srm'
+	else
+		rmcmd='shred'
+	fi
+
+	find $* -type f -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
+}
+
 function add_ndn_keys {
 	ssh-add -l | grep "ndn\.rsa" > /dev/null
 	if [ $? -ne 0 ]; then
