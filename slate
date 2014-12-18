@@ -13,7 +13,7 @@ config windowHintsSpreadSearchHeight 200
 # Aliases
 #--------------------------------------------------------------------
 # Modal key
-alias modal-key w,shift,cmd
+alias modal-key e,shift,cmd
 
 # Some apps
 alias app-browser 'Google Chrome'
@@ -45,7 +45,7 @@ layout 1coding 'iTunes':REPEAT ${full}
 # This layout is used with two screens
 layout 2coding 'Google Chrome':REPEAT move ${sox}+387;${soy}+100 1800;1200 0
 layout 2coding 'iTerm':REPEAT ${full} 0
-layout2coding 'MacVim':REPEAT ${full} 0
+layout 2coding 'MacVim':REPEAT ${full} 0
 layout 2coding 'iTunes':REPEAT ${full} 1
 
 #--------------------------------------------------------------------
