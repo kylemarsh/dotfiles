@@ -1,0 +1,24 @@
+set from = "kyle@kmarsh.net"
+#set signature = ~/.mutt/sig-kmarshnet
+set sendmail = "/usr/local/bin/msmtp -a kmarshnet"
+set sendmail_wait = 0
+
+set move = yes
+set keep_flagged = yes
+set mbox = "+kmarsh.net/INBOX.archive"
+set postponed = "+kmarsh.net/INBOX.Drafts"
+set record = "+kmarsh.net/INBOX.Sent"
+
+macro index,pager gi     "<change-folder>+kmarsh.net/INBOX<enter>"    "go to inbox"
+macro index,pager g<tab> "<change-folder>+dreamhost.com/INBOX<enter>" "switch accounts"
+
+# Make archive/delete single keypresses, and consistent across mailboxes
+# > moves a thread from the inbox to the archive
+macro index,pager > "<tag-thread><save-message>+kmarsh.net/INBOX.archive<enter>" "archive thread"
+# d deletes a message
+bind index,pager d "delete-message"
+# ^D deletes a thread
+bind index,pager ^D "delete-thread"
+
+## Snoozing ------------------------------------------------------------------
+#macro index S "<save-message>+kmarsh.net/zzz-tomorrow<enter>" "snooze message until tomorrow"

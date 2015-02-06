@@ -1,0 +1,92 @@
+[general]
+ui = ttyui
+accounts = DreamHost,KMarshNet
+pythonfile=~/.mutt/offlineimap.py
+fsync = False
+
+[Account DreamHost]
+localrepository = DreamHost-Local
+remoterepository = DreamHost-Remote
+status_backend = sqlite
+postsynchook = notmuch new
+
+[Repository DreamHost-Local]
+type = Maildir
+localfolders = ~/.mail/dreamhost.com
+nametrans = lambda folder: {'drafts'           : '[Gmail]/Drafts',
+                            'sent'             : '[Gmail]/Sent Mail',
+                            'flagged'          : '[Gmail]/Starred',
+                            'trash'            : '[Gmail]/Trash',
+                            'archive'          : '[Gmail]/All Mail',
+                            'tech'             : 'Tech',
+                            'dev'              : 'Dev',
+                            'ts'               : 'TS',
+                            'dev.cloud'        : 'Dev/Cloud',
+                            'dev.hosting'      : 'Dev/Hosting',
+							'libcloud'         : 'libcloud',
+							'management'       : 'Management',
+							'noise'            : 'Noise',
+							'noise.bugtracker' : 'Noise/BugTracker',
+							'noise.calendar'   : 'Noise/Calendar',
+							'noise.ci'         : 'Noise/CI',
+							'noise.dev-notify' : 'Noise/Dev-Notify',
+							'noise.tech-notify': 'Noise/Tech-Notify',
+							'noise.git'        : 'Noise/Git',
+							'noise.giveaway'   : 'Noise/Giveaway',
+							'offices'          : 'Offices',
+                            }.get(folder, folder)
+
+[Repository DreamHost-Remote]
+maxconnections = 2
+type = Gmail
+sslcacertfile = /usr/local/etc/ca-certificates.pem
+remoteuser = kyle.marsh@dreamhost.com
+remotepasseval = get_keychain_pass(account='kyle.marsh@dreamhost.com', server='imap.gmail.com')
+realdelete = no
+nametrans = lambda folder: {'[Gmail]/Drafts'         : 'drafts',
+                            '[Gmail]/Sent Mail'      : 'sent',
+                            '[Gmail]/Starred'        : 'flagged',
+                            '[Gmail]/Trash'          : 'trash',
+                            '[Gmail]/All Mail'       : 'archive',
+							'Tech'                   : 'tech',
+							'Dev'                    : 'dev',
+							'TS'                     : 'ts',
+                            'Dev/Cloud'              : 'dev.cloud',
+                            'Dev/Hosting'            : 'dev.hosting',
+							'libcloud'               : 'libcloud',
+							'Management'             : 'management',
+							'Noise'                  : 'noise',
+							'Noise/BugTracker'       : 'noise.bugtracker',
+							'Noise/Calendar'         : 'noise.calendar',
+							'Noise/CI'               : 'noise.ci',
+							'Noise/Dev-Notify'       : 'noise.dev-notify',
+							'Noise/Tech-Notify'      : 'noise.tech-notify',
+							'Noise/Git'              : 'noise.git',
+							'Noise/Giveaway'         : 'noise.giveaway',
+							'Offices'                : 'offices',
+                           }.get(folder, folder)
+folderfilter = lambda folder: (folder not in ['[Gmail]/Important',
+                                             '[Gmail]/Spam',
+                                             'Archive',
+                                            ]) and 'Airmail' not in folder
+
+[Account KMarshNet]
+localrepository = KMarshNet-Local
+remoterepository = KMarshNet-Remote
+status_backend = sqlite
+postsynchook = notmuch new
+
+[Repository KMarshNet-Local]
+type = Maildir
+localfolders = ~/.mail/kmarsh.net
+
+[Repository KMarshNet-Remote]
+type = IMAP
+ssl = yes
+cert_fingerprint = B985A8C4F8B6757ABF379613BB78331E9CFB3A57
+remoteuser = kyle@kmarsh.net
+remotehost = mail.kmarsh.net
+remoteport = 993
+remotepasseval = get_keychain_pass(account='kyle@kmarsh.net', server='mail.kmarsh.net')
+folderfilter = lambda folder: (folder not in ['trash'])
+

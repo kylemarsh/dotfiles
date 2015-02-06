@@ -1,0 +1,12 @@
+# Unidentified files
+application/octet-stream; ~/.mutt/view_attachment.sh %s "-"
+
+text/html; ~/.mutt/view_attachment.sh %s "-" ; nametemplate=%s.html
+image/*; ~/.mutt/view_attachment.sh %s "-"
+
+# QuickLook in OSX
+audio/*                  ; /usr/bin/qlmanage -p 2>/dev/null %s
+video/*                  ; /usr/bin/qlmanage -p 2>/dev/null %s
+application/*            ; /usr/bin/qlmanage -p 2>/dev/null %s
+#text/html; /usr/bin/qlmanage -p 2>/dev/null %s ; nametemplate=%s.html
+#image/*                  ; /usr/bin/qlmanage -p 2>/dev/null %s

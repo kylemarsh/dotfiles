@@ -1,0 +1,25 @@
+set from = "kyle.marsh@dreamhost.com"
+#set signature = ~/.mutt/sig-dreamhost
+set sendmail = "/usr/local/bin/msmtp -a dreamhost"
+set sendmail_wait = 0
+
+set move = no
+set keep_flagged = yes
+set mbox = "+dreamhost.com/archive"
+set postponed = "+dreamhost.com/drafts"
+unset record
+
+macro index,pager gi     "<change-folder>+dreamhost.com/INBOX<enter>" "go to inbox"
+macro index,pager g<tab> "<change-folder>+kmarsh.net/INBOX<enter>"    "switch accounts"
+
+# Make archive/delete single keypresses, and consistent across mailboxes
+# > moves a thread from the inbox to the archive (for gmail boxes, just delete from inbox)
+bind index,pager > "delete-thread"
+# d deletes a message (for gmail boxes, move to trash folder)
+macro index,pager d "<save-message>+dreamhost.com/trash<enter>" "delete message"
+# ^D deletes a thread (for gmail boxes, move to trash folder)
+macro index,pager ^D "<tag-thread><save-message>+dreamhost.com/trash<enter>" "delete thread"
+
+## Snoozing ------------------------------------------------------------------
+#macro index S "<save-message>+dreamhost.com/zzz-tomorrow<enter>" "snooze message until tomorrow"
+

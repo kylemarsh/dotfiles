@@ -1,0 +1,232 @@
+source ~/.mutt/mutt-colors-solarized-dark-16.muttrc
+
+# Paths -----------------------------------------------------------------------
+set folder           = ~/.mail                  # mailbox location
+set alias_file       = ~/.mutt/alias            # where to store aliases
+set header_cache     = ~/.mutt/cache/headers    # where to store headers
+set message_cachedir = ~/.mutt/cache/bodies     # where to store bodies
+set certificate_file = ~/.mutt/certificates     # where to store certs
+set mailcap_path     = ~/.mutt/mailcap          # entries for filetypes
+set tmpdir           = ~/.mutt/temp             # where to keep temp files
+
+# Basic Options ---------------------------------------------------------------
+set wait_key = no        # shut up, mutt
+set mbox_type = Maildir  # mailbox type
+set timeout = 3          # idle time before scanning
+set mail_check = 0       # minimum time between scans
+unset move               # gmail does that
+set delete               # don't ask, just do
+unset confirmappend      # don't ask, just do!
+set quit                 # don't ask, just do!!
+unset mark_old           # read/new is good enough for me
+set beep_new             # bell on new mails
+set pipe_decode          # strip headers and eval mimes when piping
+set thorough_search      # strip headers and eval mimes before searching
+set wrap = 120           # people who don't auto-wrap their emails suck
+set text_flowed = yes    # make sent e-mail play nice with narrow displays
+set auto_tag             # when you have tagged messages, apply operation to all
+
+# Sidebar Patch ---------------------------------------------------------------
+set sidebar_delim   = '│'
+set sidebar_visible = yes
+set sidebar_width   = 30
+color sidebar_new yellow brightwhite
+
+# Status Bar ------------------------------------------------------------------
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+
+# Header Options ----------------
+ignore *                               # Ignore all headers
+unignore from: to: cc: date: subject:  # show only these
+unhdr_order *                          # some distros order things by default
+hdr_order from: to: cc: date: subject: # we want this order
+
+# Account Settings ------------------------------------------------------------
+
+# Default inbox.
+set spoolfile = "+dreamhost.com/INBOX"
+source ~/.mutt/dreamhost.muttrc
+
+#??
+# Alternate email addresses.
+#alternates jonathan@dreamhost.com jonathan-lists@cleverdevil.org
+
+# Mailboxes to show in the sidebar.
+mailboxes +~~~KMarsh.net~~~~~~~~~~~~ \
+          +kmarsh.net/INBOX \
+          +kmarsh.net/INBOX.archive \
+          +~~~DreamHost~~~~~~~~~~~~~ \
+          +dreamhost.com/INBOX \
+          +dreamhost.com/offices \
+          +dreamhost.com/dev \
+          +dreamhost.com/dev.cloud \
+          +dreamhost.com/dev.hosting \
+          +dreamhost.com/tech \
+          +dreamhost.com/management \
+          +dreamhost.com/ts \
+          +dreamhost.com/noise \
+          +dreamhost.com/noise.dev-notify \
+          +dreamhost.com/noise.tech-notify \
+          +dreamhost.com/noise.giveaway \
+          +dreamhost.com/noise.calendar \
+          +dreamhost.com/noise.bugtracker \
+          +dreamhost.com/noise.git \
+          +dreamhost.com/noise.ci \
+          +dreamhost.com/sent \
+          +~~~Search~~~~~~~~~~~~~~~~ \
+          +temporary/search \
+
+# Set the proper account when switching folders.
+folder-hook kmarsh.net/* source ~/.mutt/kmarsh.net.muttrc
+folder-hook dreamhost.com/*   source ~/.mutt/dreamhost.muttrc
+
+# Purge tech-notify after a week unless we've flagged the message.
+folder-hook tech-notify 'push <tag-pattern>~r>1w!~F<enter>'
+
+# Index View Options ----------------------------------------------------------
+set date_format = "%Y-%m-%d"                    # sane date format
+set index_format = "[%Z]  %D  %-20.20F  %s"     # sane index format
+set sort = threads                              # like gmail
+set sort_aux = reverse-last-date-received       # like gmail
+set uncollapse_jump                             # don't collapse on an unread message
+set sort_re                                     # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+folder-hook . "exec collapse-all"               # collapse all threads by default
+
+# Key Bindings ----------------------------------------------------------
+bind index <space> collapse-thread   # expand/collapse a thread
+bind index <backtab>    collapse-all # expand/collapse all threads
+bind index I toggle-new              # toggle flag "N" to mark message as read or not (in index)
+bind pager I mark-as-new             # set flag "N" to mark message as read (in pager)
+bind pager <Delete> previous-line    # map enter/delete to line up/down
+bind pager \c? previous-page         # <backspace> doesn't catch my backspace key for some reason.
+
+bind index,pager a group-reply       # reply-all
+bind index,pager A create-alias      # create an alias #FIXME: Make it create a contact in my google address book
+bind index,pager x break-thread      # don't let 'x' exit mutt in index
+bind index,pager N search-opposite   # the vim must flow
+
+macro index \\ "<limit>all\n" "show all messages (undo limit)"
+
+# Saner copy/move dialogs
+macro index S "<save-message>?<toggle-mailboxes>" "move (save) a message to a mailbox"
+
+# Sync email
+macro index G "<shell-escape>offlineimap<enter>" "run offlineimap to sync all mail"
+macro index \cg "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+
+# Sidebar Navigation ----------------------------------------------------------
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
+
+# Pager View Options ----------------------------------------------------------
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+auto_view text/html
+alternative_order text/plain text/enriched text/html
+
+# Editor ----------------------------------------------------------------------
+set editor = "vim"        # compose in vim, like a boss.
+
+# Compose View Options --------------------------------------------------------
+set realname = "Kyle Marsh"          # who am i?
+set envelope_from                    # which from?
+set sig_dashes                       # dashes before sig
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+set askcc                            # ask for CC:
+set fcc_attach                       # save attachments with the body
+unset mime_forward                   # forward attachments as part of body
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+set text_flowed = yes                # make my text emails readable to mortals
+
+## Composition options ---------------------------------------------------------
+#bind compose p postpone-message
+#bind index p recall-message
+
+# Contact management autocompletion -------------------------------------------
+source $alias_file
+set query_command = "goobook query '%s'"
+bind editor <Tab> complete-query
+bind editor \cT complete
+bind query <space> tag-entry
+macro index,pager A "<pipe-message>goobook add<return>" "add sender to google contacts"
+
+#??
+#set query_command = "~/.mutt/contacts.py '%s'" #JLC
+#set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
+#??
+#macro generic \Ca ":set query_command=\"~/.mutt/contacts.py '%s' extended\"<enter>"
+#??
+#macro generic \Cw ":set query_command=\"~/.mutt/contacts.py '%s'\"<enter>"
+#bind editor <Tab> complete-query
+#bind editor ^T    complete
+
+#??
+## Profile generation
+#macro pager,index p "<pipe-message>~/.mutt/generate-profile<enter>"
+
+# Search ----------------------------------------------------------------------
+#macro index l "<enter-command>unset wait_key<enter><shell-escape>~/.mutt/mutt-notmuch-py/mutt-notmuch-py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
+
+## GPG common settings ---------------------------------------------------------
+set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
+set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
+set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
+set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+set pgp_encrypt_only_command="/usr/local/bin/pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust --encrypt-to B1F0BC2D -- -r %r -- %f"
+set pgp_encrypt_sign_command="/usr/local/bin/pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to B1F0BC2D -- -r %r -- %f"
+set pgp_import_command="gpg --no-verbose --import -v %f"
+set pgp_export_command="gpg --no-verbose --export --armor %r"
+set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
+set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+unset pgp_retainable_sigs
+set pgp_ignore_subkeys
+set pgp_verify_sig=yes
+set pgp_create_traditional=no
+set pgp_replysignencrypted
+set pgp_replyencrypt=yes
+set pgp_replysign=yes
+set pgp_good_sign="^gpg: Good signature from"
+
+#my_hdr X-GPG-Key-Server: http://pgp.mit.edu
+my_hdr X-GPG-Key-FingerPrint: EBFF 6745 81C5 A3CA 90F6 2B27 690B ACB4 B1F0 BC2D
+#exec forget-passphrase
+set pgp_autosign = yes
+set pgp_timeout = 3600
+set pgp_replyencrypt = yes
+set pgp_sign_as = B1F0BC2D
+
+
+# Binding Graveyard
+#bind index gg           first-entry         # more vimmy
+#bind index G            last-entry          # even more vimmy
+#bind index <tab>        sync-mailbox        # synchronize with mail store
+#bind compose P pgp-menu
+
+# Pager Key Bindings ----------------------------------------------------------
+#bind pager k  previous-line
+#bind pager j  next-line
+#bind pager gg top
+#bind pager G  bottom
+#macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+#macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
+#macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+
+#bind attach <return> view-mailcap -- this aliases view-attach
