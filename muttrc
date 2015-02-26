@@ -2,7 +2,7 @@ source ~/.mutt/mutt-colors-solarized-dark-16.muttrc
 
 # Paths -----------------------------------------------------------------------
 set folder           = ~/.mail                  # mailbox location
-set alias_file       = ~/.mutt/alias            # where to store aliases
+#set alias_file       = ~/.mutt/alias            # where to store aliases
 set header_cache     = ~/.mutt/cache/headers    # where to store headers
 set message_cachedir = ~/.mutt/cache/bodies     # where to store bodies
 set certificate_file = ~/.mutt/certificates     # where to store certs
@@ -159,7 +159,7 @@ set text_flowed = yes                # make my text emails readable to mortals
 #bind index p recall-message
 
 # Contact management autocompletion -------------------------------------------
-source $alias_file
+#source $alias_file
 set query_command = "goobook query '%s'"
 bind editor <Tab> complete-query
 bind editor \cT complete
