@@ -53,10 +53,7 @@ source ~/.mutt/dreamhost.muttrc
 #alternates jonathan@dreamhost.com jonathan-lists@cleverdevil.org
 
 # Mailboxes to show in the sidebar.
-mailboxes +~~~KMarsh.net~~~~~~~~~~~~ \
-          +kmarsh.net/INBOX \
-          +kmarsh.net/INBOX.archive \
-          +~~~DreamHost~~~~~~~~~~~~~ \
+mailboxes +~~~DreamHost~~~~~~~~~~~~~ \
           +dreamhost.com/INBOX \
           +dreamhost.com/offices \
           +dreamhost.com/dev \
@@ -74,8 +71,9 @@ mailboxes +~~~KMarsh.net~~~~~~~~~~~~ \
           +dreamhost.com/noise.git \
           +dreamhost.com/noise.ci \
           +dreamhost.com/sent \
-          +~~~Search~~~~~~~~~~~~~~~~ \
-          +temporary/search \
+          +~~~KMarsh.net~~~~~~~~~~~~ \
+          +kmarsh.net/INBOX \
+          +kmarsh.net/INBOX.archive \
 
 # Set the proper account when switching folders.
 folder-hook kmarsh.net/* source ~/.mutt/kmarsh.net.muttrc
@@ -181,7 +179,7 @@ macro index,pager A "<pipe-message>goobook add<return>" "add sender to google co
 #macro pager,index p "<pipe-message>~/.mutt/generate-profile<enter>"
 
 # Search ----------------------------------------------------------------------
-#macro index l "<enter-command>unset wait_key<enter><shell-escape>~/.mutt/mutt-notmuch-py/mutt-notmuch-py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
+macro index \e/ "<enter-command>unset wait_key<enter><shell-escape>~/.mutt/mutt-notmuch-py <enter><change-folder-readonly>~/.cache/mutt_results/<enter>" "search mail (using notmuch)"
 
 ## GPG common settings ---------------------------------------------------------
 set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
