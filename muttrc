@@ -119,6 +119,14 @@ bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
 bind index,pager <right>  sidebar-open
 
+# Pager Key Bindings ----------------------------------------------------------
+bind pager k  previous-line
+bind pager j  next-line
+bind pager K  previous-undeleted
+bind pager J  next-undeleted
+bind pager \cK  previous-entry
+bind pager \cJ  next-entry
+
 # Pager View Options ----------------------------------------------------------
 set pager_index_lines = 10 # number of index lines to show
 set pager_context = 3      # number of context lines to show
@@ -218,9 +226,6 @@ set pgp_sign_as = B1F0BC2D
 #bind index <tab>        sync-mailbox        # synchronize with mail store
 #bind compose P pgp-menu
 
-# Pager Key Bindings ----------------------------------------------------------
-#bind pager k  previous-line
-#bind pager j  next-line
 #bind pager gg top
 #bind pager G  bottom
 #macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
