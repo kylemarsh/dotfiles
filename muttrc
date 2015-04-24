@@ -84,7 +84,7 @@ folder-hook dreamhost.com/*   source ~/.mutt/dreamhost.muttrc
 folder-hook tech-notify 'push <tag-pattern>~r>1w!~F<enter>'
 
 # Index View Options ----------------------------------------------------------
-set date_format = "%Y-%m-%d"                    # sane date format
+set date_format = "%Y-%m-%d %T"                 # sane date format
 set index_format = "[%Z]  %D  %-20.20F  %s"     # sane index format
 set sort = threads                              # like gmail
 set sort_aux = reverse-last-date-received       # like gmail
