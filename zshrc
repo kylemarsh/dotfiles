@@ -211,7 +211,20 @@ function add_personal_keys {
 	fi
 }
 
+# Encrypt everything in the given directory that isn't a dotfile or already a
+# .asc file #FIXME: Better way to detect encrypted file?
 function encdir {
+	if [[ $machine_type =~ ':mac' ]]; then
+		rmcmd='srm'
+	else
+		rmcmd='shred'
+	fi
+
+	find $* -type f ! -name '*.asc' ! -name '.*' -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
+}
+
+# Encrypt *everything* in the given directory, even dotfiles and .asc files
+function encall {
 	if [[ $machine_type =~ ':mac' ]]; then
 		rmcmd='srm'
 	else
