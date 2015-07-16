@@ -46,23 +46,23 @@ fpath=($HOME/lib/zsh/functions $fpath)
 # Turn off the damnable shared history
 unsetopt share_history
 
-# Make vi bindings useful (more vim; less vi)
-bindkey -v
-# Personalized viins bindings
-bindkey -M viins '^R' history-beginning-search-backward
-bindkey -M viins '^?' backward-delete-char
-bindkey -M viins '^[OH' beginning-of-line
-bindkey -M viins '^[OF' end-of-line
-bindkey -M viins '^[[3~' delete-char
-bindkey -M viins '^[[A' vi-up-line-or-history
-bindkey -M viins '^[[B' vi-down-line-or-history
+## Make vi bindings useful (more vim; less vi)
+#bindkey -v
+## Personalized viins bindings
+#bindkey -M viins '^R' history-beginning-search-backward
+#bindkey -M viins '^?' backward-delete-char
+#bindkey -M viins '^[OH' beginning-of-line
+#bindkey -M viins '^[OF' end-of-line
+#bindkey -M viins '^[[3~' delete-char
+#bindkey -M viins '^[[A' vi-up-line-or-history
+#bindkey -M viins '^[[B' vi-down-line-or-history
 
-# Personalized vicmd bindings
-bindkey -M vicmd '^[[3~' delete-char
-bindkey -M vicmd 'k' vi-up-line-or-history
-bindkey -M vicmd 'j' vi-down-line-or-history
-bindkey -M vicmd '/' history-incremental-search-backward
-bindkey -M vicmd '?' history-incremental-search-backward
+## Personalized vicmd bindings
+#bindkey -M vicmd '^[[3~' delete-char
+#bindkey -M vicmd 'k' vi-up-line-or-history
+#bindkey -M vicmd 'j' vi-down-line-or-history
+#bindkey -M vicmd '/' history-incremental-search-backward
+#bindkey -M vicmd '?' history-incremental-search-backward
 
 # Git prompt stuff
 autoload -Uz vcs_info
