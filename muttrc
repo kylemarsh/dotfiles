@@ -25,6 +25,8 @@ set thorough_search      # strip headers and eval mimes before searching
 set wrap = 120           # people who don't auto-wrap their emails suck
 set text_flowed = yes    # make sent e-mail play nice with narrow displays
 set auto_tag             # when you have tagged messages, apply operation to all
+set read_inc = 1000
+set write_inc = 1000
 
 # Sidebar Patch ---------------------------------------------------------------
 set sidebar_delim   = '│'
