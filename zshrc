@@ -7,7 +7,7 @@ esac
 
 case $fullname in
 	*lilypad*)
-		machine_type="$machine_type:python:home:ruby"
+		machine_type="$machine_type:python:home:ruby:go"
 		;;
 	*dreamhost.com) ;&
 	*newdream.net)
@@ -129,6 +129,10 @@ if [ -d ~/tools ] ; then
 	PATH=~/tools:"${PATH}"
 	export PATH
 fi
+if [ -d ~/go/bin ] ; then
+	PATH=~/go/bin:"${PATH}"
+	export PATH
+fi
 
 
 # Python environment variables
@@ -145,6 +149,11 @@ fi
 if [[ $machine_type =~ ':ruby' ]]; then
 	source $HOME/.rvm/scripts/rvm # Maybe needs conditionals
 	PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+fi
+
+# Go environment variables
+if [[ $machine_type =~ ':go' ]]; then
+	export GOPATH="$HOME/go"
 fi
 
 # Mac (and not-mac) things
