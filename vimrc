@@ -125,7 +125,13 @@ set statusline=%<%f%=\ %{GitBranchInfoString()}\ [%1*%M%*%n%R%H]\ %-19(%3l,%02c%
 let g:git_branch_status_head_current=1
 let g:git_branch_status_text=""
 
+" Syntastic settings
 let g:syntastic_python_checkers=['python', 'flake8']
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 
 function! SuperTab()
 	if (strpart(getline('.'),col('.')-2,1) =~ '^\W\?$')
