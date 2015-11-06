@@ -101,7 +101,7 @@ function git_prompt_info() {
 }
 
 # Environment Variables
-export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH=/usr/local/sbin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin
 export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
