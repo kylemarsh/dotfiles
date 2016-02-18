@@ -19,6 +19,7 @@ alias modal-key e,shift,cmd
 alias app-browser 'Google Chrome'
 alias app-editor 'MacVim'
 alias app-music 'iTunes'
+alias app-notes 'Quiver'
 #alias app-terminal 'Terminal'
 alias app-terminal 'iTerm'
 alias app-jabber 'Messages'
@@ -86,4 +87,5 @@ bind g:e,cmd focus ${app-browser}
 bind m:e,cmd focus ${app-music}
 bind j:e,cmd focus ${app-jabber}
 bind t:e,cmd focus ${app-terminal}
+bind n:e,cmd focus ${app-notes}
 bind /:e,cmd hint
