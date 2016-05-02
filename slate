@@ -23,6 +23,7 @@ alias app-notes 'Quiver'
 #alias app-terminal 'Terminal'
 alias app-terminal 'iTerm'
 alias app-jabber 'Messages'
+alias app-slack 'Slack'
 
 # Easy helpers for long variable names...
 alias sox screenOriginX
@@ -86,6 +87,7 @@ bind b:e,cmd focus ${app-browser}
 bind g:e,cmd focus ${app-browser}
 bind m:e,cmd focus ${app-music}
 bind j:e,cmd focus ${app-jabber}
+bind s:e,cmd focus ${app-slack}
 bind t:e,cmd focus ${app-terminal}
 bind n:e,cmd focus ${app-notes}
 bind /:e,cmd hint
