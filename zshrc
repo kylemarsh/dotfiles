@@ -196,17 +196,17 @@ fi
 ################
 
 function fubar {
-	add_ndn_keys
+	add-ndn-keys
 	ssh kylem@fubar.dreamhost.com
 }
 function yakko {
-	add_ndn_keys
+	add-ndn-keys
 	ssh kylem@yakko.sd.dreamhost.com
 }
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
-function add_personal_keys {
+function add-personal-keys {
 	# test whether standard identities have been added to the agent already
 	if [ -f ~/.ssh/id_rsa ]; then
 		ssh-add -l | grep "id_rsa" > /dev/null
@@ -243,7 +243,7 @@ function encall {
 	find $* -type f -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
 }
 
-function add_ndn_keys {
+function add-ndn-keys {
 	ssh-add -l | grep "ndn\.rsa" > /dev/null
 	if [ $? -ne 0 ]; then
 		ssh-add -t 32400 ~/.ssh/*-ndn.rsa # NDN IDs active for 9 hours
@@ -262,7 +262,7 @@ function start_agent {
 	echo succeeded
 	chmod 600 "$SSH_ENV"
 	. "$SSH_ENV" > /dev/null
-	add_personal_keys
+	add-personal-keys
 }
 
 function reset_ssh_auth {
@@ -271,7 +271,7 @@ function reset_ssh_auth {
 	fi
 	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
 	if [ $? -eq 0 ]; then
-		add_personal_keys
+		add-personal-keys
 	else
 		start_agent
 	fi
@@ -281,7 +281,7 @@ function reset_ssh_auth {
 if [ -n "$SSH_AGENT_PID" ]; then
 	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
 	if [ $? -eq 0 ]; then
-		add_personal_keys
+		add-personal-keys
 	fi
 # if $SSH_AGENT_PID is not properly set, we might be able to load one from
 # $SSH_ENV
@@ -291,7 +291,7 @@ else
 	fi
 	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
 	if [ $? -eq 0 ]; then
-		add_personal_keys
+		add-personal-keys
 	else
 		start_agent
 	fi
