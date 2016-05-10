@@ -28,12 +28,6 @@ set auto_tag             # when you have tagged messages, apply operation to all
 set read_inc = 1000
 set write_inc = 1000
 
-# Sidebar Patch ---------------------------------------------------------------
-set sidebar_delim   = '│'
-set sidebar_visible = yes
-set sidebar_width   = 42
-color sidebar_new yellow brightwhite
-
 # Status Bar ------------------------------------------------------------------
 set status_chars  = " *%A"
 set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
@@ -55,8 +49,7 @@ source ~/.mutt/dreamhost.muttrc
 #alternates jonathan@dreamhost.com jonathan-lists@cleverdevil.org
 
 # Mailboxes to show in the sidebar.
-mailboxes +~~~DreamHost~~~~~~~~~~~~~ \
-          +dreamhost.com/INBOX \
+mailboxes +dreamhost.com/INBOX \
           +dreamhost.com/offices \
           +dreamhost.com/dev \
           +dreamhost.com/dev.domains \
@@ -79,7 +72,6 @@ mailboxes +~~~DreamHost~~~~~~~~~~~~~ \
           +dreamhost.com/noise.git \
           +dreamhost.com/noise.ci \
           +dreamhost.com/sent \
-          +~~~KMarsh.net~~~~~~~~~~~~ \
           +kmarsh.net/INBOX \
           +kmarsh.net/INBOX.archive \
 
@@ -121,11 +113,6 @@ macro index S "<save-message>?<toggle-mailboxes>" "move (save) a message to a ma
 # Sync email
 macro index G "<shell-escape>offlineimap<enter>" "run offlineimap to sync all mail"
 macro index \cg "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
-
-# Sidebar Navigation ----------------------------------------------------------
-bind index,pager <down>   sidebar-next
-bind index,pager <up>     sidebar-prev
-bind index,pager <right>  sidebar-open
 
 # Pager Key Bindings ----------------------------------------------------------
 bind pager k  previous-line
