@@ -47,6 +47,7 @@ sslcacertfile = /usr/local/etc/ca-certificates.pem
 remoteuser = kyle.marsh@dreamhost.com
 remotepasseval = get_keychain_pass(account='kyle.marsh@dreamhost.com', server='imap.gmail.com')
 realdelete = no
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
 nametrans = lambda folder: {'[Gmail]/Drafts'         : 'drafts',
                             '[Gmail]/Sent Mail'      : 'sent',
                             '[Gmail]/Starred'        : 'flagged',
@@ -90,11 +91,11 @@ localfolders = ~/.mail/kmarsh.net
 
 [Repository KMarshNet-Remote]
 type = IMAP
-ssl = yes
 cert_fingerprint = B985A8C4F8B6757ABF379613BB78331E9CFB3A57
 remoteuser = kyle@kmarsh.net
 remotehost = mail.kmarsh.net
 remoteport = 993
 remotepasseval = get_keychain_pass(account='kyle@kmarsh.net', server='mail.kmarsh.net')
 folderfilter = lambda folder: (folder not in ['trash'])
-
+ssl = yes
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
