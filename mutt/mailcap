@@ -5,6 +5,7 @@ application/octet-stream; ~/.mutt/view_attachment.sh %s "-"
 text/html; links %s ; nametemplate=%s.html
 text/html; links -dump %s ; nametemplate=%s.html ; copiousoutput
 image/*; ~/.mutt/view_attachment.sh %s "-"
+#image/*; ~/bin/imgcat %s
 
 # QuickLook in OSX
 audio/*                  ; /usr/bin/qlmanage -p 2>/dev/null %s

@@ -297,3 +297,5 @@ else
 	fi
 fi
 
+
+test -e "${HOME}/.iterm2/shell_integration.zsh" && source "${HOME}/.iterm2/shell_integration.zsh"
