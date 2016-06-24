@@ -10,7 +10,7 @@ set postponed = "+kmarsh.net/INBOX.Drafts"
 set record = "+kmarsh.net/INBOX.Sent"
 
 macro index,pager gi     "<change-folder>+kmarsh.net/INBOX<enter>"    "go to inbox"
-macro index,pager g<tab> "<change-folder>+dreamhost.com/INBOX<enter>" "switch accounts"
+macro index,pager g<tab> "<change-folder>+INBOX<enter>" "switch accounts"
 
 # Make archive/delete single keypresses, and consistent across mailboxes
 # > moves a thread from the inbox to the archive

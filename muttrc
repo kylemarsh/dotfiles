@@ -41,7 +41,7 @@ hdr_order from: to: cc: date: subject: # we want this order
 # Account Settings ------------------------------------------------------------
 
 # Default inbox.
-set spoolfile = "+dreamhost.com/INBOX"
+set spoolfile = "+INBOX"
 source ~/.mutt/dreamhost.muttrc
 
 #??
@@ -49,28 +49,28 @@ source ~/.mutt/dreamhost.muttrc
 #alternates jonathan@dreamhost.com jonathan-lists@cleverdevil.org
 
 # Mailboxes to show in the sidebar.
-mailboxes +dreamhost.com/INBOX \
-          +dreamhost.com/offices \
-          +dreamhost.com/dev \
-          +dreamhost.com/dev.domains \
-          +dreamhost.com/dev.web \
-          +dreamhost.com/dev.hiring \
-          +dreamhost.com/dev.leads \
-          +dreamhost.com/supervisory \
-          +dreamhost.com/dev.hosting \
-          +dreamhost.com/tech \
-          +dreamhost.com/management \
-          +dreamhost.com/ts \
-          +dreamhost.com/noise \
-          +dreamhost.com/noise.dev-notify \
-          +dreamhost.com/noise.tech-notify \
-          +dreamhost.com/noise.letsencrypt \
-          +dreamhost.com/noise.giveaway \
-          +dreamhost.com/noise.calendar \
-          +dreamhost.com/noise.bugtracker \
-          +dreamhost.com/noise.git \
-          +dreamhost.com/noise.ci \
-          +dreamhost.com/sent \
+mailboxes +INBOX \
+          +offices \
+          +dev \
+          +domains \
+          +web \
+          +hiring \
+          +dev-leads \
+          +supervisory \
+          +hosting \
+          +tech \
+          +management \
+          +ts \
+          +noise \
+          +noise.dev-notify \
+          +noise.tech-notify \
+          +noise.letsencrypt \
+          +noise.giveaway \
+          +noise.calendar \
+          +noise.bugtracker \
+          +noise.git \
+          +noise.ci \
+          +sent \
           +kmarsh.net/INBOX \
           +kmarsh.net/INBOX.archive \
 
