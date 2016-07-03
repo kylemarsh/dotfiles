@@ -71,7 +71,7 @@ call togglebg#map("<F2>")
 
 " term colors
 set background=dark
-colorscheme solarized
+colorscheme slate
 hi Search ctermbg=124 ctermfg=White
 
 " set up hilighting for trailing whitespace
