@@ -159,9 +159,6 @@ fi
 # Mac (and not-mac) things
 if [[ $machine_type =~ ':mac' ]]; then
 	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-else
-	dircolors=~/dotfiles/dircolors.ansi-dark
-	test -r $dircolors && eval "$(dircolors $dircolors)"
 fi
 
 
