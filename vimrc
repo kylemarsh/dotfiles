@@ -27,11 +27,14 @@ set hlsearch
 set incsearch
 set wildmenu
 set wildmode=list:longest,full
+runtime! macros/matchit.vim
+
 """ Tab settings.  Normally, <tab> inserts 4 spaces (use crtl-v<tab> to
 """ insert a tab).  Also, backspace deletes spaces 4 at a time.
 """ set expandtab
 set tabstop=4
 set softtabstop=4
+set smarttab
 " Turn off the setting in a makefile
 au FileType make setlocal noexpandtab
 
@@ -72,16 +75,28 @@ nnoremap <silent> <F3> :silent set number!<CR>
 set background=dark
 colorscheme slate
 hi Search ctermbg=124 ctermfg=White
+hi IncSearch ctermbg=red ctermfg=White
+hi def link TRACK_PERL_VAR_LOCKED SignColumn
+
+" Allow color schemes to do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
+	set t_Co=16
+endif
 
 " set up hilighting for trailing whitespace
-hi ExtraWhitespace ctermbg=52 guibg=red
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=52 guibg=red
+hi ExtraWhitespace ctermbg=magenta guibg=magenta
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=magenta guibg=magenta
 match ExtraWhitespace /\[^\t]\zs\t\+/
 match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 autocmd WinEnter * setlocal cursorline
 autocmd WinLeave * setlocal nocursorline
 set cursorline
+
+if &listchars ==# 'eol:$' " make whitespace visualization nicer
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+
 
 autocmd FileType gitcommit DiffGitCached | wincmd L | wincmd p | vertical resize 83
 augroup markdown
@@ -108,6 +123,10 @@ nnoremap k gk
 imap <up> <c-o>gk
 imap <down> <c-o>gj
 
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j " Delete comment character when joining commented lines
+endif
+
 " make F1 just another esc key
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -122,7 +141,7 @@ let g:showmarks_enable=0
 
 set statusline=%2*%M%*%f:%3l\ (%P)%=\ %1*%{GitBranchInfoString()}%*\ %q[%n%R%Y]\ c:%02c%03V\ 0x%02B
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=blue
-hi User2 term=inverse,bold cterm=inverse,bold ctermfg=red
+hi User2 term=inverse,bold cterm=inverse,bold ctermfg=124
 let g:git_branch_status_head_current=1
 let g:git_branch_status_text=""
 
