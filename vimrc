@@ -67,7 +67,6 @@ map <silent> <Space> :silent set hlsearch!<bar>:echo ""<CR>
 nnoremap <silent> <F4> :TlistToggle<CR>
 nnoremap <silent> <F5> :silent setlocal spell! spelllang=en_us<CR>
 nnoremap <silent> <F3> :silent set number!<CR>
-call togglebg#map("<F2>")
 
 " term colors
 set background=dark
@@ -121,7 +120,9 @@ inoremap <S-Down> <nop>
 " prevent showmarks plugin from turning on automatically
 let g:showmarks_enable=0
 
-set statusline=%<%f%=\ %{GitBranchInfoString()}\ [%1*%M%*%n%R%H]\ %-19(%3l,%02c%03V%)%O'%02b'
+set statusline=%2*%M%*%f:%3l\ (%P)%=\ %1*%{GitBranchInfoString()}%*\ %q[%n%R%Y]\ c:%02c%03V\ 0x%02B
+hi User1 term=inverse,bold cterm=inverse,bold ctermfg=blue
+hi User2 term=inverse,bold cterm=inverse,bold ctermfg=red
 let g:git_branch_status_head_current=1
 let g:git_branch_status_text=""
 
