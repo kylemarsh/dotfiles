@@ -67,16 +67,16 @@ map gi i<space><esc>r
 " Press <Space> to toggle search highlighting in command mode
 map <silent> <Space> :silent set hlsearch!<bar>:echo ""<CR>
 
-nnoremap <silent> <F4> :TlistToggle<CR>
 nnoremap <silent> <F5> :silent setlocal spell! spelllang=en_us<CR>
 nnoremap <silent> <F3> :silent set number!<CR>
 
 " term colors
 set background=dark
-colorscheme slate
+colorscheme kmslate
 hi Search ctermbg=124 ctermfg=White
 hi IncSearch ctermbg=red ctermfg=White
-hi def link TRACK_PERL_VAR_LOCKED SignColumn
+hi TRACK_PERL_VAR_LOCKED term=standout ctermfg=14 ctermbg=242 guifg=Cyan guibg=Grey
+"hi def link TRACK_PERL_VAR_LOCKED SignColumn
 
 " Allow color schemes to do bright colors without forcing bold.
 if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
