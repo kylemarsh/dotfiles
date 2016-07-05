@@ -28,8 +28,8 @@ let colors_name = "slate"
 :hi Statement guifg=CornflowerBlue ctermfg=lightblue
 :hi Visual gui=none guifg=khaki guibg=olivedrab cterm=reverse
 :hi WarningMsg guifg=salmon ctermfg=1
-:hi String guifg=SkyBlue ctermfg=darkcyan
-:hi Comment term=bold ctermfg=6 guifg=skyblue
+:hi String guifg=SkyBlue ctermfg=65
+:hi Comment term=bold ctermfg=239
 :hi Constant guifg=#ffa0a0 ctermfg=brown
 :hi Special guifg=darkkhaki ctermfg=brown
 :hi Identifier guifg=salmon ctermfg=red cterm=none
