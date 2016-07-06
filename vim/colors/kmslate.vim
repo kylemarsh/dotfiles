@@ -54,3 +54,4 @@ let colors_name = "slate"
 :hi Underlined cterm=underline ctermfg=5
 :hi Error guifg=White guibg=Red cterm=bold ctermfg=7 ctermbg=1
 :hi SpellErrors guifg=White guibg=Red cterm=bold ctermfg=7 ctermbg=1
+:hi SpellBad term=reverse ctermbg=9 ctermfg=black gui=undercurl guisp=Red
