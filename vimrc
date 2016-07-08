@@ -50,11 +50,23 @@ set winfixwidth
 set winfixheight
 
 """ Coding Syntax Settings for autoindenting and bracket matching
-set cindent
+set autoindent
+set smartindent
+"set cindent
 set shiftwidth=4
 set showmatch
 set showfulltag
 syntax on
+
+" no magic outdent for comments
+inoremap # X<C-H>#|
+" no shift magic on comments
+nnoremap <silent> >> :call ShiftLine()<cr>|
+function! ShiftLine()
+	set nosmartindent
+	normal! >>
+	set smartindent
+endfunction
 
 " make syntax hilighting always right, even in the middle of a big
 " javascript inside an html file
@@ -89,9 +101,9 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=magenta guibg=magenta
 match ExtraWhitespace /\[^\t]\zs\t\+/
 match ExtraWhitespace /\s\+$\| \+\ze\t/
 
-autocmd WinEnter * setlocal cursorline
-autocmd WinLeave * setlocal nocursorline
-set cursorline
+"autocmd WinEnter * setlocal cursorline
+"autocmd WinLeave * setlocal nocursorline
+"set cursorline
 
 if &listchars ==# 'eol:$' " make whitespace visualization nicer
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
@@ -146,10 +158,12 @@ let g:git_branch_status_head_current=1
 let g:git_branch_status_text=""
 
 " Syntastic settings
-let g:syntastic_python_checkers=['python', 'flake8']
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
+let g:syntastic_python_checkers = ['python', 'flake8']
+let g:syntastic_perl_checkers = ['perl', 'perlcritic', 'podchecker']
+let g:syntastic_enable_perl_checker = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 
