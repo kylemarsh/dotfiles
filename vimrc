@@ -151,18 +151,16 @@ inoremap <S-Down> <nop>
 " prevent showmarks plugin from turning on automatically
 let g:showmarks_enable=0
 
-set statusline=%2*%M%*%f:%3l\ (%P)%=\ %1*%{GitBranchInfoString()}%*\ [%n%R%Y]\ c:%02c%03V\ 0x%02B
+set statusline=%2*%M%*%f:%3l\ (%P)%=[%n%R%Y]\ c:%02c%03V\ 0x%02B
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=blue
 hi User2 term=inverse,bold cterm=inverse,bold ctermfg=124
-let g:git_branch_status_head_current=1
-let g:git_branch_status_text=""
 
 " Syntastic settings
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_perl_checkers = ['perl', 'perlcritic', 'podchecker']
 let g:syntastic_enable_perl_checker = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 

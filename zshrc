@@ -159,6 +159,11 @@ fi
 # Mac (and not-mac) things
 if [[ $machine_type =~ ':mac' ]]; then
 	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+	PATH="/Users/kylem/perl5/bin${PATH:+:${PATH}}"; export PATH;
+	PERL5LIB="/Users/kylem/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+	PERL_LOCAL_LIB_ROOT="/Users/kylem/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+	PERL_MB_OPT="--install_base \"/Users/kylem/perl5\""; export PERL_MB_OPT;
+	PERL_MM_OPT="INSTALL_BASE=/Users/kylem/perl5"; export PERL_MM_OPT;
 fi
 
 
@@ -296,3 +301,4 @@ fi
 
 
 test -e "${HOME}/.iterm2/shell_integration.zsh" && source "${HOME}/.iterm2/shell_integration.zsh"
+
