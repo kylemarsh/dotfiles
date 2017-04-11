@@ -159,11 +159,11 @@ let g:git_branch_status_text=""
 
 " Syntastic settings
 let g:syntastic_python_checkers = ['python', 'flake8']
-let g:syntastic_perl_checkers = ['perl', 'perlcritic', 'podchecker']
+let g:syntastic_perl_checkers = ['perl', 'perlcritic']
 let g:syntastic_enable_perl_checker = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
 

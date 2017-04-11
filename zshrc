@@ -185,6 +185,7 @@ if [[ $machine_type =~ ':ndn' ]]; then
 		LOOKUP=`host $1 | grep 'has address' | awk '{print $4'}`
 		echo `host $LOOKUP | awk '{print $5}'`
 	}
+	source $HOME/ndn/etc/ndnperl.rc
 
 fi
 
