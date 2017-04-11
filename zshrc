@@ -226,23 +226,20 @@ function add-personal-keys {
 # .asc file #FIXME: Better way to detect encrypted file?
 function encdir {
 	if [[ $machine_type =~ ':mac' ]]; then
-		rmcmd='srm'
+		find $* -type f ! -name '*.asc' ! -name '.*' -exec gpg --encrypt --armor -r kmarsh {} \; -exec rm -P {} \;
 	else
-		rmcmd='shred'
+		find $* -type f ! -name '*.asc' ! -name '.*' -exec gpg --encrypt --armor -r kmarsh {} \; -exec shred {} \;
 	fi
-
-	find $* -type f ! -name '*.asc' ! -name '.*' -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
 }
 
 # Encrypt *everything* in the given directory, even dotfiles and .asc files
 function encall {
 	if [[ $machine_type =~ ':mac' ]]; then
-		rmcmd='srm'
+		find $* -type f -exec gpg --encrypt --armor -r kmarsh {} \; -exec rm -P {} \;
 	else
-		rmcmd='shred'
+		find $* -type f -exec gpg --encrypt --armor -r kmarsh {} \; -exec shred {} \;
 	fi
 
-	find $* -type f -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
 }
 
 function add-ndn-keys {
