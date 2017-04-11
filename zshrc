@@ -159,6 +159,11 @@ fi
 # Mac (and not-mac) things
 if [[ $machine_type =~ ':mac' ]]; then
 	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+	PATH="/Users/kylem/perl5/bin${PATH:+:${PATH}}"; export PATH;
+	PERL5LIB="/Users/kylem/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+	PERL_LOCAL_LIB_ROOT="/Users/kylem/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+	PERL_MB_OPT="--install_base \"/Users/kylem/perl5\""; export PERL_MB_OPT;
+	PERL_MM_OPT="INSTALL_BASE=/Users/kylem/perl5"; export PERL_MM_OPT;
 fi
 
 
@@ -222,23 +227,20 @@ function add-personal-keys {
 # .asc file #FIXME: Better way to detect encrypted file?
 function encdir {
 	if [[ $machine_type =~ ':mac' ]]; then
-		rmcmd='srm'
+		find $* -type f ! -name '*.asc' ! -name '.*' -exec gpg --encrypt --armor -r kmarsh {} \; -exec rm -P {} \;
 	else
-		rmcmd='shred'
+		find $* -type f ! -name '*.asc' ! -name '.*' -exec gpg --encrypt --armor -r kmarsh {} \; -exec shred {} \;
 	fi
-
-	find $* -type f ! -name '*.asc' ! -name '.*' -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
 }
 
 # Encrypt *everything* in the given directory, even dotfiles and .asc files
 function encall {
 	if [[ $machine_type =~ ':mac' ]]; then
-		rmcmd='srm'
+		find $* -type f -exec gpg --encrypt --armor -r kmarsh {} \; -exec rm -P {} \;
 	else
-		rmcmd='shred'
+		find $* -type f -exec gpg --encrypt --armor -r kmarsh {} \; -exec shred {} \;
 	fi
 
-	find $* -type f -exec keybase encrypt kmarsh {} \; -exec $rmcmd {} \;
 }
 
 function add-ndn-keys {
@@ -297,3 +299,4 @@ fi
 
 
 test -e "${HOME}/.iterm2/shell_integration.zsh" && source "${HOME}/.iterm2/shell_integration.zsh"
+
