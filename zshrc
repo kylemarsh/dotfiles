@@ -169,9 +169,19 @@ fi
 
 # Work paths and aliases
 if [[ $machine_type =~ ':ndn' ]]; then
+	export NDN_ROOT="$HOME/ndn/"
+	export SITEPANEL_ROOT="$HOME/sitepanel/"
+	export NDN_DEV_PORT=9898
+
 	if [ -d /ndn/dh/bin ] ; then
-		PATH=/ndn/dh/bin:"${PATH}"
+		PATH="$NDN_ROOT/perl/bin:$NDN_ROOT/bin:$NDN_ROOT/dh/bin:$PATH"
 		export PATH
+	fi
+
+	# tarfu does not have a working system perl. Lovely.
+	if [[ `hostname -s` = 'tarfu' ]]; then
+		source $NDN_ROOT/etc/ndnperl.rc
+		ndnperl ndn
 	fi
 
 	alias dbc="nocorrect dbc"
