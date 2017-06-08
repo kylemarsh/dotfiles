@@ -173,10 +173,11 @@ if [[ $machine_type =~ ':ndn' ]]; then
 	export SITEPANEL_ROOT="$HOME/sitepanel/"
 	export NDN_DEV_PORT=9898
 
-	if [ -d /ndn/dh/bin ] ; then
-		PATH="$NDN_ROOT/perl/bin:$NDN_ROOT/bin:$NDN_ROOT/dh/bin:$PATH"
+	if [ -d /ndn ] ; then
+		PATH="/ndn/perl/bin:/ndn/bin:/ndn/dh/bin:$PATH"
 		export PATH
 	fi
+	PATH="$NDN_ROOT/perl/bin:$NDN_ROOT/bin:$NDN_ROOT/dh/bin:$PATH"
 
 	# tarfu does not have a working system perl. Lovely.
 	if [[ `hostname -s` = 'tarfu' ]]; then
@@ -208,6 +209,10 @@ fi
 # SSH-y things #
 ################
 
+function tarfu {
+	add-ndn-keys
+	ssh kylem@tarfu.dreamhost.com
+}
 function fubar {
 	add-ndn-keys
 	ssh kylem@fubar.dreamhost.com
