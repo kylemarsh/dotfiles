@@ -179,12 +179,6 @@ if [[ $machine_type =~ ':ndn' ]]; then
 	fi
 	PATH="$NDN_ROOT/perl/bin:$NDN_ROOT/bin:$NDN_ROOT/dh/bin:$PATH"
 
-	# tarfu does not have a working system perl. Lovely.
-	if [[ `hostname -s` = 'tarfu' ]]; then
-		source $NDN_ROOT/etc/ndnperl.rc
-		ndnperl ndn
-	fi
-
 	alias dbc="nocorrect dbc"
 	alias reboot="/usr/local/ndn/dh/bin/reboot.pl"
 	alias rssh="ssh -l root"
