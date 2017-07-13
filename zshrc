@@ -79,23 +79,6 @@ precmd() {
 	vcs_info
 }
 
-# Change the prompt based on whether we're in insert or command mode.
-# TODO: This doesn't reset if you hit ^C to kill your current line.
-function zle-keymap-select {
-	ZSH_PROMPT_GLYPH="${${KEYMAP/vicmd/${ZSH_CMD_MODE_GLYPH}}/(main|viins)/${ZSH_INS_MODE_GLYPH}}"
-	zle reset-prompt
-}
-zle -N zle-keymap-select
-function zle-line-finish {
-	ZSH_PROMPT_GLYPH=$ZSH_INS_MODE_GLYPH
-}
-zle -N zle-line-finish
-ZSH_PROMPT_GLYPH=$ZSH_INS_MODE_GLYPH
-
-# Default new command lines to insert mode?
-#zle-line-init() { zle -K vicmd; }
-#zle -N zle-line-init
-#
 function git_prompt_info() {
 	echo "$vcs_info_msg_0_"
 }
