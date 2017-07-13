@@ -23,4 +23,4 @@
 [push]
 	default = current
 [core]
-	excludesfile = /Users/kylem/.gitignore_global
+	excludesfile = ~/.gitignore_global
