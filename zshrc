@@ -46,56 +46,32 @@ fpath=($HOME/lib/zsh/functions $fpath)
 # Turn off the damnable shared history
 unsetopt share_history
 
-## Make vi bindings useful (more vim; less vi)
-#bindkey -v
-## Personalized viins bindings
-#bindkey -M viins '^R' history-beginning-search-backward
-#bindkey -M viins '^?' backward-delete-char
-#bindkey -M viins '^[OH' beginning-of-line
-#bindkey -M viins '^[OF' end-of-line
-#bindkey -M viins '^[[3~' delete-char
-#bindkey -M viins '^[[A' vi-up-line-or-history
-#bindkey -M viins '^[[B' vi-down-line-or-history
-
-## Personalized vicmd bindings
-#bindkey -M vicmd '^[[3~' delete-char
-#bindkey -M vicmd 'k' vi-up-line-or-history
-#bindkey -M vicmd 'j' vi-down-line-or-history
-#bindkey -M vicmd '/' history-incremental-search-backward
-#bindkey -M vicmd '?' history-incremental-search-backward
-
 # Git prompt stuff
+# http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
+# %s The VCS in use (git, hg, svn, etc.).
+# %b Information about the current branch.
+# %a An identifier that describes the action. Only makes sense in actionformats.
+# %i The current revision number or identifier. For hg the hgrevformat style may be used to customize the output.
+# %c The string from the stagedstr style if there are staged changes in the repository.
+# %u The string from the unstagedstr style if there are unstaged changes in the repository.
+# %R The base directory of the repository.
+# %r The repository name. If %R is /foo/bar/repoXY, %r is repoXY.
+# %S A subdirectory within a repository. If $PWD is /foo/bar/repoXY/beer/tasty, %S is beer/tasty.
+# %m A "misc" replacement. It is at the discretion of the backend to decide what this replacement expands to.
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' stagedstr "%{$fg[green]%}●"
-zstyle ':vcs_info:*' unstagedstr "%{$fg[yellow]%}●"
+zstyle ':vcs_info:*' stagedstr "%{$fg[green]%}*"
+zstyle ':vcs_info:*' unstagedstr "%{$fg[cyan]%}*"
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' enable git svn
 precmd() {
 	if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-		zstyle ':vcs_info:*' formats "%{$reset_color%}(%{$fg[red]%}%b%{$reset_color%}:%c%u%{$reset_color%}) "
+		zstyle ':vcs_info:*' formats "%{$reset_color%}(%{$fg[red]%}%r:%b%{$reset_color%}:%c%u%{$reset_color%})"
 	} else {
-		zstyle ':vcs_info:*' formats "%{$reset_color%}(%{$fg[red]%}%b%{$reset_color%}:%c%u%{$fg[white]%}●%{$reset_color%}) "
+		zstyle ':vcs_info:*' formats "%{$reset_color%}(%{$fg[red]%}%r:%b%{$reset_color%}:%c%u%{$fg[white]%}*%{$reset_color%})"
 	}
 	vcs_info
 }
 
-# Change the prompt based on whether we're in insert or command mode.
-# TODO: This doesn't reset if you hit ^C to kill your current line.
-function zle-keymap-select {
-	ZSH_PROMPT_GLYPH="${${KEYMAP/vicmd/${ZSH_CMD_MODE_GLYPH}}/(main|viins)/${ZSH_INS_MODE_GLYPH}}"
-	zle reset-prompt
-}
-zle -N zle-keymap-select
-function zle-line-finish {
-	ZSH_PROMPT_GLYPH=$ZSH_INS_MODE_GLYPH
-}
-zle -N zle-line-finish
-ZSH_PROMPT_GLYPH=$ZSH_INS_MODE_GLYPH
-
-# Default new command lines to insert mode?
-#zle-line-init() { zle -K vicmd; }
-#zle -N zle-line-init
-#
 function git_prompt_info() {
 	echo "$vcs_info_msg_0_"
 }
