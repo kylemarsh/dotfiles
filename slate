@@ -52,6 +52,11 @@ layout 2-screen ${app-browser}:REPEAT move ${sox};${soy} 2*${ssx}/3;${ssy} 0
 layout 2-screen ${app-slack}:REPEAT ${half-right} 0
 layout 2-screen ${app-terminal}:REPEAT ${full} 1
 
+# terminal, browser, and slack all full sized.
+layout allfull ${app-browser}:REPEAT ${full} 0
+layout allfull ${app-slack}:REPEAT ${full} 0
+layout allfull ${app-terminal}:REPEAT ${full} 0
+
 # terminal across the bottom; slack in top-right, browser on top-left (2/3)
 layout tiled ${app-browser}:REPEAT move ${sox};${soy} 2*${ssx}/3;${ssy}/2 0
 layout tiled ${app-slack}:REPEAT ${top-right} 0
@@ -76,7 +81,7 @@ bind f5:${modal-key} relaunch
 # Activate layouts, this is all done via modal-keys
 bind 0:${modal-key} sequence layout 2-screen
 bind 1:${modal-key} sequence layout tiled
-bind 2:${modal-key} sequence layout paired
+bind 2:${modal-key} sequence layout allfull
 bind 3:${modal-key} sequence layout condensed
 
 # Focus windows in certain directions
