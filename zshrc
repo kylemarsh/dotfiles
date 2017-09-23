@@ -6,8 +6,8 @@ case `uname` in
 esac
 
 case $fullname in
-	*lilypad*)
-		machine_type="$machine_type:python:home:ruby:go"
+	*vimes*)
+		machine_type="$machine_type:python:home:go"
 		;;
 	*dreamhost.com) ;&
 	*newdream.net)
@@ -26,7 +26,7 @@ DISABLE_AUTO_UPDATE="true" #oh-my-zsh updates
 base_plugins=(git history screen virtualenv)
 ndn_plugins=()
 python_plugins=(pip virtualenvwrapper)
-mac_plugins=(battery brew terminalapp)
+mac_plugins=(battery brew)
 
 plugins=($base_plugins)
 if [[ $machine_type =~ ':mac' ]]; then
@@ -143,12 +143,6 @@ if [[ $machine_type =~ ':python' ]]; then
 	function syspip {
 		PIP_REQUIRE_VIRTUALENV="" pip $@
 	}
-fi
-
-# Ruby things o.O
-if [[ $machine_type =~ ':ruby' ]]; then
-	source $HOME/.rvm/scripts/rvm # Maybe needs conditionals
-	PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 fi
 
 # Go environment variables
