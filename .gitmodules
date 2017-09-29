@@ -19,3 +19,6 @@
 [submodule "vim/bundle/toml"]
 	path = vim/bundle/toml
 	url = https://github.com/cespare/vim-toml
+[submodule "vim/bundle/ctrlp.vim"]
+	path = vim/bundle/ctrlp.vim
+	url = git@github.com:ctrlpvim/ctrlp.vim.git
