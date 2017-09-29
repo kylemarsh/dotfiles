@@ -1,3 +1,4 @@
+
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
@@ -16,6 +17,7 @@ set number
 set autowrite
 set ignorecase
 set smartcase
+let mapleader = ","
 set mouse=a
 set mousemodel=popup_setpos
 set ttymouse=xterm2
@@ -72,9 +74,6 @@ endfunction
 " javascript inside an html file
 " EDIT: I think this causes massive lag for huge files.
 "autocmd BufEnter * :syntax sync fromstart
-
-" press gi followed by a character will insert that character at cursor
-map gi i<space><esc>r
 
 " Press <Space> to toggle search highlighting in command mode
 map <silent> <Space> :silent set hlsearch!<bar>:echo ""<CR>
@@ -174,22 +173,23 @@ function! SuperTab()
 endfunction
 imap <Tab> <C-R>=SuperTab()<CR>
 
+""" PERL Stuff
 " Start Vim-Helper plugin: Fennec
-function! RunFennecLine()
-    let cur_line = line(".")
-    exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl %"
-endfunction
+"function! RunFennecLine()
+    "let cur_line = line(".")
+    "exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl %"
+"endfunction
 
-function! RunFennecLineLess()
-    let cur_line = line(".")
-    exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl % 2>&1 | less"
-endfunction
+"function! RunFennecLineLess()
+    "let cur_line = line(".")
+    "exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl % 2>&1 | less"
+"endfunction
 
-:map <F12> :w<cr>:call RunFennecLineLess()<cr>
-:map <F10> :w<cr>:call RunFennecLine()<cr>
+":map <F12> :w<cr>:call RunFennecLineLess()<cr>
+":map <F10> :w<cr>:call RunFennecLine()<cr>
 
-:imap <F12> <ESC>:w<cr>:call RunFennecLineLess()<cr>
-:imap <F10> <ESC>:w<cr>:call RunFennecLine()<cr>
+":imap <F12> <ESC>:w<cr>:call RunFennecLineLess()<cr>
+":imap <F10> <ESC>:w<cr>:call RunFennecLine()<cr>
 " End Vim-Helper plugin: Fennec
 
 " Run perltidy on selection with \dt
@@ -197,3 +197,27 @@ if filereadable('/ndn/etc/perltidyrc') && filereadable('/ndn/perl/bin/partialtid
 	:map <Leader>dt :!/ndn/perl/bin/partialtidy.pl /ndn/etc/perltidyrc<CR>
 endif
 
+
+""" GO Stuff
+let g:go_fmt_command = "goimports"
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+	let l:file = expand('%')
+	if l:file =~# '^\f\+_test\.go$'
+		call go#test#Test(0, 1)
+	elseif l:file =~# '^\f\+\.go$'
+		call go#cmd#Build(0)
+	endif
+endfunction
+
+autocmd FileType go nmap <leader>gc <PLUG>(go-coverage-toggle)<CR>
+autocmd FileType go nmap <leader>gb :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nmap <leader>gt <Plug>(go-test)
+autocmd FileType go nmap <leader>gl <Plug>(go-metalinter)
+autocmd FileType go nmap <leader>gi <Plug>(go-info)
+
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
