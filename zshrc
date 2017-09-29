@@ -156,7 +156,7 @@ if [[ $machine_type =~ ':ndn' ]]; then
 	alias sc="/usr/bin/sudo /dh/bin/servicectl"
 	alias sctl="/usr/bin/sudo /dh/bin/servicectl"
 	alias mysc="/usr/bin/sudo /usr/bin/env DH_TEMPLATE_PREFIX=/home/kylem/ndn PERLLIB=/home/kylem/ndn/perl/ /home/kylem/ndn/dh/bin/servicectl"
-	alias scdb="/usr/bin/sudo /usr/bin/env PERL7DB='BEGIN { require \"perl5db.pl\"; push @DB::typeahead, \"b 824\"; }' DH_TEMPLATE_PREFIX=/home/kylem/ndn PERLLIB=/home/kylem/ndn/perl/ perl -d /home/kylem/ndn/dh/bin/servicectl"
+	alias scdb="/usr/bin/sudo /usr/bin/env PERL7DB='BEGIN { require \"perl5db.pl\"; push @DB::typeahead, \"b 813\"; }' DH_TEMPLATE_PREFIX=/home/kylem/ndn PERLLIB=/home/kylem/ndn/perl/ perl -d /home/kylem/ndn/dh/bin/servicectl"
 	alias eperl="/opt/plack/perl/bin/perl"
 
 	function rscp { scp $1 root@$2 }
