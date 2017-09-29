@@ -193,8 +193,8 @@ imap <Tab> <C-R>=SuperTab()<CR>
 " End Vim-Helper plugin: Fennec
 
 " Run perltidy on selection with \dt
-if filereadable('/ndn/etc/perltidyrc') && filereadable('/ndn/perl/bin/partialtidy.pl')
-	:map <Leader>dt :!/ndn/perl/bin/partialtidy.pl /ndn/etc/perltidyrc<CR>
+if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/ndn/perl/bin/partialtidy.pl')
+	:map <Leader>dt :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
 endif
 
 
