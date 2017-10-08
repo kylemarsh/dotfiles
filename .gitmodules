@@ -25,3 +25,6 @@
 [submodule "vim/bundle/nerdcommenter"]
 	path = vim/bundle/nerdcommenter
 	url = git@github.com:scrooloose/nerdcommenter.git
+[submodule "vim/bundle/CamelCaseMotion"]
+	path = vim/bundle/CamelCaseMotion
+	url = git@github.com:bkad/CamelCaseMotion.git
