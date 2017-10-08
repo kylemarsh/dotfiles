@@ -280,5 +280,5 @@ function obj {
 	aws --endpoint-url https://objects-us-west-1.dream.io s3 $@
 }
 
-test -e "${HOME}/.iterm2/shell_integration.zsh" && source "${HOME}/.iterm2/shell_integration.zsh"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
