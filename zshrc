@@ -150,6 +150,7 @@ if [[ $machine_type =~ ':ndn' ]]; then
 	PATH="$NDN_ROOT/perl/bin:$NDN_ROOT/bin:$NDN_ROOT/dh/bin:$PATH"
 
 	alias dbc="nocorrect dbc"
+	alias cdndn="nocorrect cd ~/ndn/perl/Ndn/"
 	alias reboot="/usr/local/ndn/dh/bin/reboot.pl"
 	alias rssh="ssh -l root"
 	alias servicectl="/usr/bin/sudo /dh/bin/servicectl"
