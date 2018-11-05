@@ -13,6 +13,10 @@ case $fullname in
 	*newdream.net)
 		machine_type="$machine_type:ndn"
 		;;
+	*etsy.com) ;&
+	*goibniu*)
+		machine_type="$machine_type:etsy"
+		;;
 esac
 
 # Path to your oh-my-zsh configuration.
@@ -138,6 +142,11 @@ fi
 
 
 # Work paths and aliases
+if [[ $machine_type =~ ':etsy' ]]; then
+	# Tail php logs on the VM
+	alias tl='sudo tail -f /var/log/httpd/php.log /var/log/httpd/info.log /var/log/httpd/error_log /var/log/gearman/php.log'
+fi
+
 if [[ $machine_type =~ ':ndn' ]]; then
 	export NDN_ROOT="$HOME/ndn/"
 	export SITEPANEL_ROOT="$HOME/sitepanel/"
@@ -298,4 +307,3 @@ function obj {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
