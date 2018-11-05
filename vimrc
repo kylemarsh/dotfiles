@@ -13,7 +13,6 @@ set showmode
 set ruler
 set laststatus=2
 set number
-"set textwidth=76 "causes code to wrap. Do not want.
 set autowrite
 set ignorecase
 set smartcase
@@ -31,9 +30,17 @@ set wildmenu
 set wildmode=list:longest,full
 runtime! macros/matchit.vim
 
+" Line  width settings
+"set textwidth=76 "causes code to wrap. Do not want.
+if exists('+colorcolumn')
+    set colorcolumn=80  " if vim is new enough, highlight a column
+else  " otherwise hilight text that extends past 85 chars
+    au BufWinEnter * let w:m2=matchadd('Folded', '\%>85v.\+', -1)
+endif
+
 """ Tab settings.  Normally, <tab> inserts 4 spaces (use crtl-v<tab> to
 """ insert a tab).  Also, backspace deletes spaces 4 at a time.
-""" set expandtab
+set expandtab
 set tabstop=4
 set softtabstop=4
 set smarttab
@@ -86,6 +93,7 @@ set background=dark
 colorscheme kmslate
 hi Search ctermbg=124 ctermfg=White
 hi IncSearch ctermbg=red ctermfg=White
+hi ColorColumn ctermbg=darkgray
 hi TRACK_PERL_VAR_LOCKED term=standout ctermfg=14 ctermbg=242 guifg=Cyan guibg=Grey
 "hi def link TRACK_PERL_VAR_LOCKED SignColumn
 

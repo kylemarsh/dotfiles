@@ -174,6 +174,11 @@ fi
 # SSH-y things #
 ################
 
+function vm {
+	add-etsy-keys
+	ssh kmarsh@www.kmarsh.vms.etsy.com
+}
+
 function tarfu {
 	add-ndn-keys
 	ssh kylem@tarfu.dreamhost.com
@@ -199,6 +204,17 @@ function add-personal-keys {
 			if [ $? -eq 2 ];then
 				start_agent
 			fi
+		fi
+	fi
+}
+
+function add-etsy-keys {
+	ssh-add -l | grep "etsy\.rsa" > /dev/null
+	if [ $? -ne 0 ]; then
+		ssh-add -t 32400 ~/.ssh/*-etsy.rsa # Etsy IDs active for 9 hours
+		# $SSH_AUTH_SOCK broken so we start a new proper agent
+		if [ $? -eq 2 ];then
+			start_agent
 		fi
 	fi
 }
