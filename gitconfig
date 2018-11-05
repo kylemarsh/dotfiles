@@ -24,3 +24,6 @@
 	default = current
 [core]
 	excludesfile = ~/.gitignore_global
+
+[github]
+	user = kmarsh
