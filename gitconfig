@@ -1,6 +1,6 @@
 [user]
 	name = Kyle Marsh
-	email = kyle.l.marsh+github@gmail.com
+	email = kmarsh@etsy.com
 
 [alias]
 	ci = commit
@@ -8,10 +8,6 @@
 	br = branch
 	stat = status
 	st = status
-	;track = "!track() { newbranch=$1; [ -z $newbranch ] && echo 'Specify a branch' && exit 1; trackedbranch=$2; [ -z $trackedbranch ] && trackedbranch='origin/master'; git checkout -b $newbranch --track $trackedbranch;}; track"
-	;start = "!track() {newbranch=$1; [ -z $newbranch ] && echo 'Specify a branch' && exit 1; trackedbranch=$2; [ -z $trackedbranch ] && trackedbranch='origin/master'; git checkout -b $newbranch --track $trackedbranch;}; track"
-	;finish= "!finish() {deletebranch=$1; [ -z $deletebranch ] && deletebranch=$(git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)); [[ '$deletebranch' == 'master' ]] && echo 'Can't delete master' && exit 1; git checkout master && git pull --rebase && git branch -D $deletebranch; }; finish"
-
 
 [color]
 	ui = true
@@ -22,6 +18,7 @@
 
 [push]
 	default = current
+
 [core]
 	excludesfile = ~/.gitignore_global
 
