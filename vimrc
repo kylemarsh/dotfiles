@@ -165,6 +165,7 @@ hi User2 term=inverse,bold cterm=inverse,bold ctermfg=124
 " Syntastic settings
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_perl_checkers = ['perl', 'perlcritic']
+let g:syntastic_php_checkers = ['php', 'phpmd', 'phplint']
 let g:syntastic_enable_perl_checker = 1
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
