@@ -68,6 +68,8 @@ focusMode:bind('', 'M', function() focusApp('iTunes') end)
 focusMode:bind('', 'S', function() focusApp('Slack') end)
 focusMode:bind('', 'N', function() focusApp('Quiver') end)
 focusMode:bind('', 'Q', function() focusApp('Quiver') end)
+focusMode:bind('', 'V', function() focusApp('VidyoConnect') end)
+focusMode:bind('', 'K', function() focusApp('Keybase') end)
 
 -- Other Controls
 focusMode:bind('', 'return', function()
@@ -119,9 +121,6 @@ function isInScreen(screen, win)
 	return win:screen() == screen
 end
 
-hs.hotkey.bind('alt', '§', function()
-	focusScreen(hs.window.focusedWindow():screen():next())
-end)
 hs.hotkey.bind('alt', '\\', function()
 	focusScreen(hs.window.focusedWindow():screen():next())
 end)
