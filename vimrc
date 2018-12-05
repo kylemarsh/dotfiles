@@ -26,8 +26,12 @@ set backspace=indent,eol,start
 set scrolloff=5 " no more scrolling from the bottom
 set hlsearch
 set incsearch
+
+" Tweak how file completion works
 set wildmenu
+set wildignorecase
 set wildmode=list:longest,full
+
 runtime! macros/matchit.vim
 
 " Line  width settings
