@@ -50,9 +50,10 @@ au FileType make setlocal noexpandtab
 """ Use latex-suite
 set grepprg=grep\ -nH\ $*
 
-""" Suggested settings for python
+""" Language-specific settings
 au BufEnter *.py set ai sw=4 ts=4 tw=76 sta et fo=croql
 au BufEnter *.pm,*.pl,*.tp set tw=0
+"au BufEnter *.js set sw=2 ts=2 et tw=0
 
 """ Stop windows resizing when you close other windows.
 set winfixwidth
@@ -166,12 +167,14 @@ hi User2 term=inverse,bold cterm=inverse,bold ctermfg=124
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_perl_checkers = ['perl', 'perlcritic']
 let g:syntastic_php_checkers = ['php', 'phpmd', 'phplint']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_enable_perl_checker = 1
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
+let g:jsx_ext_required = 0 " allow jsx in normal JS files
 
 function! SuperTab()
 	if (strpart(getline('.'),col('.')-2,1) =~ '^\W\?$')
