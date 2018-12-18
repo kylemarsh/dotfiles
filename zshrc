@@ -43,6 +43,8 @@ if [[ $machine_type =~ ':python' ]]; then
 	plugins+=($python_plugins)
 fi
 
+source ~/development/bin/xdebug_toggle
+
 source $ZSH/oh-my-zsh.sh
 fpath=($HOME/lib/zsh/functions $fpath)
 
