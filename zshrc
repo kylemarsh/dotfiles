@@ -187,7 +187,7 @@ fi
 
 function vm {
 	add-etsy-keys
-	ssh kmarsh@www.kmarsh.vms.etsy.com
+	mosh kmarsh@www.kmarsh.vms.etsy.com
 }
 
 function tarfu {
@@ -306,6 +306,16 @@ fi
 
 function obj {
 	aws --endpoint-url https://objects-us-west-1.dream.io s3 $@
+}
+
+function patchvidyo {
+    VIDYOUI="$HOME/Applications/VidyoConnect.app/Contents/Resources/UI/js/ui-main.js"
+    if [ -f "$VIDYOUI" ]; then
+        cp $VIDYOUI "$VIDYOUI.bak"
+        curl -s https://github.etsycorp.com/raw/gist/bgreenlee/359d8b912ce71c1ad5c73a6f78660622/raw/vidyo-hacks.patch $VIDYOUI
+    else
+        echo "Could not find '$VIDYOUI'...is VidyoConnect installed?"
+    fi
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
