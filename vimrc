@@ -213,6 +213,9 @@ if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/n
 	:map <Leader>dt :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
 endif
 
+set path+=~/development/Etsyweb/phplib
+set includeexpr=substitute(v:fname,'_','/','g')
+set suffixesadd+=.php
 
 """ GO Stuff
 let g:go_fmt_command = "goimports"
