@@ -2,20 +2,17 @@ fullname=`hostname -f 2>/dev/null || hostname`
 
 # What kind of machine is this?
 case `uname` in
-	Darwin) machine_type="$machine_type:mac";;
+	Darwin) machine_type="${machine_type}:mac";;
 esac
 
 case $fullname in
 	*vimes*)
-		machine_type="$machine_type:python:home:go"
+		machine_type="${machine_type}:python:home:go"
 		;;
-	*dreamhost.com) ;&
-	*newdream.net)
-		machine_type="$machine_type:ndn"
-		;;
-	*etsy.com) ;&
-	*goibniu*)
-		machine_type="$machine_type:etsy"
+	*etsy.com)
+	#*etsy.com) ;&
+	#*goibniu*)
+		machine_type="${machine_type}:etsy"
 		;;
 esac
 
@@ -28,7 +25,7 @@ DISABLE_AUTO_UPDATE="true" #oh-my-zsh updates
 # DISABLE_CORRECTION="true"
 
 base_plugins=(git history screen virtualenv)
-ndn_plugins=()
+etsy_plugins=()
 python_plugins=(pip virtualenvwrapper)
 mac_plugins=(battery brew)
 
@@ -36,14 +33,12 @@ plugins=($base_plugins)
 if [[ $machine_type =~ ':mac' ]]; then
 	plugins+=($mac_plugins)
 fi
-if [[ $machine_type =~ ':ndn' ]]; then
-	plugins+=($ndn_plugins)
+if [[ $machine_type =~ ':etsy' ]]; then
+	plugins+=($etsy_plugins)
 fi
 if [[ $machine_type =~ ':python' ]]; then
 	plugins+=($python_plugins)
 fi
-
-source ~/development/bin/xdebug_toggle
 
 source $ZSH/oh-my-zsh.sh
 fpath=($HOME/lib/zsh/functions $fpath)
@@ -88,14 +83,6 @@ export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export MYSQL_PS1="\d> "
-
-# disable full ssh host completion on yakko because SLOOOOOW
-function global_ssh_hosts() {
-	case $fullname in
-		yakko*) return;;
-		*) return (${${${${(f)"$(</etc/ssh/ssh_known_hosts)"}:#[\|]*}%%\ *}%%,*});;
-	esac
-}
 
 # set PATH so it includes user's private bin, local/bin and tools
 # directories if they exist
@@ -147,38 +134,13 @@ fi
 if [[ $machine_type =~ ':etsy' ]]; then
 	# Tail php logs on the VM
 	alias tl='sudo tail -f /var/log/httpd/php.log /var/log/httpd/info.log /var/log/httpd/error_log /var/log/gearman/php.log'
-fi
-
-if [[ $machine_type =~ ':ndn' ]]; then
-	export NDN_ROOT="$HOME/ndn/"
-	export SITEPANEL_ROOT="$HOME/sitepanel/"
-	export NDN_DEV_PORT=9898
-
-	if [ -d /ndn ] ; then
-		PATH="/ndn/perl/bin:/ndn/bin:/ndn/dh/bin:$PATH"
-		export PATH
-	fi
-	PATH="$NDN_ROOT/perl/bin:$NDN_ROOT/bin:$NDN_ROOT/dh/bin:$PATH"
-
-	alias dbc="nocorrect dbc"
-	alias cdndn="nocorrect cd ~/ndn/perl/Ndn/"
-	alias reboot="/usr/local/ndn/dh/bin/reboot.pl"
-	alias rssh="ssh -l root"
-	alias servicectl="/usr/bin/sudo /dh/bin/servicectl"
-	alias sc="/usr/bin/sudo /dh/bin/servicectl"
-	alias sctl="/usr/bin/sudo /dh/bin/servicectl"
-	alias mysc="/usr/bin/sudo /usr/bin/env DH_TEMPLATE_PREFIX=/home/kylem/ndn PERLLIB=/home/kylem/ndn/perl/ /home/kylem/ndn/dh/bin/servicectl"
-	alias scdb="/usr/bin/sudo /usr/bin/env PERL7DB='BEGIN { require \"perl5db.pl\"; push @DB::typeahead, \"b 813\"; }' DH_TEMPLATE_PREFIX=/home/kylem/ndn PERLLIB=/home/kylem/ndn/perl/ perl -d /home/kylem/ndn/dh/bin/servicectl"
-	alias eperl="/opt/plack/perl/bin/perl"
-
-	function rscp { scp $1 root@$2 }
-	function rekey  { /usr/bin/sudo /dh/bin/servicectl $1:man authorizedkeys ; }
-	function rhost {
-		LOOKUP=`host $1 | grep 'has address' | awk '{print $4'}`
-		echo `host $LOOKUP | awk '{print $5}'`
-	}
-	source $HOME/ndn/etc/ndnperl.rc
-
+    if [ -f ~/development/bin/xdebug_toggle ]; then
+        source ~/development/bin/xdebug_toggle
+    fi
+    if [ -d ~/development/Etsyweb ]; then
+        alias plib="nocorrect cd ~/development/Etsyweb/phplib"
+        alias plib..="nocorrect cd ~/development/Etsyweb"
+    fi
 fi
 
 ################
@@ -190,18 +152,6 @@ function vm {
 	mosh kmarsh@www.kmarsh.vms.etsy.com
 }
 
-function tarfu {
-	add-ndn-keys
-	ssh kylem@tarfu.dreamhost.com
-}
-function fubar {
-	add-ndn-keys
-	ssh kylem@fubar.dreamhost.com
-}
-function yakko {
-	add-ndn-keys
-	ssh kylem@yakko.sd.dreamhost.com
-}
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
@@ -248,17 +198,6 @@ function encall {
 		find $* -type f -exec gpg --encrypt --armor -r kmarsh {} \; -exec shred {} \;
 	fi
 
-}
-
-function add-ndn-keys {
-	ssh-add -l | grep "ndn\.rsa" > /dev/null
-	if [ $? -ne 0 ]; then
-		ssh-add -t 32400 ~/.ssh/*-ndn.rsa # NDN IDs active for 9 hours
-		# $SSH_AUTH_SOCK broken so we start a new proper agent
-		if [ $? -eq 2 ];then
-			start_agent
-		fi
-	fi
 }
 
 # start the ssh-agent
