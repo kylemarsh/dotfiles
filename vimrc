@@ -144,8 +144,8 @@ nnoremap ; :
 " movement makes sense across wrapped lines
 nnoremap j gj
 nnoremap k gk
-imap <up> <c-o>gk
-imap <down> <c-o>gj
+inoremap <up> <c-o>gk
+inoremap <down> <c-o>gj
 
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j " Delete comment character when joining commented lines
@@ -213,9 +213,12 @@ if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/n
 	:map <Leader>dt :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
 endif
 
-set path+=~/development/Etsyweb/phplib
-set includeexpr=substitute(v:fname,'_','/','g')
-set suffixesadd+=.php
+" update file searching so `gf` can properly find etsy php class definitions
+if !empty(glob('~/development/Etsyweb/'))
+    set path+=~/development/Etsyweb/phplib
+    set includeexpr=substitute(v:fname,'_','/','g')
+    set suffixesadd+=.php
+endif
 
 """ GO Stuff
 let g:go_fmt_command = "goimports"
