@@ -251,7 +251,9 @@ function patchvidyo {
     VIDYOUI="$HOME/Applications/VidyoConnect.app/Contents/Resources/UI/js/ui-main.js"
     if [ -f "$VIDYOUI" ]; then
         cp $VIDYOUI "$VIDYOUI.bak"
-        curl -s https://github.etsycorp.com/raw/gist/bgreenlee/359d8b912ce71c1ad5c73a6f78660622/raw/vidyo-hacks.patch $VIDYOUI
+        curl -s https://github.etsycorp.com/raw/gist/bgreenlee/359d8b912ce71c1ad5c73a6f78660622/raw/vidyo-hacks.patch | patch -p0 $VIDYOUI
+        echo "Make sure this looks right:"
+        cp $VIDYOUI "$VIDYOUI.bak"
     else
         echo "Could not find '$VIDYOUI'...is VidyoConnect installed?"
     fi
