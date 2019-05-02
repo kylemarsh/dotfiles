@@ -9,7 +9,8 @@ case $fullname in
 	*vimes*)
 		machine_type="${machine_type}:python:home:go"
 		;;
-	*etsy.com)
+	*etsy.com) ;&
+	*etsycloud.com)
 	#*etsy.com) ;&
 	#*goibniu*)
 		machine_type="${machine_type}:etsy"
