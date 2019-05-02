@@ -147,7 +147,12 @@ fi
 # SSH-y things #
 ################
 
-function vm {
+function gvm {
+	add-etsy-keys
+	mosh kmarsh@kmarsh-search.vm.dev.etsycloud.com
+}
+
+function pvm {
 	add-etsy-keys
 	mosh kmarsh@www.kmarsh.vms.etsy.com
 }
@@ -253,7 +258,7 @@ function patchvidyo {
         cp $VIDYOUI "$VIDYOUI.bak"
         curl -s https://github.etsycorp.com/raw/gist/bgreenlee/359d8b912ce71c1ad5c73a6f78660622/raw/vidyo-hacks.patch | patch -p0 $VIDYOUI
         echo "Make sure this looks right:"
-        cp $VIDYOUI "$VIDYOUI.bak"
+        diff $VIDYOUI "$VIDYOUI.bak"
     else
         echo "Could not find '$VIDYOUI'...is VidyoConnect installed?"
     fi
