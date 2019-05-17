@@ -139,7 +139,8 @@ nnoremap <C-n> :next<CR>
 nnoremap <C-p> :prev<CR>
 
 " get the commandline more quickly
-nnoremap ; :
+" note...this aliases ; which turns out to be really handy!
+"nnoremap ; :
 
 " movement makes sense across wrapped lines
 nnoremap j gj
