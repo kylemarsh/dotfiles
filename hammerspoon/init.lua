@@ -64,6 +64,7 @@ end
 -- Individual applications
 focusMode:bind('', 'T', function() focusApp('iTerm2') end)
 focusMode:bind('', 'G', function() focusApp('Google Chrome') end)
+focusMode:bind('', 'F', function() focusApp('Firefox') end)
 focusMode:bind('', 'M', function() focusApp('iTunes') end)
 focusMode:bind('', 'S', function() focusApp('Slack') end)
 focusMode:bind('', 'N', function() focusApp('Quiver') end)
