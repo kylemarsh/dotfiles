@@ -265,4 +265,12 @@ function patchvidyo {
     fi
 }
 
+function pullall() {
+    for i in `find $1 -maxdepth 2 -type d -name .git -exec dirname {} \;`
+    do
+        echo $i
+        git -C $i pull --rebase
+    done
+}
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
