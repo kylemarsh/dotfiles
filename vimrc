@@ -192,24 +192,6 @@ endfunction
 imap <Tab> <C-R>=SuperTab()<CR>
 
 """ PERL Stuff
-" Start Vim-Helper plugin: Fennec
-"function! RunFennecLine()
-    "let cur_line = line(".")
-    "exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl %"
-"endfunction
-
-"function! RunFennecLineLess()
-    "let cur_line = line(".")
-    "exe "!FENNEC_TEST='" . cur_line . "' prove -v -Ilib -I. -I/home/kylem/ndn/perl % 2>&1 | less"
-"endfunction
-
-":map <F12> :w<cr>:call RunFennecLineLess()<cr>
-":map <F10> :w<cr>:call RunFennecLine()<cr>
-
-":imap <F12> <ESC>:w<cr>:call RunFennecLineLess()<cr>
-":imap <F10> <ESC>:w<cr>:call RunFennecLine()<cr>
-" End Vim-Helper plugin: Fennec
-
 " Run perltidy on selection with \dt
 if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/ndn/perl/bin/partialtidy.pl')
 	:map <Leader>dt :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
@@ -217,9 +199,20 @@ endif
 
 " update file searching so `gf` can properly find etsy php class definitions
 if !empty(glob('~/development/Etsyweb/'))
-    set path+=~/development/Etsyweb/phplib
+    set path+=~/development/Etsyweb/phplib,
+            \~/development/Etsyweb/phplib/EtsyModel,
+            \~/development/Etsyweb/phplib,
+            \~/development/Etsyweb/templates,
+            \~/development/Etsyweb/htdocs/assets/js,
+            \~/development/Etsyweb/htdocs/assets/css,
+            \~/development/Etsyweb/phplib/Api,
+            \~/development/Etsyweb/phplib/Api/Resource
     set includeexpr=substitute(v:fname,'_','/','g')
     set suffixesadd+=.php
+	set suffixesadd+=.tpl
+	set suffixesadd+=.js
+	set suffixesadd+=.jsx
+	set suffixesadd+=.mustache
 endif
 
 """ GO Stuff
@@ -246,3 +239,32 @@ autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit'
 autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
+
+
+
+
+""""""""""""
+nnoremap <Leader>f :bnext<CR>
+nnoremap <Leader>d :bprev<CR>
+
+" Running tests
+nnoremap <Leader>r :!run_test %<CR>
+nnoremap <Leader>c :!run_test -ng %<CR>
+
+" Config files
+command ConD :e phplib/EtsyConfig/development.php
+command ConP :e phplib/EtsyConfig/production.php
+
+" Creating Gists
+"command -range=% -nargs=0 GistBlob :<line1>,<line2>w !cat | gist -t %:e "works when the file has an extension; fails otherwise
+command -range=% -nargs=0 GistBlob :<line1>,<line2>w !cat | gist
+command GistCurrent :w !cat % | gist -t diff
+command GistDiffCurrent :w !git diff % | gist -t diff
+command GistDiffAll :w !git diff | gist -t diff
+command GistStaged :w !git diff --staged | gist -t diff
+
+vnoremap <Leader>ss :GistBlob<cr>
+nnoremap <Leader>sf :GistCurrent<cr>
+nnoremap <Leader>sd :GistDiffCurrent<cr>
+nnoremap <Leader>sa :GistDiffAll<cr>
+nnoremap <Leader>st :GistStaged<cr>
