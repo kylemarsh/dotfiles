@@ -268,3 +268,11 @@ nnoremap <Leader>sf :GistCurrent<cr>
 nnoremap <Leader>sd :GistDiffCurrent<cr>
 nnoremap <Leader>sa :GistDiffAll<cr>
 nnoremap <Leader>st :GistStaged<cr>
+
+" Alignment shortcuts
+nnoremap <Leader>a= :Tabularize /=<cr>
+vnoremap <Leader>a= :Tabularize /=<cr>
+nnoremap <Leader>a> :Tabularize /=><cr>
+vnoremap <Leader>a> :Tabularize /=><cr>
+nnoremap <Leader>a, :Tabularize /,\zs<cr>
+vnoremap <Leader>a, :Tabularize /,\zs<cr>
