@@ -4,9 +4,6 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git@github.com:kylemarsh/oh-my-zsh.git
-[submodule "vim/bundle/syntastic"]
-	path = vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "vim/bundle/vim-flavored-markdown"]
 	path = vim/bundle/vim-flavored-markdown
 	url = git://github.com/jtratner/vim-flavored-markdown.git
@@ -43,3 +40,6 @@
 [submodule "vim/bundle/vim-repeat"]
 	path = vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat
+[submodule "vim/bundle/ale"]
+	path = vim/bundle/ale
+	url = git://github.com/dense-analysis/ale.git

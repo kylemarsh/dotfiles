@@ -169,16 +169,13 @@ set statusline=%2*%M%*%f:%3l\ (%P)%=[%n%R%Y]\ c:%02c%03V\ 0x%02B
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=blue
 hi User2 term=inverse,bold cterm=inverse,bold ctermfg=124
 
-" Syntastic settings
-let g:syntastic_python_checkers = ['python', 'flake8']
-let g:syntastic_perl_checkers = ['perl', 'perlcritic']
-let g:syntastic_php_checkers = ['php', 'phpmd', 'phplint']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_enable_perl_checker = 1
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+""" ALE settings
+let g:ale_echo_msg_format = '[%linter%] %code: %%s [%severity%]'
+let g:ale_linters = {
+\ 'php' : ['langserver', 'phan', 'php', 'phpmd', 'phpstan', 'psalm']
+\}
+"""
+
 
 let g:jsx_ext_required = 0 " allow jsx in normal JS files
 
@@ -194,8 +191,9 @@ imap <Tab> <C-R>=SuperTab()<CR>
 """ PERL Stuff
 " Run perltidy on selection with \dt
 if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/ndn/perl/bin/partialtidy.pl')
-	:map <Leader>dt :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
+	:map <Leader>t :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
 endif
+
 
 " update file searching so `gf` can properly find etsy php class definitions
 if !empty(glob('~/development/Etsyweb/'))
@@ -216,6 +214,7 @@ if !empty(glob('~/development/Etsyweb/'))
 endif
 
 """ GO Stuff
+" see also vim/ftplugin/go.vim
 let g:go_fmt_command = "goimports"
 
 " run :GoBuild or :GoTestCompile based on the go file
@@ -227,20 +226,6 @@ function! s:build_go_files()
 		call go#cmd#Build(0)
 	endif
 endfunction
-
-autocmd FileType go nmap <leader>gc <PLUG>(go-coverage-toggle)<CR>
-autocmd FileType go nmap <leader>gb :<C-u>call <SID>build_go_files()<CR>
-autocmd FileType go nmap <leader>gt <Plug>(go-test)
-autocmd FileType go nmap <leader>gl <Plug>(go-metalinter)
-autocmd FileType go nmap <leader>gi <Plug>(go-info)
-
-autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
-
-
-
 
 
 """"""""""""
