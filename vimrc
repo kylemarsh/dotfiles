@@ -174,6 +174,7 @@ let g:ale_echo_msg_format = '[%linter%] %code: %%s [%severity%]'
 let g:ale_linters = {
 \ 'php' : ['langserver', 'phan', 'php', 'phpmd', 'phpstan', 'psalm']
 \}
+noremap <Leader>t :ALEFix<CR>
 """
 
 
@@ -188,11 +189,12 @@ function! SuperTab()
 endfunction
 imap <Tab> <C-R>=SuperTab()<CR>
 
+
 """ PERL Stuff
 " Run perltidy on selection with \dt
-if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/ndn/perl/bin/partialtidy.pl')
-	:map <Leader>t :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
-endif
+"if filereadable('/home/kylem/ndn/etc/perltidyrc') && filereadable('/home/kylem/ndn/perl/bin/partialtidy.pl')
+	":map <Leader>t :!/home/kylem/ndn/perl/bin/partialtidy.pl /home/kylem/ndn/etc/perltidyrc<CR>
+"endif
 
 
 " update file searching so `gf` can properly find etsy php class definitions
