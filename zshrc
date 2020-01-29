@@ -39,6 +39,7 @@ if [[ $machine_type =~ ':etsy' ]]; then
 fi
 if [[ $machine_type =~ ':python' ]]; then
 	plugins+=($python_plugins)
+    DISABLE_VENV_CD=1
 fi
 
 source $ZSH/oh-my-zsh.sh
