@@ -142,6 +142,10 @@ if [[ $machine_type =~ ':etsy' ]]; then
         alias plib="nocorrect cd ~/development/Etsyweb/phplib"
         alias plib..="nocorrect cd ~/development/Etsyweb"
     fi
+
+    # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
+    if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
+    if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
 fi
 
 ################
