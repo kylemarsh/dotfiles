@@ -95,8 +95,11 @@ nnoremap <silent> <F5> :silent setlocal spell! spelllang=en_us<CR>
 nnoremap <silent> <F3> :silent set number!<CR>
 
 " term colors
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 set background=dark
-colorscheme kmslate
+colorscheme gruvbox
 hi Search ctermbg=124 ctermfg=White
 hi IncSearch ctermbg=red ctermfg=White
 hi ColorColumn ctermbg=darkgray
