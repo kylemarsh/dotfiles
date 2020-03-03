@@ -146,6 +146,11 @@ if [[ $machine_type =~ ':etsy' ]]; then
     # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
     if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
     if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
+
+    alias ksd='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace kafkastreams'
+    alias ksp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace kafkastreams'
+    alias td='kubectl --cluster gke_etsy-kafka-gke-_us-central1_kafka-gke-dev --namespace tanuki'
+    alias tp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace tanuki'
 fi
 
 ################
