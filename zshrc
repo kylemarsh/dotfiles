@@ -48,6 +48,14 @@ fpath=($HOME/lib/zsh/functions $fpath)
 # Turn off the damnable shared history
 unsetopt share_history
 
+# Fuzzy Finder:
+if [[ ! "$PATH" == */home/kmarsh/dotfiles/fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}/home/kmarsh/dotfiles/fzf/bin"
+fi
+[[ $- == *i* ]] && source "/home/kmarsh/dotfiles/fzf/shell/completion.zsh" 2> /dev/null # auto-completion
+source "/home/kmarsh/dotfiles/fzf/shell/key-bindings.zsh"
+
+
 # Git prompt stuff
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
 # %s The VCS in use (git, hg, svn, etc.).
