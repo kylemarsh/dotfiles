@@ -1,4 +1,4 @@
-tmux|tmux terminal multiplexer,
+screen|updated screen terminfo for tmux terminal multiplexer,
   sitm=\E[3m, ritm=\E23m,
   smso=\E[7m, rmso=\E27m,
   use=screen,

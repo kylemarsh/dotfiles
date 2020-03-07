@@ -50,12 +50,13 @@ fpath=($HOME/lib/zsh/functions $fpath)
 unsetopt share_history
 
 # Fuzzy Finder:
-if [[ ! "$PATH" == */home/kmarsh/dotfiles/fzf/bin* ]]; then
+if [[ ! "$PATH" == *$HOME/dotfiles/fzf/bin* ]]; then
   export PATH="${PATH:+${PATH}:}/home/kmarsh/dotfiles/fzf/bin"
 fi
-[[ $- == *i* ]] && source "/home/kmarsh/dotfiles/fzf/shell/completion.zsh" 2> /dev/null # auto-completion
-source "/home/kmarsh/dotfiles/fzf/shell/key-bindings.zsh"
-
+[[ $- == *i* ]] && source "$HOME/dotfiles/fzf/shell/completion.zsh" 2> /dev/null # auto-completion
+if [[ -f $HOME/dotfiles/fzf/shell/key-bindings.zsh ]]; then
+    source "$HOME/dotfiles/fzf/shell/key-bindings.zsh"
+fi
 
 # Git prompt stuff
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
