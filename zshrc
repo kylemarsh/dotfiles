@@ -57,6 +57,12 @@ fi
 if [[ -f $HOME/dotfiles/fzf/shell/key-bindings.zsh ]]; then
     source "$HOME/dotfiles/fzf/shell/key-bindings.zsh"
 fi
+#source "$HOME/dotfiles/zsh/test.sh"
+#if [[ -f $HOME/dotfiles/zsh/git-fzf.sh ]]; then
+    #source "$HOME/dotfiles/zsh/git-fzf.sh"
+    #source "$HOME/dotfiles/zsh/git-fzf-zsh.sh"
+#fi
+
 
 # Git prompt stuff
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
