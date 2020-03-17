@@ -25,7 +25,7 @@ DISABLE_AUTO_UPDATE="true" #oh-my-zsh updates
 # DISABLE_AUTO_TITLE="true"
 # DISABLE_CORRECTION="true"
 
-base_plugins=(git history screen virtualenv)
+base_plugins=(history screen virtualenv)
 etsy_plugins=()
 python_plugins=(pip virtualenvwrapper)
 mac_plugins=(battery brew)
@@ -57,11 +57,9 @@ fi
 if [[ -f $HOME/dotfiles/fzf/shell/key-bindings.zsh ]]; then
     source "$HOME/dotfiles/fzf/shell/key-bindings.zsh"
 fi
-#source "$HOME/dotfiles/zsh/test.sh"
-#if [[ -f $HOME/dotfiles/zsh/git-fzf.sh ]]; then
-    #source "$HOME/dotfiles/zsh/git-fzf.sh"
-    #source "$HOME/dotfiles/zsh/git-fzf-zsh.sh"
-#fi
+if [[ -f $HOME/dotfiles/zsh/git-fzf.sh ]]; then
+    source "$HOME/dotfiles/zsh/git-fzf.sh"
+fi
 
 
 # Git prompt stuff
