@@ -309,3 +309,9 @@ function man() {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
