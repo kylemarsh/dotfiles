@@ -186,13 +186,17 @@ hi User2 term=inverse,bold cterm=inverse,bold ctermfg=124
 """ ALE settings
 let g:ale_echo_msg_format = '[%linter%] %code: %%s [%severity%]'
 let g:ale_linters = {
-\ 'php' : ['langserver', 'phan', 'php', 'phpmd', 'phpstan', 'psalm']
+\ 'php' : ['langserver', 'phan', 'php', 'phpmd', 'phpstan', 'psalm'],
 \}
+"let g:ale_sign_error = '✘'
+"let g:ale_sign_warning = '⚠'
+"let g:ale_lint_on_enter = 0
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_save = 1
+"highlight ALEErrorSign ctermbg=NONE ctermfg=red
+"highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 noremap <Leader>t :ALEFix<CR>
 """
-
-
-let g:jsx_ext_required = 0 " allow jsx in normal JS files
 
 function! SuperTab()
 	if (strpart(getline('.'),col('.')-2,1) =~ '^\W\?$')
