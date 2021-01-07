@@ -138,6 +138,8 @@ noremap <silent> gs :GFiles?<CR>
 
 
 autocmd FileType gitcommit DiffGitCached | wincmd L | wincmd p | vertical resize 83
+autocmd FileType gitcommit 1
+
 augroup markdown
 	au!
 	au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown

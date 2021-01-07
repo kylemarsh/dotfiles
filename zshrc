@@ -155,6 +155,9 @@ if [[ $machine_type =~ ':etsy' ]]; then
     if [ -d ~/development/Etsyweb ]; then
         alias plib="nocorrect cd ~/development/Etsyweb/phplib"
         alias plib..="nocorrect cd ~/development/Etsyweb"
+        alias olfscript="nocorrect cd ~/development/olf-scripts"
+        alias ks="nocorrect cd ~/development/EtsyKafka/kafkastreams"
+        alias olfks="nocorrect cd ~/development/EtsyKafka/kafkastreams/olf/src/main/java/com/etsy/streams"
     fi
 
     # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
@@ -163,7 +166,7 @@ if [[ $machine_type =~ ':etsy' ]]; then
 
     alias ksd='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace kafkastreams'
     alias ksp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace kafkastreams'
-    alias td='kubectl --cluster gke_etsy-kafka-gke-_us-central1_kafka-gke-dev --namespace tanuki'
+    alias td='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace tanuki'
     alias tp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace tanuki'
 fi
 
@@ -295,6 +298,11 @@ function pullall() {
         git -C $i pull --rebase
     done
 }
+
+function page() {
+    tail -n+$2 $3 | head -$1
+}
+
 
 # Make man's output colorized:
 function man() {
