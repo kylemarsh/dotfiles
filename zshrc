@@ -179,11 +179,6 @@ function gvm {
 	mosh kmarsh@kmarsh-search.vm.dev.etsycloud.com
 }
 
-function pvm {
-	add-etsy-keys
-	mosh kmarsh@www.kmarsh.vms.etsy.com
-}
-
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent

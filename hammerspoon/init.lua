@@ -62,15 +62,15 @@ function focusScreen(direction)
 end
 
 -- Individual applications
-focusMode:bind('', 'T', function() focusApp('iTerm2') end)
-focusMode:bind('', 'G', function() focusApp('Google Chrome') end)
+focusMode:bind('', 'D', function() focusApp('Discord') end)
 focusMode:bind('', 'F', function() focusApp('Firefox') end)
-focusMode:bind('', 'M', function() focusApp('iTunes') end)
-focusMode:bind('', 'S', function() focusApp('Slack') end)
+focusMode:bind('', 'G', function() focusApp('Google Chrome') end)
+focusMode:bind('', 'K', function() focusApp('Keybase') end)
+focusMode:bind('', 'M', function() focusApp('Music') end)
 focusMode:bind('', 'N', function() focusApp('Quiver') end)
 focusMode:bind('', 'Q', function() focusApp('Quiver') end)
-focusMode:bind('', 'V', function() focusApp('VidyoConnect') end)
-focusMode:bind('', 'K', function() focusApp('Keybase') end)
+focusMode:bind('', 'S', function() focusApp('Slack') end)
+focusMode:bind('', 'T', function() focusApp('iTerm2') end)
 
 -- Other Controls
 focusMode:bind('', 'return', function()
