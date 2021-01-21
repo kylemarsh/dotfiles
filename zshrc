@@ -176,7 +176,7 @@ fi
 
 function gvm {
 	add-etsy-keys
-	mosh kmarsh@kmarsh-search.vm.dev.etsycloud.com
+	ssh kmarsh@kmarsh-search.vm.dev.etsycloud.com
 }
 
 SSH_ENV="$HOME/.ssh/environment"
