@@ -1,7 +1,7 @@
 hs.loadSpoon("Caffeine")
 spoon.Caffeine:start()
 
---------------------------------------------------------------------------
+--[[--------------------------------------------------------------------------
 -- Window Movement Bindings
 --------------------------------------------------------------------------
 hs.loadSpoon("WinWin")
@@ -31,6 +31,31 @@ hs.hotkey.bind({'cmd', 'ctrl'}, 'Z', function()
 	spoon.WinWin:undo()
 end)
 
+hs.hotkey.bind({'cmd', 'shift'}, 'H', function()
+	windows = hs.window.frontmostWindow():windowsToWest()
+	if windows[1] then
+		windows[1]:focus()
+	end
+end)
+hs.hotkey.bind({'cmd', 'shift'}, 'L', function()
+	windows = hs.window.frontmostWindow():windowsToEast()
+	if windows[1] then
+		windows[1]:focus()
+	end
+end)
+hs.hotkey.bind({'cmd', 'shift'}, 'K', function()
+	windows = hs.window.frontmostWindow():windowsToNorth()
+	if windows[1] then
+		windows[1]:focus()
+	end
+end)
+hs.hotkey.bind({'cmd', 'shift'}, 'J', function()
+	windows = hs.window.frontmostWindow():windowsToSouth()
+	if windows[1] then
+		windows[1]:focus()
+	end
+end)
+]]
 --------------------------------------------------------------------------
 -- Focus Modal Bindings
 --------------------------------------------------------------------------
@@ -82,31 +107,7 @@ focusMode:bind('', 'escape', function()
 	focusMode:exit()
 end)
 
-hs.hotkey.bind({'cmd', 'shift'}, 'H', function()
-	windows = hs.window.frontmostWindow():windowsToWest()
-	if windows[1] then
-		windows[1]:focus()
-	end
-end)
-hs.hotkey.bind({'cmd', 'shift'}, 'L', function()
-	windows = hs.window.frontmostWindow():windowsToEast()
-	if windows[1] then
-		windows[1]:focus()
-	end
-end)
-hs.hotkey.bind({'cmd', 'shift'}, 'K', function()
-	windows = hs.window.frontmostWindow():windowsToNorth()
-	if windows[1] then
-		windows[1]:focus()
-	end
-end)
-hs.hotkey.bind({'cmd', 'shift'}, 'J', function()
-	windows = hs.window.frontmostWindow():windowsToSouth()
-	if windows[1] then
-		windows[1]:focus()
-	end
-end)
-
+--[[
 -- example code for focusing the next screen:
 -- https://github.com/Hammerspoon/hammerspoon/issues/835
 function focusScreen(screen)
@@ -124,5 +125,5 @@ end
 
 hs.hotkey.bind('alt', '\\', function()
 	focusScreen(hs.window.focusedWindow():screen():next())
-end)
+end)]]
 
