@@ -4,11 +4,13 @@ ctrl + alt - l : yabai -m window --focus east
 ctrl + alt - k : yabai -m window --focus north
 ctrl + alt - j : yabai -m window --focus south
 
-ctrl + alt - m : yabai -m window --focus recent
+ctrl + alt - 0x2F : yabai -m window --focus recent       # . period
 
-ctrl + alt - 0x35 : yabai -m window --focus stack.recent       # escape
-ctrl + alt - 0x32 : yabai -m window --focus stack.next         # ` backtick
-ctrl + alt + shift - 0x32 : yabai -m window --focus stack.prev # ~ tilde
+ctrl + alt - m    : yabai -m window --focus stack.next
+ctrl + alt - 0x2B : yabai -m window --focus stack.prev   # , comma
+ctrl + alt - 0x35 : yabai -m window --focus stack.recent # escape
+#ctrl + alt - 0x32 : yabai -m window --focus stack.next         # ` backtick
+#ctrl + alt + shift - 0x32 : yabai -m window --focus stack.prev # ~ tilde
 
 # swap managed window
 ctrl + alt + shift - h : yabai -m window --swap west
