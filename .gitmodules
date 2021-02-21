@@ -43,6 +43,9 @@
 [submodule "vim/bundle/fzf"]
 	path = vim/bundle/fzf
 	url = https://github.com/junegunn/fzf
+[submodule "fzf"]
+	path = fzf
+	url = https://github.com/junegunn/fzf.git
 [submodule "vim/bundle/fzf.vim"]
 	path = vim/bundle/fzf.vim
 	url = https://github.com/junegunn/fzf.vim
@@ -52,6 +55,3 @@
 [submodule "vim/bundle/vim-js"]
 	path = vim/bundle/vim-js
 	url = https://github.com/yuezk/vim-js.git
-[submodule "vim/bundle/typescript-vim"]
-	path = vim/bundle/typescript-vim
-	url = https://github.com/leafgarland/typescript-vim.git
