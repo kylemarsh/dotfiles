@@ -98,6 +98,7 @@ export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export MYSQL_PS1="\d> "
+export GPG_TTY=$(tty)
 
 # set PATH so it includes user's private bin, local/bin and tools
 # directories if they exist
