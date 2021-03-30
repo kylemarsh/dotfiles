@@ -156,6 +156,10 @@ if [[ $machine_type =~ ':etsy' ]]; then
     if [ -d ~/development/Etsyweb ]; then
         alias plib="nocorrect cd ~/development/Etsyweb/phplib"
         alias plib..="nocorrect cd ~/development/Etsyweb"
+        alias punit="nocorrect cd ~/development/Etsyweb/tests/phpunit"
+        alias punit..="nocorrect cd ~/development/Etsyweb/tests"
+        alias oneoffs="nocorrect cd ~/oneoffs/"
+        alias oneoff="nocorrect cd ~/oneoffs/"
         alias olfscript="nocorrect cd ~/development/olf-scripts"
         alias ks="nocorrect cd ~/development/EtsyKafka/kafkastreams"
         alias olfks="nocorrect cd ~/development/EtsyKafka/kafkastreams/olf/src/main/java/com/etsy/streams"
