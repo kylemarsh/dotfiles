@@ -195,7 +195,7 @@ function add-personal-keys {
 			ssh-add -t 432000 # Basic ID active for 5 days
 			# $SSH_AUTH_SOCK broken so we start a new proper agent
 			if [ $? -eq 2 ];then
-				start_agent
+				start_ssh_agent
 			fi
 		fi
 	fi
@@ -207,7 +207,7 @@ function add-etsy-keys {
 		ssh-add -t 32400 ~/.ssh/*-etsy.rsa # Etsy IDs active for 9 hours
 		# $SSH_AUTH_SOCK broken so we start a new proper agent
 		if [ $? -eq 2 ];then
-			start_agent
+			start_ssh_agent
 		fi
 	fi
 }
@@ -233,7 +233,7 @@ function encall {
 }
 
 # start the ssh-agent
-function start_agent {
+function start_ssh_agent {
 	echo "Initializing new SSH agent..."
 	# spawn ssh-agent
 	ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
@@ -251,7 +251,7 @@ function reset_ssh_auth {
 	if [ $? -eq 0 ]; then
 		add-personal-keys
 	else
-		start_agent
+		start_ssh_agent
 	fi
 }
 
@@ -271,7 +271,7 @@ else
 	if [ $? -eq 0 ]; then
 		add-personal-keys
 	else
-		start_agent
+		start_ssh_agent
 	fi
 fi
 
