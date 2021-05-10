@@ -2,46 +2,82 @@ hs.loadSpoon("Caffeine")
 spoon.Caffeine:start()
 
 --------------------------------------------------------------------------
--- Window Movement Bindings
+-- Constants
 --------------------------------------------------------------------------
-hs.loadSpoon("WinWin")
 winfocus = {'alt', 'ctrl'}
 winmove = {'cmd', 'alt', 'ctrl'}
 
+hs.hotkey.bind(winfocus, 'r', function()
+    hs.reload()
+end)
+
+--------------------------------------------------------------------------
+-- Window Movement Bindings
+--------------------------------------------------------------------------
 local resizebindings = {
-	{key = 'H', position = 'halfleft',  focus = hs.window.filter.focusWest},
-	{key = 'L', position = 'halfright', focus = hs.window.filter.focusEast},
-	{key = 'K', position = 'halfup',    focus = hs.window.filter.focusNorth},
-	{key = 'J', position = 'halfdown',  focus = hs.window.filter.focusSouth},
-	{key = 'Y', position = 'cornerNW'},
-	{key = 'O', position = 'cornerNE'},
-	{key = 'N', position = 'cornerSW'},
-	{key = '.', position = 'cornerSE'},
-	{key = 'U', position = 'fullscreen'},
+    -- Shift focus and snap focused window to half-screen positions
+	{key = 'H', position = '[0,0,50,100]', focus = hs.window.filter.focusWest},
+	{key = 'L', position = '[50,0,100,100]', focus = hs.window.filter.focusEast},
+	{key = 'K', position = '[0,0,100,50]',    focus = hs.window.filter.focusNorth},
+	{key = 'J', position = '[0,50,100,100]',  focus = hs.window.filter.focusSouth},
+
+    -- Resize focused window on grid
+	{key = 'space', gridFunc = hs.grid.maximizeWindow},
+	{key = '.', gridFunc = hs.grid.snap},
+	{key = '=', gridFunc = hs.grid.resizeWindowWider},
+	{key = '-', gridFunc = hs.grid.resizeWindowThinner},
+	{key = '\\', gridFunc = hs.grid.resizeWindowTaller},
+	{key = '\'', gridFunc = hs.grid.resizeWindowShorter},
+    -- Move focused window on grid
+	{key = 'Y', gridFunc = hs.grid.pushWindowLeft},
+	{key = 'U', gridFunc = hs.grid.pushWindowDown},
+	{key = 'I', gridFunc = hs.grid.pushWindowUp},
+	{key = 'O', gridFunc = hs.grid.pushWindowRight},
 }
 
 for _,v in ipairs(resizebindings) do
-	hs.hotkey.bind(winmove, v.key, function()
-		spoon.WinWin:moveAndResize(v.position)
-	end)
+	if v.position then
+        hs.hotkey.bind(winmove, v.key, function()
+            hs.alert(v.position)
+            hs.window.focusedWindow():moveToUnit(v.position)
+        end)
+    end
 	if v.focus then
 		hs.hotkey.bind(winfocus, v.key, function()
             v.focus()
+            --TODO: maybe also center cursor in new window?
+            -- Or instead, flash the frame, if I can do that?
 		end)
 	end
+    if v.gridFunc then
+        hs.hotkey.bind(winfocus, v.key, function()
+            v.gridFunc(hs.window.focusedWindow())
+        end)
+    end
 end
 
--- TODO: Explore tweaking this
-hs.hotkey.bind(winfocus, 'g', function()
+--------------------------------------------------------------------------
+-- Grid Settings
+--------------------------------------------------------------------------
+-- Use a 2x2 grid on the built-in display but a 3x2 grid on the external
+hs.grid.setGrid('2x2', hs.screen.primaryScreen())
+if (#hs.screen.allScreens() > 1) then
+    -- TODO: maybe instead of explicit screens, loop over screens and check sizes?
+    hs.grid.setGrid('3x2', hs.screen.primaryScreen():next())
+end
+hs.grid.HINTS={
+    {'f9', 'f10', 'f12'}, -- doesn't make sense on my kyria
+    {'2', '3', '4'},      --doesn't make sense on my kyria
+    {'w','e','r'},
+    {'s','d','f'},
+    {'x','c','v'}
+}
+hs.hotkey.bind(winfocus, 'c', function()
     hs.grid.show()
 end)
 
--- TOOD: can hammerspoon remember the previous location?
---[[hs.hotkey.bind({'cmd', 'alt', 'ctrl'}, 'Z', function()
-	spoon.WinWin:undo()
-end)]]
-
 --FIXME: update this to use hs.window.filter(?) and hs.window or something
+--FIXME: center mouse in focused window, not the whole screen
 -- example code for focusing the next screen:
 -- https://github.com/Hammerspoon/hammerspoon/issues/835
 function focusScreen(screen)
@@ -63,32 +99,7 @@ hs.hotkey.bind(winfocus, '/', function()
 end)
 
 --TODO: figure out key bindings for moving windows between screens
---[[ move screens
---hs.hotkey.bind({'cmd', 'shift'}, 'H', function()
-	--windows = hs.window.frontmostWindow():windowsToWest()
-	--if windows[1] then
-		--windows[1]:focus()
-	--end
---end)
---hs.hotkey.bind({'cmd', 'shift'}, 'L', function()
-	--windows = hs.window.frontmostWindow():windowsToEast()
-	--if windows[1] then
-		--windows[1]:focus()
-	--end
---end)
---hs.hotkey.bind({'cmd', 'shift'}, 'K', function()
-	--windows = hs.window.frontmostWindow():windowsToNorth()
-	--if windows[1] then
-		--windows[1]:focus()
-	--end
---end)
---hs.hotkey.bind({'cmd', 'shift'}, 'J', function()
-	--windows = hs.window.frontmostWindow():windowsToSouth()
-	--if windows[1] then
-		--windows[1]:focus()
-	--end
---end)
---]]
+-- ehhhh...pushwindowleft/right seems to work.
 
 --------------------------------------------------------------------------
 -- Focus Modal Bindings
