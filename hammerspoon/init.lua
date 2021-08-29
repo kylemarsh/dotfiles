@@ -1,11 +1,13 @@
 hs.loadSpoon("Caffeine")
 spoon.Caffeine:start()
 
+--[[
 hs.window.highlight.ui.frameWidth = 5
 hs.window.highlight.ui.frameColor = {0,0.6,1,0.5}
 hs.window.highlight.ui.overlayColor = {0,0,0,0.05}
 hs.window.highlight.ui.overlay = true
 hs.window.highlight.start();
+]]
 --------------------------------------------------------------------------
 -- Constants
 --------------------------------------------------------------------------
