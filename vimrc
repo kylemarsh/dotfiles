@@ -227,12 +227,15 @@ if !empty(glob('~/development/Etsyweb/'))
             \~/development/Etsyweb/htdocs/assets/css,
             \~/development/Etsyweb/phplib/Api,
             \~/development/Etsyweb/phplib/Api/Resource
-    set includeexpr=substitute(v:fname,'_','/','g')
+    " add \ to filenames so that we can get whole namespaced filenames
+    set isfname+=\
+    " make `gf` Etsyweb aware!
+    set includeexpr=substitute(substitute(substitute(v:fname,'_','/','g'),'\\\','/','g'),'Etsy/Web/','','g')
     set suffixesadd+=.php
-	set suffixesadd+=.tpl
-	set suffixesadd+=.js
-	set suffixesadd+=.jsx
-	set suffixesadd+=.mustache
+    set suffixesadd+=.tpl
+    set suffixesadd+=.js
+    set suffixesadd+=.jsx
+    set suffixesadd+=.mustache
 endif
 
 """ GO Stuff
