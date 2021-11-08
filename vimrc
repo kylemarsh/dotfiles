@@ -251,12 +251,14 @@ endfunction
 
 
 """"""""""""
+" TODO: add a :Files alias that goes to the repository root, or lets me type
+nnoremap <Leader>e :Files<CR>
 nnoremap <Leader>f :bnext<CR>
 nnoremap <Leader>d :bprev<CR>
 
 " Running tests
 nnoremap <Leader>r :!run_test %<CR>
-nnoremap <Leader>c :!run_test -ng %<CR>
+"nnoremap <Leader>c :!run_test -ng %<CR>
 
 " Config files
 command ConD :e phplib/EtsyConfig/development.php
