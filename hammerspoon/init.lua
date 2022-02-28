@@ -66,18 +66,40 @@ end
 --------------------------------------------------------------------------
 -- Grid Settings
 --------------------------------------------------------------------------
--- Use a 2x2 grid on the built-in display but a 3x2 grid on the external
-hs.grid.setGrid('2x2', hs.screen.primaryScreen())
-if (#hs.screen.allScreens() > 1) then
-    -- TODO: maybe instead of explicit screens, loop over screens and check sizes?
-    hs.grid.setGrid('3x2', hs.screen.primaryScreen():next())
+for _,screen in pairs(hs.screen.allScreens()) do
+    if (string.find(screen:name(), 'Built.in Retina Display')) then
+        -- Laptop display
+        hs.grid.setGrid('2x2', screen)
+    end
+    if (string.find(screen:name(), 'UP2716D')) then
+        -- 27" dell (QHD / 2k / WQHD / 2560x1440)
+        --hs.grid.setGrid('3x2', screen)
+        hs.grid.setGrid('6x2', screen)
+    end
+    if (string.find(screen:name(), 'U4021QW')) then
+        -- 40" dell (5k2k / 5120x2160)
+        hs.grid.setGrid('6x2', screen)
+    end
 end
+
+--hs.grid.setGrid('2x2', hs.screen.find('Built.in Retina Display'))
+--if (#hs.screen.allScreens() > 1) then
+    ---- TODO: maybe instead of explicit screens, loop over screens and check sizes?
+    --hs.grid.setGrid('3x2', hs.screen.find('DELL UP2716D'))
+--end
 --TODO use hs.screen.watcher to detect when a monitor is plugged in or removed
 --and re-set the grid
 
+--hs.grid.HINTS={
+    --{'1','2','3','4','5'}, -- doesn't make sense on my kyria
+    --{'6','7','8','9','0'}, -- doesn't make sense on my kyria
+    --{'q','w','e','r','t'},
+    --{'a','s','d','f','g'},
+    --{'z','x','c','v','b'}
+--}
 hs.grid.HINTS={
-    {'f9', 'f10', 'f12'}, -- doesn't make sense on my kyria
-    {'2', '3', '4'},      --doesn't make sense on my kyria
+    {'2','3','4'}, -- doesn't make sense on my kyria
+    {'7','8','9'}, -- doesn't make sense on my kyria
     {'w','e','r'},
     {'s','d','f'},
     {'x','c','v'}
