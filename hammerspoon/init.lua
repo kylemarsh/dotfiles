@@ -66,29 +66,37 @@ end
 --------------------------------------------------------------------------
 -- Grid Settings
 --------------------------------------------------------------------------
-for _,screen in pairs(hs.screen.allScreens()) do
-    if (string.find(screen:name(), 'Built.in Retina Display')) then
-        -- Laptop display
-        hs.grid.setGrid('2x2', screen)
+function determineGrid(screen)
+    mode = screen:currentMode()
+    height = mode['h']
+    width = mode['w']
+
+    -- default to a 2x2 grid on the laptop screen
+    rows = 2
+    columns = 2
+
+    if width < 2000 then
+        columns = 2
     end
-    if (string.find(screen:name(), 'UP2716D')) then
-        -- 27" dell (QHD / 2k / WQHD / 2560x1440)
-        --hs.grid.setGrid('3x2', screen)
-        hs.grid.setGrid('6x2', screen)
+    if width > 2000 and width < 3500 then
+        columns = 3
     end
-    if (string.find(screen:name(), 'U4021QW')) then
-        -- 40" dell (5k2k / 5120x2160)
-        hs.grid.setGrid('6x2', screen)
+    if width > 3500  and width < 5000 then
+        columns = 6
     end
+    if width > 5000 then
+        columns = 5
+    end
+    return columns .. 'x' .. rows
 end
 
---hs.grid.setGrid('2x2', hs.screen.find('Built.in Retina Display'))
---if (#hs.screen.allScreens() > 1) then
-    ---- TODO: maybe instead of explicit screens, loop over screens and check sizes?
-    --hs.grid.setGrid('3x2', hs.screen.find('DELL UP2716D'))
---end
---TODO use hs.screen.watcher to detect when a monitor is plugged in or removed
---and re-set the grid
+for _,screen in pairs(hs.screen.allScreens()) do
+    hs.grid.setGrid(determineGrid(screen), screen)
+end
+
+hs.hotkey.bind(winfocus, 'p', function()
+    print(determineGrid(hs.screen.mainScreen()))
+end)
 
 --hs.grid.HINTS={
     --{'1','2','3','4','5'}, -- doesn't make sense on my kyria
