@@ -98,20 +98,20 @@ hs.hotkey.bind(winfocus, 'p', function()
     print(determineGrid(hs.screen.mainScreen()))
 end)
 
---hs.grid.HINTS={
-    --{'1','2','3','4','5'}, -- doesn't make sense on my kyria
-    --{'6','7','8','9','0'}, -- doesn't make sense on my kyria
-    --{'q','w','e','r','t'},
-    --{'a','s','d','f','g'},
-    --{'z','x','c','v','b'}
---}
 hs.grid.HINTS={
-    {'2','3','4'}, -- doesn't make sense on my kyria
-    {'7','8','9'}, -- doesn't make sense on my kyria
-    {'w','e','r'},
-    {'s','d','f'},
-    {'x','c','v'}
+    {'1','2','3','4','5'}, -- doesn't make sense on my kyria
+    {'6','7','8','9','0'}, -- doesn't make sense on my kyria
+    {'q','w','e','r','t'},
+    {'a','s','d','f','g'},
+    {'z','x','c','v','b'}
 }
+--hs.grid.HINTS={
+    --{'2','3','4'},  -- doesn't make sense on my kyria
+    --{'7','8','9'},  -- doesn't make sense on my kyria
+    --{'w','e','r'},
+    --{'s','d','f'},
+    --{'x','c','v'}
+--}
 hs.hotkey.bind(winfocus, 'c', function()
     hs.grid.show()
 end)
