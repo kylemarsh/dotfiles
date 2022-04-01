@@ -32,10 +32,10 @@ local resizebindings = {
     -- Resize focused window on grid
     {key = 'space', gridFunc = hs.grid.maximizeWindow},
     {key = '.', gridFunc = hs.grid.snap},
-    {key = '=', gridFunc = hs.grid.resizeWindowWider},
-    {key = '-', gridFunc = hs.grid.resizeWindowThinner},
-    {key = '\\', gridFunc = hs.grid.resizeWindowTaller},
-    {key = '\'', gridFunc = hs.grid.resizeWindowShorter},
+    {key = 'g', gridFunc = hs.grid.resizeWindowWider},
+    {key = 's', gridFunc = hs.grid.resizeWindowThinner},
+    {key = 'f', gridFunc = hs.grid.resizeWindowTaller},
+    {key = 'd', gridFunc = hs.grid.resizeWindowShorter},
     -- Move focused window on grid
     {key = 'Y', gridFunc = hs.grid.pushWindowLeft},
     {key = 'U', gridFunc = hs.grid.pushWindowDown},
