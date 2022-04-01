@@ -163,6 +163,7 @@ if [[ $machine_type =~ ':etsy' ]]; then
         alias olfscript="nocorrect cd ~/development/olf-scripts"
         alias ks="nocorrect cd ~/development/EtsyKafka/kafkastreams"
         alias olfks="nocorrect cd ~/development/EtsyKafka/kafkastreams/olf/src/main/java/com/etsy/streams"
+        alias sparkly="nocorrect cd ~/development/sparkly"
     fi
 
     # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
