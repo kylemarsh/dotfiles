@@ -61,3 +61,6 @@
 [submodule "vim/bundle/vim-terraform"]
 	path = vim/bundle/vim-terraform
 	url = https://github.com/hashivim/vim-terraform.git
+[submodule "vim-scala"]
+	path = vim-scala
+	url = https://github.com/derekwyatt/vim-scala.git
