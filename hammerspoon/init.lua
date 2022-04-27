@@ -31,11 +31,11 @@ local resizebindings = {
 
     -- Resize focused window on grid
     {key = 'space', gridFunc = hs.grid.maximizeWindow},
-    {key = '.', gridFunc = hs.grid.snap},
-    {key = 'g', gridFunc = hs.grid.resizeWindowWider},
-    {key = 's', gridFunc = hs.grid.resizeWindowThinner},
-    {key = 'f', gridFunc = hs.grid.resizeWindowTaller},
-    {key = 'd', gridFunc = hs.grid.resizeWindowShorter},
+    {key = '/', gridFunc = hs.grid.snap},
+    {key = '.', gridFunc = hs.grid.resizeWindowWider},
+    {key = 'N', gridFunc = hs.grid.resizeWindowThinner},
+    {key = 'M', gridFunc = hs.grid.resizeWindowTaller},
+    {key = ',', gridFunc = hs.grid.resizeWindowShorter},
     -- Move focused window on grid
     {key = 'Y', gridFunc = hs.grid.pushWindowLeft},
     {key = 'U', gridFunc = hs.grid.pushWindowDown},
@@ -116,6 +116,7 @@ hs.hotkey.bind(winfocus, 'c', function()
     hs.grid.show()
 end)
 
+--[[
 hs.hotkey.bind(winfocus, '/', function()
     -- First get the most recently-focused window on the next screen:
     local wf = hs.window.filter.new()
@@ -128,6 +129,7 @@ hs.hotkey.bind(winfocus, '/', function()
     nextWindow:focus()
     centerMouse()
 end)
+]]
 --TODO: figure out key bindings for moving windows between screens
 -- ehhhh...pushwindowleft/right seems to work.
 
