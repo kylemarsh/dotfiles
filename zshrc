@@ -10,9 +10,10 @@ case $fullname in
 		machine_type="${machine_type}:python:home:go"
 		;;
 	*etsy.com) ;&
-	*etsycloud.com)
+	*etsycloud.com) ;&
 	#*etsy.com) ;&
 	#*goibniu*)
+	10162*)
 		machine_type="${machine_type}:etsy"
 		;;
 esac
@@ -148,6 +149,9 @@ fi
 
 # Work paths and aliases
 if [[ $machine_type =~ ':etsy' ]]; then
+    # Homebrew needs this now:
+    eval $(/opt/homebrew/bin/brew shellenv)
+
 	# Tail php logs on the VM
 	alias tl='sudo tail -f /var/log/httpd/php.log /var/log/httpd/info.log /var/log/httpd/error_log /var/log/gearman/php.log'
     if [ -f ~/development/bin/xdebug_toggle ]; then
@@ -164,6 +168,10 @@ if [[ $machine_type =~ ':etsy' ]]; then
         alias ks="nocorrect cd ~/development/EtsyKafka/kafkastreams"
         alias olfks="nocorrect cd ~/development/EtsyKafka/kafkastreams/olf/src/main/java/com/etsy/streams"
         alias sparkly="nocorrect cd ~/development/sparkly"
+    fi
+
+    if [ -f ~/bin/cloudsnooze ]; then
+        source ~/bin/cloudsnooze
     fi
 
     # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
@@ -308,7 +316,7 @@ function man() {
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/kmarsh/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/bin/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc'; fi
