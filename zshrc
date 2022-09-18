@@ -19,7 +19,7 @@ case $fullname in
 esac
 
 # Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+ZSH=$HOME/.ohmyzsh
 ZSH_THEME="kylemarsh"
 CASE_SENSITIVE="false"
 DISABLE_AUTO_UPDATE="true" #oh-my-zsh updates

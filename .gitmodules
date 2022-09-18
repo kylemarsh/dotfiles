@@ -1,9 +1,6 @@
 [submodule "vim/bundle/vim-pathogen"]
 	path = vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
-[submodule "oh-my-zsh"]
-	path = oh-my-zsh
-	url = git@github.com:kylemarsh/oh-my-zsh.git
 [submodule "vim/bundle/vim-flavored-markdown"]
 	path = vim/bundle/vim-flavored-markdown
 	url = git@github.com:jtratner/vim-flavored-markdown.git
@@ -64,3 +61,6 @@
 [submodule "vim-scala"]
 	path = vim-scala
 	url = https://github.com/derekwyatt/vim-scala.git
+[submodule "ohmyzsh"]
+	path = ohmyzsh
+	url = https://github.com/ohmyzsh/ohmyzsh.git
