@@ -138,6 +138,11 @@ fi
 
 # Mac (and not-mac) things
 if [[ $machine_type =~ ':mac' ]]; then
+    # Homebrew needs this now:
+	if [ -f /opt/homebrew/bin/brew ]; then
+        eval $(/opt/homebrew/bin/brew shellenv)
+    fi
+
 	export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 	PATH="/Users/kylem/perl5/bin${PATH:+:${PATH}}"; export PATH;
 	PERL5LIB="/Users/kylem/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
@@ -149,9 +154,6 @@ fi
 
 # Work paths and aliases
 if [[ $machine_type =~ ':etsy' ]]; then
-    # Homebrew needs this now:
-    eval $(/opt/homebrew/bin/brew shellenv)
-
 	# Tail php logs on the VM
 	alias tl='sudo tail -f /var/log/httpd/php.log /var/log/httpd/info.log /var/log/httpd/error_log /var/log/gearman/php.log'
     if [ -f ~/development/bin/xdebug_toggle ]; then
