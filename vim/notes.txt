@@ -1,0 +1,5 @@
+To set up php `langserver`:
+
+composer require felixfbecker/language-server
+composer run-script --working-dir=vendor/felixfbecker/language-server parse-stubs
+php vendor/felixfbecker/language-server/bin/php-language-server.php
