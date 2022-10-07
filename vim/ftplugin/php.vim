@@ -1,6 +1,6 @@
 " ALE settings for PHP
 let g:ale_linters = {'php': ['php', 'phpcs']}
-"let g:ale_fixers = {'php': [???]}
+let g:ale_fixers = {'php': ['phpcbf']}
 "let g:ale_fix_on_save = 1
 
 function! SetCodeSnifferStandard()
