@@ -160,6 +160,7 @@ function focusApp(appName)
 end
 
 -- Individual applications
+focusMode:bind('', 'A', function() focusApp('Arc') end)
 focusMode:bind('', 'D', function() focusApp('Discord') end)
 focusMode:bind('', 'F', function() focusApp('Firefox') end)
 focusMode:bind('', 'G', function() focusApp('Google Chrome') end)
