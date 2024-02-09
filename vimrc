@@ -134,8 +134,13 @@ endif
 "fzf stuff
 command! -bang -nargs=* GGrep call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 noremap <silent> gs :GFiles?<CR>
-
-
+nmap <leader>m <plug>(fzf-maps-n)
+xmap <leader>m <plug>(fzf-maps-x)
+omap <leader>m <plug>(fzf-maps-o)
+nmap <C-n> :Buffers<CR>
+nmap <C-m> :GFiles<CR>
+nmap <C-g> :GFiles?<CR>
+nmap <C-p> :History<CR>
 
 autocmd FileType gitcommit DiffGitCached | wincmd L | wincmd p | vertical resize 83
 autocmd FileType gitcommit 1
@@ -150,10 +155,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-
-" quicker buffer navigation
-nnoremap <C-n> :next<CR>
-nnoremap <C-p> :prev<CR>
 
 " get the commandline more quickly
 " note...this aliases ; which turns out to be really handy!
