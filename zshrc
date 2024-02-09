@@ -151,6 +151,7 @@ if [[ $machine_type =~ ':mac' ]]; then
 	PERL_MM_OPT="INSTALL_BASE=/Users/kylem/perl5"; export PERL_MM_OPT;
 fi
 
+alias vit="vim -c Git -c only"
 
 # Work paths and aliases
 if [[ $machine_type =~ ':etsy' ]]; then
@@ -160,6 +161,7 @@ if [[ $machine_type =~ ':etsy' ]]; then
         source ~/development/bin/xdebug_toggle
     fi
     if [ -d ~/development/Etsyweb ]; then
+        alias emods="nocorrect cd ~/development/Etsyweb/modules"
         alias plib="nocorrect cd ~/development/Etsyweb/phplib"
         alias plib..="nocorrect cd ~/development/Etsyweb"
         alias punit="nocorrect cd ~/development/Etsyweb/tests/phpunit"
@@ -323,3 +325,9 @@ if [ -f '/Users/kmarsh/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmar
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
