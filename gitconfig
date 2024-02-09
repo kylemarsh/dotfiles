@@ -8,6 +8,8 @@
 	br = branch
 	stat = status
 	st = status
+    last = diff --name-only HEAD^!
+    branch-diff = diff --name-only origin/main... :/
 
 [color]
 	ui = true
