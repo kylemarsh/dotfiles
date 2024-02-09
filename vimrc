@@ -288,3 +288,54 @@ nnoremap <Leader>a> :Tabularize /=><cr>
 vnoremap <Leader>a> :Tabularize /=><cr>
 nnoremap <Leader>a, :Tabularize /,\zs<cr>
 vnoremap <Leader>a, :Tabularize /,\zs<cr>
+
+" Open test for source and viceversa
+function! OpenTestForSourceOrSourceForTest()
+
+    let basename = expand('%:r')
+    let extension = expand('%:e')
+    let path = expand('%:p:h')
+
+    if match(extension, 'php') == -1
+        echo "current file is not a php file"
+        return
+    endif
+
+    if !exists('g:EtsyDir')
+        let g:EtsyDir = $HOME . '/development/Etsyweb'
+    endif
+
+    if match(path, g:EtsyDir) == -1
+        echo "current file is not in Etsyweb"
+        return
+    endif
+
+    let is_likely_module = match(path, '/modules/')
+
+    if match(path, 'tests/phpunit') == -1
+        " current file is not a test, targt opening the test
+        if is_likely_module == -1
+            let path = substitute(path, 'phplib', 'tests/phpunit', 'g')
+        else
+            let path = substitute(path, 'src', 'tests/phpunit', 'g')
+            " Etsystandard module is special :'(
+            let path = substitute(path, 'EtsyStandard/Etsystandard', 'EtsyStandard/tests/phpunit', 'g')
+        endif
+
+        let fn = basename . 'Test'
+        let fn = path . '/' . fn . '.' . extension
+        tabe `=fn`
+    else
+        " current file is a test. Targte opening the source
+        if is_likely_module == -1
+            let path = substitute(path, 'tests/phpunit', 'phplib', 'g')
+        else
+            let path = substitute(path, 'tests/phpunit', 'src', 'g')
+        endif
+
+        let fn = substitute(basename, 'Test$', '', 'g')
+        let fn = path . '/' . fn . '.' . extension
+        tabe `=fn`
+    endif
+endfunction
+nnoremap <Leader>gt :OpenTestForSourceOrSourceForTest<CR>
