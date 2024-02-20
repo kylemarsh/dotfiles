@@ -1,6 +1,7 @@
 [user]
 	name = Kyle Marsh
-	email = kyle.l.marsh+github@gmail.com
+	email = kmarsh@etsy.com
+    signingkey = 9517DB0FC2A8D8F9
 
 [alias]
 	ci = commit
