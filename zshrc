@@ -61,7 +61,9 @@ fi
 if [[ -f $HOME/dotfiles/zsh/git-fzf.sh ]]; then
     source "$HOME/dotfiles/zsh/git-fzf.sh"
 fi
-
+if ! command -v op &> /dev/null; then
+    eval "$(op completion zsh)"; compdef _op op
+fi
 
 # Git prompt stuff
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
@@ -331,3 +333,6 @@ command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+export PKG_CONFIG_PATH="/opt/homebrew/opt/zlib/lib/pkgconfig"
+export LDFLAGS="-L/opt/homebrew/lib"
+export CPPFLAGS="-I/opt/homebrew/include"
