@@ -8,8 +8,8 @@
 	br = branch
 	stat = status
 	st = status
-    last = diff --name-only HEAD^!
-    branch-diff = diff --name-only origin/main... :/
+	last = diff --name-only HEAD^!
+	branch-diff = diff --name-only origin/main... :/
 
 [color]
 	ui = true
@@ -18,15 +18,36 @@
 	status = auto
 	branch = auto
 
-[push]
-	default = current
-
 [core]
 	excludesfile = ~/.gitignore_global
+	symlinks = true
+	pager = delta
+
+[delta]
+	navigate = true
+	light = false
+	line-numbers = true
+	side-by-side = true
+
+[diff]
+	colorMoved = default
 
 [github]
 	user = kmarsh
 [init]
 	defaultBranch = main
+
+[interactive]
+	diffFilter = delta --color-only
+
+[merge]
+	conflictstyle = diff3
+
 [pull]
 	rebase = true
+
+[push]
+	default = current
+
+[rerere]
+	enabled = true
