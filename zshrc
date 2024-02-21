@@ -61,7 +61,7 @@ fi
 if [[ -f $HOME/dotfiles/zsh/git-fzf.sh ]]; then
     source "$HOME/dotfiles/zsh/git-fzf.sh"
 fi
-if ! command -v op &> /dev/null; then
+if command -v op &> /dev/null; then
     eval "$(op completion zsh)"; compdef _op op
 fi
 
@@ -328,9 +328,9 @@ if [ -f '/Users/kmarsh/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmar
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc'; fi
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 if [[ $(pyenv --version) == "pyenv 2.3.17" ]]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
