@@ -3,10 +3,14 @@ let g:ale_linters = {'php': ['php', 'phpcs']}
 let g:ale_fixers = {'php': ['phpcbf']}
 "let g:ale_fix_on_save = 1
 
+""" Folding
+set foldmethod=indent
+set foldcolumn=2
+
 function! SetCodeSnifferStandard()
     let file_directory = expand('%:p:h')
     if file_directory =~ 'Etsyweb/tests/phpunit'
-        let g:ale_php_phpcs_standard = expand('~/development/Etsyweb/tests/standards/phpunit-ruleset.xml')
+        let g:ale_php_phpcs_standard = expand('~/development/Etsyweb/tests/standards/phpunit-ruleset.xml'):
     else
         let g:ale_php_phpcs_standard = expand('~/development/Etsyweb/tests/standards/stable-ruleset.xml')
     endif

@@ -43,6 +43,10 @@ else  " otherwise hilight text that extends past 85 chars
     au BufWinEnter * let w:m2=matchadd('Folded', '\%>85v.\+', -1)
 endif
 
+""" Tab key opens/closes folds
+nnoremap <tab> za
+nnoremap <S-tab> zA
+
 """ Tab settings.  Normally, <tab> inserts 4 spaces (use crtl-v<tab> to
 """ insert a tab).  Also, backspace deletes spaces 4 at a time.
 set expandtab
