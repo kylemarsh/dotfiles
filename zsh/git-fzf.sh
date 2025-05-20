@@ -36,8 +36,8 @@ gt() {
     --preview 'git show --color=always {} | head -'$LINES
 }
 
-# browse commits and return hashes
-gh() {
+# browse commits and return hashes (shas)
+gs() {
   is_in_git_repo || return
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
@@ -70,7 +70,7 @@ bind-git-helper() {
     eval "bindkey '^g$c' fzf-g$c-widget"
   done
 }
-bind-git-helper f b t r h
+bind-git-helper f b t r s
 unset -f bind-git-helper
 
 

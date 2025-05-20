@@ -29,7 +29,7 @@ DISABLE_AUTO_UPDATE="true" #oh-my-zsh updates
 base_plugins=(history screen virtualenv)
 etsy_plugins=()
 python_plugins=(pip virtualenvwrapper)
-mac_plugins=(battery brew)
+mac_plugins=(battery brew asdf)
 
 plugins=($base_plugins)
 if [[ $machine_type =~ ':mac' ]]; then
@@ -338,3 +338,8 @@ fi
 export PKG_CONFIG_PATH="/opt/homebrew/opt/zlib/lib/pkgconfig"
 export LDFLAGS="-L/opt/homebrew/lib"
 export CPPFLAGS="-I/opt/homebrew/include"
+eval "$(pyenv virtualenv-init -)"
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
