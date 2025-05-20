@@ -11,6 +11,7 @@ case $fullname in
 		;;
 	*etsy.com) ;&
 	*etsycloud.com) ;&
+	*etsy-devenv-web-prod*) ;&
 	#*etsy.com) ;&
 	#*goibniu*)
 	10162*)
