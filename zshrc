@@ -196,38 +196,101 @@ fi
 # SSH-y things #
 ################
 
-function gvm {
-	add-etsy-keys
-	ssh kmarsh@kmarsh-search.vm.dev.etsycloud.com
-}
-
+###
+### TODO
+###
+# see if this works on my boromir vm
+# see if this works on my personal computer
+# clean up the echos
+# replace spaces with tabs in this file
+###
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
 function add-personal-keys {
-	# test whether standard identities have been added to the agent already
-	if [ -f ~/.ssh/id_rsa ]; then
-		ssh-add -l | grep "id_rsa" > /dev/null
-		if [ $? -ne 0 ]; then
-			ssh-add -t 432000 # Basic ID active for 5 days
-			# $SSH_AUTH_SOCK broken so we start a new proper agent
-			if [ $? -eq 2 ];then
-				start_ssh_agent
-			fi
-		fi
-	fi
+    echo "adding personal keys" # kmdebug
+    ssh-add -l | grep "id_rsa" > /dev/null #FIXME is this correct?
+    if [ $? -ne 0 ]; then
+        echo "personal keys not found" # kmdebug
+        ssh-add -t 432000 # Basic ID active for 5 days
+    fi
 }
 
 function add-etsy-keys {
-	ssh-add -l | grep "etsy\.rsa" > /dev/null
+    echo "adding etsy keys" # kmdebug
+	ssh-add -l | grep "kmarsh@etsy.com" > /dev/null
 	if [ $? -ne 0 ]; then
-		ssh-add -t 32400 ~/.ssh/*-etsy.rsa # Etsy IDs active for 9 hours
-		# $SSH_AUTH_SOCK broken so we start a new proper agent
-		if [ $? -eq 2 ];then
-			start_ssh_agent
-		fi
+        echo "etsy keys not found" # kmdebug
+		ssh-add -t 32400 `find ~/.ssh/ -name '*-etsy*' | grep -v '\.pub$'` # Etsy IDs active for 9 hours
 	fi
 }
+
+function ssh-add-keys {
+    if [[ $machine_type =~ ':etsy' ]]; then
+        add-etsy-keys
+    else
+        add-personal-keys
+    fi
+}
+
+# start the ssh-agent
+function ssh-start-agent {
+    pgrep ssh-agent > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "Terminating old ssh-agents"
+        killall ssh-agent
+    fi
+	echo "Initializing new SSH agent and saving commands to $SSH_ENV..."
+	#ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
+	ssh-agent > "$SSH_ENV"
+	chmod 600 "$SSH_ENV"
+	. "$SSH_ENV" > /dev/null
+    ssh-add-keys
+}
+
+# use this if a shell is using an ssh-agent process that isn't the one
+# referenced in ~/.ssh/environment
+function ssh-sync-agent {
+    OLD_PID=$SSH_AGENT_PID
+    if [ -f "$SSH_ENV" ]; then
+        . "$SSH_ENV"
+    else
+        ssh-start-agent
+    fi
+
+    if [ $OLD_PID -ne $SSH_AGENT_PID ]; then
+        kill $OLD_PID
+    fi
+}
+
+## Set up ssh-agent for this shell:
+# make sure $SSH_AGENT_PID has a value; try to load it from ~/.ssh/environment
+# if there wasn't one already in the env.
+echo "checking for agent pid '$SSH_AGENT_PID'" #kmdebug
+if [ -z "$SSH_AGENT_PID" ]; then
+    echo "no pid in env; sourcing ~/.ssh/environment" #kmdebug
+	if [ -f "$SSH_ENV" ]; then
+		. "$SSH_ENV" > /dev/null
+	fi
+fi
+
+# Check to see if the pid in $SSH_AGENT_PID is actually a running ssh-agent
+# process, and add our keys if it is
+echo "checking for ssh-agent process with pid '$SSH_AGENT_PID'" #kmdebug
+ps -p $SSH_AGENT_PID 2>/dev/null | grep ssh-agent > /dev/null
+if [ $? -eq 0 ]; then
+    echo "ssh-agent running. adding keys" #kmdebug
+    ssh-add-keys
+    if [ $? -eq 2 ];then
+        # exit code 2 means $SSH_AUTH_SOCK was broken so we launch a new agent
+        echo "adding keys failed. Starting agent" #kmdebug
+        ssh-start-agent
+    fi
+else
+    # If it's not, start the agent
+    echo "no ssh-agent running. starting agent" #kmdebug
+    ssh-start-agent
+fi
 
 # Encrypt everything in the given directory that isn't a dotfile or already a
 # .asc file #FIXME: Better way to detect encrypted file?
@@ -248,49 +311,6 @@ function encall {
 	fi
 
 }
-
-# start the ssh-agent
-function start_ssh_agent {
-	echo "Initializing new SSH agent..."
-	# spawn ssh-agent
-	ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
-	echo succeeded
-	chmod 600 "$SSH_ENV"
-	. "$SSH_ENV" > /dev/null
-	add-personal-keys
-}
-
-function reset_ssh_auth {
-	if [ -f "$SSH_ENV" ]; then
-	. "$SSH_ENV" > /dev/null
-	fi
-	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-	if [ $? -eq 0 ]; then
-		add-personal-keys
-	else
-		start_ssh_agent
-	fi
-}
-
-# check for running ssh-agent with proper $SSH_AGENT_PID
-if [ -n "$SSH_AGENT_PID" ]; then
-	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-	if [ $? -eq 0 ]; then
-		add-personal-keys
-	fi
-# if $SSH_AGENT_PID is not properly set, we might be able to load one from
-# $SSH_ENV
-else
-	if [ -f "$SSH_ENV" ]; then
-		. "$SSH_ENV" > /dev/null
-	fi
-	ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-	if [ $? -eq 0 ]; then
-		add-personal-keys
-	else
-		start_ssh_agent
-	fi
-fi
 
 function obj {
 	aws --endpoint-url https://objects-us-west-1.dream.io s3 $@
