@@ -292,6 +292,22 @@ else
     ssh-start-agent
 fi
 
+function vpbcopy() {
+    if [ -z $SSH_CLIENT ]; then
+        echo "not connected via ssh"
+        return -1
+    fi
+    ssh `echo $SSH_CLIENT | awk '{print $1}'` pbcopy;
+}
+
+function vpbpaste() {
+    if [ -z $SSH_CLIENT ]; then
+        echo "not connected via ssh"
+        return -1
+    fi
+    ssh `echo $SSH_CLIENT | awk '{print $1}'` pbpaste;
+}
+
 # Encrypt everything in the given directory that isn't a dotfile or already a
 # .asc file #FIXME: Better way to detect encrypted file?
 function encdir {
