@@ -122,6 +122,10 @@ if [ -d ~/go/bin ] ; then
 	PATH=~/go/bin:"${PATH}"
 	export PATH
 fi
+if [ -d ~/.local/bin ] ; then
+	PATH=~/.local/bin:"${PATH}"
+	export PATH
+fi
 
 
 # Python environment variables
@@ -175,7 +179,6 @@ if [[ $machine_type =~ ':etsy' ]]; then
         alias ks="nocorrect cd ~/development/EtsyKafka/kafkastreams"
         alias olfks="nocorrect cd ~/development/EtsyKafka/kafkastreams/olf/src/main/java/com/etsy/streams"
         alias run-phpunit="~/development/Etsyweb/vendor/bin/run-phpunit"
-        alias sparkly="nocorrect cd ~/development/sparkly"
     fi
 
     if [ -f ~/bin/cloudsnooze ]; then
@@ -359,12 +362,6 @@ function man() {
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kmarsh/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/bin/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/bin/google-cloud-sdk/completion.zsh.inc'; fi
-
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 if [[ $(pyenv --version) == "pyenv 2.3.17" ]]; then
@@ -380,3 +377,9 @@ eval "$(pyenv virtualenv-init -)"
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
