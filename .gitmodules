@@ -67,3 +67,6 @@
 [submodule "vim/bundle/copilot.vim"]
 	path = vim/bundle/copilot.vim
 	url = git@github.com:github/copilot.vim.git
+[submodule "google-java-format"]
+	path = google-java-format
+	url = git@github.com:google/google-java-format.git
