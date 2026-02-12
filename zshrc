@@ -181,8 +181,15 @@ if [[ $machine_type =~ ':etsy' ]]; then
         alias run-phpunit="~/development/Etsyweb/vendor/bin/run-phpunit"
     fi
 
-    if [ -f ~/bin/cloudsnooze ]; then
-        source ~/bin/cloudsnooze
+    if [[ $machine_type =~ ':mac' ]]; then
+        alias serverless="docker run --pull always -t --platform linux/amd64 \
+-v ~/.config/gcloud:/home/serverless/.config/gcloud \
+us-central1-docker.pkg.dev/etsy-batchjobs-prod/serverless-hub/etsy-serverless-cli:latest \
+serverless"
+        alias sparkly="docker run --pull always -t --platform linux/amd64 \
+-v ~/.config/gcloud:/home/serverless/.config/gcloud \
+us-central1-docker.pkg.dev/etsy-batchjobs-prod/serverless-hub/etsy-serverless-cli:latest \
+sparkly"
     fi
 
     # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
@@ -378,8 +385,22 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
+# Claude code:
+export PATH="$HOME/.asdf/shims:$PATH"
+export CLAUDE_CODE_USE_VERTEX=1
+export CLOUD_ML_REGION=us-east5
+export ANTHROPIC_VERTEX_PROJECT_ID=etsy-claude-code-sandbox
+
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
+
+# llvm@16 workaround for tanuki
+#export PATH="/opt/homebrew/opt/llvm@16/bin:$PATH"
+#export CC="/opt/homebrew/opt/llvm@16/bin/clang"
+#export CXX="$CC++"
+#export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm@16/lib"
+#export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm@16/include"
