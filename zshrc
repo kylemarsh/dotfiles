@@ -190,16 +190,20 @@ serverless"
 -v ~/.config/gcloud:/home/serverless/.config/gcloud \
 us-central1-docker.pkg.dev/etsy-batchjobs-prod/serverless-hub/etsy-serverless-cli:latest \
 sparkly"
+        # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
+        if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
+        if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
+    else
+        if [ -f '/home/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/home/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
+        if [ -f '/home/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
     fi
-
-    # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
-    if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
-    if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
 
     alias ksd='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace kafkastreams'
     alias ksp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace kafkastreams'
     alias td='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace tanuki'
     alias tp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace tanuki'
+
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 ################
@@ -376,10 +380,12 @@ if [[ $(pyenv --version) == "pyenv 2.3.17" ]]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-export PKG_CONFIG_PATH="/opt/homebrew/opt/zlib/lib/pkgconfig"
-export LDFLAGS="-L/opt/homebrew/lib"
-export CPPFLAGS="-I/opt/homebrew/include"
-eval "$(pyenv virtualenv-init -)"
+if [[ $machine_type =~ ':mac' ]]; then
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/zlib/lib/pkgconfig"
+    export LDFLAGS="-L/opt/homebrew/lib"
+    export CPPFLAGS="-I/opt/homebrew/include"
+    eval "$(pyenv virtualenv-init -)"
+fi
 
 autoload -Uz compinit
 zstyle ':completion:*' menu select
@@ -390,17 +396,3 @@ export PATH="$HOME/.asdf/shims:$PATH"
 export CLAUDE_CODE_USE_VERTEX=1
 export CLOUD_ML_REGION=us-east5
 export ANTHROPIC_VERTEX_PROJECT_ID=etsy-claude-code-sandbox
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
-
-# llvm@16 workaround for tanuki
-#export PATH="/opt/homebrew/opt/llvm@16/bin:$PATH"
-#export CC="/opt/homebrew/opt/llvm@16/bin/clang"
-#export CXX="$CC++"
-#export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm@16/lib"
-#export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm@16/include"
