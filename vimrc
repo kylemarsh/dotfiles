@@ -20,7 +20,11 @@ set smartcase
 let mapleader = ","
 set mouse=a
 set mousemodel=popup_setpos
-set ttymouse=xterm2
+if has('mouse_sgr')
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+endif
 set lz  ""Don't redraw while running macros
 set whichwrap+=<,>,h,l  ""Backspace and cursors wrap.
 set backspace=indent,eol,start
