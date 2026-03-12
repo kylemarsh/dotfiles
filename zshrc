@@ -213,59 +213,48 @@ SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
 function add-personal-keys {
-    echo "adding personal keys" # kmdebug
     # Check if agent is reachable
     ssh-add -l &>/dev/null
     local ret=$?
     if [ $ret -eq 2 ]; then
-        echo "cannot connect to ssh-agent" # kmdebug
         return 1
     fi
 
     # Check if personal key is already loaded (check for specific key)
     ssh-add -l | grep "id_rsa\|id_ed25519" > /dev/null
     if [ $? -eq 0 ]; then
-        echo "personal keys already loaded in agent" # kmdebug
         return 0
     fi
 
     # Explicitly add your primary key (change this to your actual key filename)
     if [ -f ~/.ssh/id_rsa ]; then
-        echo "adding id_rsa" # kmdebug
         ssh-add -t 432000 ~/.ssh/id_rsa # Basic ID active for 5 days
     elif [ -f ~/.ssh/id_ed25519 ]; then
-        echo "adding id_ed25519" # kmdebug
         ssh-add -t 432000 ~/.ssh/id_ed25519
     else
-        echo "no personal keys found" # kmdebug
         return 1
     fi
 }
 
 function add-etsy-keys {
-    echo "adding etsy keys" # kmdebug
     # Check if agent is reachable
     ssh-add -l &>/dev/null
     local ret=$?
     if [ $ret -eq 2 ]; then
-        echo "cannot connect to ssh-agent" # kmdebug
         return 1
     fi
 
     # Check if etsy keys are already loaded
     ssh-add -l | grep "kmarsh@etsy.com" > /dev/null
 	if [ $? -eq 0 ]; then
-        echo "etsy keys already loaded" # kmdebug
         return 0
     fi
 
     # Find and add etsy keys
     local etsy_keys=`find ~/.ssh/ -name '*-etsy*' | grep -v '\.pub$'`
     if [ -n "$etsy_keys" ]; then
-        echo "adding etsy keys: $etsy_keys" # kmdebug
         ssh-add -t 32400 $etsy_keys # Etsy IDs active for 9 hours
     else
-        echo "no etsy keys found" # kmdebug
         return 1
     fi
 }
@@ -282,10 +271,8 @@ function ssh-add-keys {
 function ssh-start-agent {
     pgrep ssh-agent > /dev/null
     if [ $? -eq 0 ]; then
-        echo "Terminating old ssh-agents"
         killall ssh-agent
     fi
-	echo "Initializing new SSH agent and saving commands to $SSH_ENV..."
 	ssh-agent > "$SSH_ENV"
 	chmod 600 "$SSH_ENV"
 	. "$SSH_ENV" > /dev/null
@@ -333,36 +320,27 @@ function ssh-agent-is-usable {
 
 ## Set up ssh-agent for this shell:
 # Try to load agent info from environment file if not already set
-echo "checking for agent pid '$SSH_AGENT_PID'" #kmdebug
 if [ -z "$SSH_AGENT_PID" ] || [ -z "$SSH_AUTH_SOCK" ]; then
-    echo "agent vars not in env; sourcing ~/.ssh/environment" #kmdebug
 	if [ -f "$SSH_ENV" ]; then
 		. "$SSH_ENV" > /dev/null
 	fi
 fi
 
 # Test if we have a usable agent
-echo "checking if ssh-agent is usable" #kmdebug
 if ssh-agent-is-usable; then
-    echo "ssh-agent is usable. ensuring keys are added" #kmdebug
     ssh-add-keys
 else
     # Agent not usable - try reloading from environment file in case it's stale
-    echo "agent not usable with current env vars. trying ~/.ssh/environment" #kmdebug
     if [ -f "$SSH_ENV" ]; then
         . "$SSH_ENV" > /dev/null
-        echo "reloaded environment. checking if agent is now usable" #kmdebug
         if ssh-agent-is-usable; then
-            echo "ssh-agent is usable after reload. ensuring keys are added" #kmdebug
             ssh-add-keys
         else
             # Still not usable, start a new one
-            echo "agent still not usable. starting new agent" #kmdebug
             ssh-start-agent
         fi
     else
         # No environment file, start a new agent
-        echo "no environment file found. starting new agent" #kmdebug
         ssh-start-agent
     fi
 fi
