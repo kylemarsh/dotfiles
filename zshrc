@@ -21,7 +21,11 @@ esac
 
 # Set primary SSH key based on machine type
 if [[ $machine_type =~ ':etsy' ]]; then
-    primary_ssh_key="$HOME/.ssh/creidhne-etsy.rsa"
+    if [ -f "$HOME/.ssh/vm-etsy-ed25519" ]; then
+        primary_ssh_key="$HOME/.ssh/vm-etsy-ed25519"
+    elif [ -f "$HOME/.ssh/creidhne-etsy.rsa" ]; then
+        primary_ssh_key="$HOME/.ssh/creidhne-etsy.rsa"
+    fi
 elif [ -f "$HOME/.ssh/id_ed25519" ]; then
     primary_ssh_key="$HOME/.ssh/id_ed25519"
 elif [ -f "$HOME/.ssh/id_rsa" ]; then
