@@ -19,6 +19,15 @@ case $fullname in
 		;;
 esac
 
+# Set primary SSH key based on machine type
+if [[ $machine_type =~ ':etsy' ]]; then
+    primary_ssh_key="$HOME/.ssh/creidhne-etsy.rsa"
+elif [ -f "$HOME/.ssh/id_ed25519" ]; then
+    primary_ssh_key="$HOME/.ssh/id_ed25519"
+elif [ -f "$HOME/.ssh/id_rsa" ]; then
+    primary_ssh_key="$HOME/.ssh/id_rsa"
+fi
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.ohmyzsh
 ZSH_THEME="kylemarsh"
@@ -212,7 +221,7 @@ fi
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
-function add-personal-keys {
+function unlock-ssh {
     # Check if agent is reachable
     ssh-add -l &>/dev/null
     local ret=$?
@@ -220,51 +229,33 @@ function add-personal-keys {
         return 1
     fi
 
-    # Check if personal key is already loaded (check for specific key)
-    ssh-add -l | grep "id_rsa\|id_ed25519" > /dev/null
+    # Check if primary key is set
+    if [ -z "$primary_ssh_key" ]; then
+        echo "Error: primary_ssh_key is not set"
+        return 1
+    fi
+
+    # Check if primary key file exists
+    if [ ! -f "$primary_ssh_key" ]; then
+        echo "Error: primary key file not found: $primary_ssh_key"
+        return 1
+    fi
+
+    # Get fingerprint of the primary key
+    local primary_fingerprint=$(ssh-keygen -lf "$primary_ssh_key" 2>/dev/null | awk '{print $2}')
+    if [ -z "$primary_fingerprint" ]; then
+        echo "Error: could not get fingerprint of $primary_ssh_key"
+        return 1
+    fi
+
+    # Check if primary key is already in the agent
+    ssh-add -l | grep -q "$primary_fingerprint"
     if [ $? -eq 0 ]; then
         return 0
     fi
 
-    # Explicitly add your primary key (change this to your actual key filename)
-    if [ -f ~/.ssh/id_rsa ]; then
-        ssh-add -t 432000 ~/.ssh/id_rsa # Basic ID active for 5 days
-    elif [ -f ~/.ssh/id_ed25519 ]; then
-        ssh-add -t 432000 ~/.ssh/id_ed25519
-    else
-        return 1
-    fi
-}
-
-function add-etsy-keys {
-    # Check if agent is reachable
-    ssh-add -l &>/dev/null
-    local ret=$?
-    if [ $ret -eq 2 ]; then
-        return 1
-    fi
-
-    # Check if etsy keys are already loaded
-    ssh-add -l | grep "kmarsh@etsy.com" > /dev/null
-	if [ $? -eq 0 ]; then
-        return 0
-    fi
-
-    # Find and add etsy keys
-    local etsy_keys=`find ~/.ssh/ -name '*-etsy*' | grep -v '\.pub$'`
-    if [ -n "$etsy_keys" ]; then
-        ssh-add -t 32400 $etsy_keys # Etsy IDs active for 9 hours
-    else
-        return 1
-    fi
-}
-
-function ssh-add-keys {
-    if [[ $machine_type =~ ':etsy' ]]; then
-        add-etsy-keys
-    else
-        add-personal-keys
-    fi
+    # Add the primary key to the agent
+    ssh-add -t 432000 "$primary_ssh_key"
 }
 
 # start the ssh-agent
@@ -276,7 +267,7 @@ function ssh-start-agent {
 	ssh-agent > "$SSH_ENV"
 	chmod 600 "$SSH_ENV"
 	. "$SSH_ENV" > /dev/null
-    ssh-add-keys
+    unlock-ssh
 }
 
 # use this if a shell is using an ssh-agent process that isn't the one
@@ -328,13 +319,13 @@ fi
 
 # Test if we have a usable agent
 if ssh-agent-is-usable; then
-    ssh-add-keys
+    unlock-ssh
 else
     # Agent not usable - try reloading from environment file in case it's stale
     if [ -f "$SSH_ENV" ]; then
         . "$SSH_ENV" > /dev/null
         if ssh-agent-is-usable; then
-            ssh-add-keys
+            unlock-ssh
         else
             # Still not usable, start a new one
             ssh-start-agent
