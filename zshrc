@@ -209,33 +209,65 @@ fi
 # SSH-y things #
 ################
 
-###
-### TODO
-###
-# see if this works on my boromir vm
-# see if this works on my personal computer
-# clean up the echos
-# replace spaces with tabs in this file
-###
 SSH_ENV="$HOME/.ssh/environment"
 
 # add appropriate ssh keys to the agent
 function add-personal-keys {
     echo "adding personal keys" # kmdebug
-    ssh-add -l | grep "id_rsa" > /dev/null #FIXME is this correct?
-    if [ $? -ne 0 ]; then
-        echo "personal keys not found" # kmdebug
-        ssh-add -t 432000 # Basic ID active for 5 days
+    # Check if agent is reachable
+    ssh-add -l &>/dev/null
+    local ret=$?
+    if [ $ret -eq 2 ]; then
+        echo "cannot connect to ssh-agent" # kmdebug
+        return 1
+    fi
+
+    # Check if personal key is already loaded (check for specific key)
+    ssh-add -l | grep "id_rsa\|id_ed25519" > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "personal keys already loaded in agent" # kmdebug
+        return 0
+    fi
+
+    # Explicitly add your primary key (change this to your actual key filename)
+    if [ -f ~/.ssh/id_rsa ]; then
+        echo "adding id_rsa" # kmdebug
+        ssh-add -t 432000 ~/.ssh/id_rsa # Basic ID active for 5 days
+    elif [ -f ~/.ssh/id_ed25519 ]; then
+        echo "adding id_ed25519" # kmdebug
+        ssh-add -t 432000 ~/.ssh/id_ed25519
+    else
+        echo "no personal keys found" # kmdebug
+        return 1
     fi
 }
 
 function add-etsy-keys {
     echo "adding etsy keys" # kmdebug
-	ssh-add -l | grep "kmarsh@etsy.com" > /dev/null
-	if [ $? -ne 0 ]; then
-        echo "etsy keys not found" # kmdebug
-		ssh-add -t 32400 `find ~/.ssh/ -name '*-etsy*' | grep -v '\.pub$'` # Etsy IDs active for 9 hours
-	fi
+    # Check if agent is reachable
+    ssh-add -l &>/dev/null
+    local ret=$?
+    if [ $ret -eq 2 ]; then
+        echo "cannot connect to ssh-agent" # kmdebug
+        return 1
+    fi
+
+    # Check if etsy keys are already loaded
+    ssh-add -l | grep "kmarsh@etsy.com" > /dev/null
+	if [ $? -eq 0 ]; then
+        echo "etsy keys already loaded" # kmdebug
+        return 0
+    fi
+
+    # Find and add etsy keys
+    local etsy_keys=`find ~/.ssh/ -name '*-etsy*' | grep -v '\.pub$'`
+    if [ -n "$etsy_keys" ]; then
+        echo "adding etsy keys: $etsy_keys" # kmdebug
+        ssh-add -t 32400 $etsy_keys # Etsy IDs active for 9 hours
+    else
+        echo "no etsy keys found" # kmdebug
+        return 1
+    fi
 }
 
 function ssh-add-keys {
@@ -254,7 +286,6 @@ function ssh-start-agent {
         killall ssh-agent
     fi
 	echo "Initializing new SSH agent and saving commands to $SSH_ENV..."
-	#ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
 	ssh-agent > "$SSH_ENV"
 	chmod 600 "$SSH_ENV"
 	. "$SSH_ENV" > /dev/null
@@ -269,40 +300,71 @@ function ssh-sync-agent {
         . "$SSH_ENV"
     else
         ssh-start-agent
+        return
     fi
 
-    if [ $OLD_PID -ne $SSH_AGENT_PID ]; then
-        kill $OLD_PID
+    if [ -n "$OLD_PID" ] && [ "$OLD_PID" -ne "$SSH_AGENT_PID" ]; then
+        kill $OLD_PID 2>/dev/null
     fi
 }
 
+# Test if an agent is actually usable by trying to list keys
+function ssh-agent-is-usable {
+    if [ -z "$SSH_AGENT_PID" ] || [ -z "$SSH_AUTH_SOCK" ]; then
+        return 1
+    fi
+
+    # Check if the PID is a running ssh-agent process
+    # Use 'ps -p PID -o comm=' for cross-platform compatibility
+    if ps -p "$SSH_AGENT_PID" -o comm= 2>/dev/null | grep -q ssh-agent; then
+        # Check if the socket is actually usable
+        if [ -S "$SSH_AUTH_SOCK" ]; then
+            # Try to communicate with the agent
+            ssh-add -l &>/dev/null
+            local ret=$?
+            # Return codes: 0 = keys loaded, 1 = no keys but agent works, 2 = agent broken
+            if [ $ret -ne 2 ]; then
+                return 0
+            fi
+        fi
+    fi
+    return 1
+}
+
 ## Set up ssh-agent for this shell:
-# make sure $SSH_AGENT_PID has a value; try to load it from ~/.ssh/environment
-# if there wasn't one already in the env.
+# Try to load agent info from environment file if not already set
 echo "checking for agent pid '$SSH_AGENT_PID'" #kmdebug
-if [ -z "$SSH_AGENT_PID" ]; then
-    echo "no pid in env; sourcing ~/.ssh/environment" #kmdebug
+if [ -z "$SSH_AGENT_PID" ] || [ -z "$SSH_AUTH_SOCK" ]; then
+    echo "agent vars not in env; sourcing ~/.ssh/environment" #kmdebug
 	if [ -f "$SSH_ENV" ]; then
 		. "$SSH_ENV" > /dev/null
 	fi
 fi
 
-# Check to see if the pid in $SSH_AGENT_PID is actually a running ssh-agent
-# process, and add our keys if it is
-echo "checking for ssh-agent process with pid '$SSH_AGENT_PID'" #kmdebug
-ps -p $SSH_AGENT_PID 2>/dev/null | grep ssh-agent > /dev/null
-if [ $? -eq 0 ]; then
-    echo "ssh-agent running. adding keys" #kmdebug
+# Test if we have a usable agent
+echo "checking if ssh-agent is usable" #kmdebug
+if ssh-agent-is-usable; then
+    echo "ssh-agent is usable. ensuring keys are added" #kmdebug
     ssh-add-keys
-    if [ $? -eq 2 ];then
-        # exit code 2 means $SSH_AUTH_SOCK was broken so we launch a new agent
-        echo "adding keys failed. Starting agent" #kmdebug
+else
+    # Agent not usable - try reloading from environment file in case it's stale
+    echo "agent not usable with current env vars. trying ~/.ssh/environment" #kmdebug
+    if [ -f "$SSH_ENV" ]; then
+        . "$SSH_ENV" > /dev/null
+        echo "reloaded environment. checking if agent is now usable" #kmdebug
+        if ssh-agent-is-usable; then
+            echo "ssh-agent is usable after reload. ensuring keys are added" #kmdebug
+            ssh-add-keys
+        else
+            # Still not usable, start a new one
+            echo "agent still not usable. starting new agent" #kmdebug
+            ssh-start-agent
+        fi
+    else
+        # No environment file, start a new agent
+        echo "no environment file found. starting new agent" #kmdebug
         ssh-start-agent
     fi
-else
-    # If it's not, start the agent
-    echo "no ssh-agent running. starting agent" #kmdebug
-    ssh-start-agent
 fi
 
 function vpbcopy() {
