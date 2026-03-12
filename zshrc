@@ -196,14 +196,13 @@ sparkly"
     else
         if [ -f '/home/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/home/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
         if [ -f '/home/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     fi
 
     alias ksd='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace kafkastreams'
     alias ksp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace kafkastreams'
     alias td='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace tanuki'
     alias tp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace tanuki'
-
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 ################
