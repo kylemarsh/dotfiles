@@ -235,29 +235,33 @@ function unlock-ssh {
 
     # Check if primary key is set
     if [ -z "$primary_ssh_key" ]; then
-        echo "Error: primary_ssh_key is not set"
+        #echo "Error: primary_ssh_key is not set"
         return 1
     fi
 
     # Check if primary key file exists
     if [ ! -f "$primary_ssh_key" ]; then
-        echo "Error: primary key file not found: $primary_ssh_key"
+        #echo "Error: primary key file not found: $primary_ssh_key"
         return 1
     fi
 
     # Get fingerprint of the primary key
     local primary_fingerprint=$(ssh-keygen -lf "$primary_ssh_key" 2>/dev/null | awk '{print $2}')
     if [ -z "$primary_fingerprint" ]; then
-        echo "Error: could not get fingerprint of $primary_ssh_key"
+        #echo "Error: could not get fingerprint of $primary_ssh_key"
         return 1
     fi
 
     # Check if primary key is already in the agent
+    #echo "Primary fingerprint: $primary_fingerprint" #kmdebug
+    #echo "Unlocked keys: " `ssh-add -l` #kmdebug
     ssh-add -l | grep -q "$primary_fingerprint"
     if [ $? -eq 0 ]; then
+        #echo "found key" #kmdebug
         return 0
     fi
 
+    #echo "adding key" #kmdebug
     # Add the primary key to the agent
     ssh-add -t 432000 "$primary_ssh_key"
 }
@@ -322,6 +326,8 @@ if [ -z "$SSH_AGENT_PID" ] || [ -z "$SSH_AUTH_SOCK" ]; then
 fi
 
 # Test if we have a usable agent
+#echo "ssh agent PID: $SSH_AGENT_PID" #kmdebug
+#echo "ssh auth sock: $SSH_AUTH_SOCK" #kmdebug
 if ssh-agent-is-usable; then
     unlock-ssh
 else
@@ -426,7 +432,4 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 # Claude code:
-export PATH="$HOME/.asdf/shims:$PATH"
-export CLAUDE_CODE_USE_VERTEX=1
-export CLOUD_ML_REGION=us-east5
-export ANTHROPIC_VERTEX_PROJECT_ID=etsy-claude-code-sandbox
+#export PATH="$HOME/.asdf/shims:$PATH"
