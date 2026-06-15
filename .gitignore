@@ -3,4 +3,5 @@ tmux/plugins
 tmux/resurrect
 tags
 Session.vim
+local
 

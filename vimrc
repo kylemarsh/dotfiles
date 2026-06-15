@@ -3,6 +3,11 @@ set modelines=0
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
+let b:local_config_file = $HOME . "/dotfiles/local/local.vim"
+if filereadable(b:local_config_file)
+    execute 'source' b:local_config_file
+endif
+
 """ Basic operation settings
 set nocompatible
 set history=1000
@@ -226,27 +231,6 @@ imap <Tab> <C-R>=SuperTab()<CR>
 "endif
 
 
-" update file searching so `gf` can properly find etsy php class definitions
-if !empty(glob('~/development/Etsyweb/'))
-    set path+=~/development/Etsyweb/phplib,
-            \~/development/Etsyweb/phplib/EtsyModel,
-            \~/development/Etsyweb/phplib,
-            \~/development/Etsyweb/templates,
-            \~/development/Etsyweb/htdocs/assets/js,
-            \~/development/Etsyweb/htdocs/assets/css,
-            \~/development/Etsyweb/phplib/Api,
-            \~/development/Etsyweb/phplib/Api/Resource
-    " add \ to filenames so that we can get whole namespaced filenames
-    set isfname+=\
-    " make `gf` Etsyweb aware!
-    set includeexpr=substitute(substitute(substitute(v:fname,'_','/','g'),'\\\','/','g'),'Etsy/Web/','','g')
-    set suffixesadd+=.php
-    set suffixesadd+=.tpl
-    set suffixesadd+=.js
-    set suffixesadd+=.jsx
-    set suffixesadd+=.mustache
-endif
-
 """ GO Stuff
 " see also vim/ftplugin/go.vim
 let g:go_fmt_command = "goimports"
@@ -272,10 +256,6 @@ nnoremap <Leader>d :bprev<CR>
 nnoremap <Leader>r :!run_test %<CR>
 "nnoremap <Leader>c :!run_test -ng %<CR>
 
-" Config files
-command ConD :e phplib/EtsyConfig/development.php
-command ConP :e phplib/EtsyConfig/production.php
-
 " Creating Gists
 "command -range=% -nargs=0 GistBlob :<line1>,<line2>w !cat | gist -t %:e "works when the file has an extension; fails otherwise
 command -range=% -nargs=0 GistBlob :<line1>,<line2>w !cat | gist
@@ -298,53 +278,3 @@ vnoremap <Leader>a> :Tabularize /=><cr>
 nnoremap <Leader>a, :Tabularize /,\zs<cr>
 vnoremap <Leader>a, :Tabularize /,\zs<cr>
 
-" Open test for source and viceversa
-function! OpenTestForSourceOrSourceForTest()
-
-    let basename = expand('%:r')
-    let extension = expand('%:e')
-    let path = expand('%:p:h')
-
-    if match(extension, 'php') == -1
-        echo "current file is not a php file"
-        return
-    endif
-
-    if !exists('g:EtsyDir')
-        let g:EtsyDir = $HOME . '/development/Etsyweb'
-    endif
-
-    if match(path, g:EtsyDir) == -1
-        echo "current file is not in Etsyweb"
-        return
-    endif
-
-    let is_likely_module = match(path, '/modules/')
-
-    if match(path, 'tests/phpunit') == -1
-        " current file is not a test, targt opening the test
-        if is_likely_module == -1
-            let path = substitute(path, 'phplib', 'tests/phpunit', 'g')
-        else
-            let path = substitute(path, 'src', 'tests/phpunit', 'g')
-            " Etsystandard module is special :'(
-            let path = substitute(path, 'EtsyStandard/Etsystandard', 'EtsyStandard/tests/phpunit', 'g')
-        endif
-
-        let fn = basename . 'Test'
-        let fn = path . '/' . fn . '.' . extension
-        tabe `=fn`
-    else
-        " current file is a test. Targte opening the source
-        if is_likely_module == -1
-            let path = substitute(path, 'tests/phpunit', 'phplib', 'g')
-        else
-            let path = substitute(path, 'tests/phpunit', 'src', 'g')
-        endif
-
-        let fn = substitute(basename, 'Test$', '', 'g')
-        let fn = path . '/' . fn . '.' . extension
-        tabe `=fn`
-    endif
-endfunction
-nnoremap <Leader>gt :OpenTestForSourceOrSourceForTest<CR>
