@@ -5,18 +5,18 @@
 Confusion about which SSH key was loaded in the agent. Investigation revealed:
 
 1. **Multiple authentication mechanisms coexisting:**
-   - Static RSA key in `~/.ssh/creidhne-etsy.rsa` (permanent, on disk)
+   - Static RSA key in `~/.ssh/` (permanent, on disk)
    - Ephemeral ECDSA certificate from Smallstep CA (expires every ~16 hours)
 
-2. **The certificate was from Etsy's infrastructure:**
+2. **The certificate was from employer's infrastructure:**
    - Generated via `step ssh login`
-   - Signed by Etsy's CA at `https://ssh.etsy.ca.smallstep.com`
-   - Used for internal Etsy hosts (*.etsycloud.com, *.etsycorp.com, *.internal)
-   - Automatically managed via SSH config includes at `~/.step/ssh/`
+   - Signed by employer's CA
+   - Used for employer's internal hosts 
+   - Automatically managed via SSH config includes
 
 3. **Original key management code had issues:**
-   - Separate `add-personal-keys` and `add-etsy-keys` functions
-   - Used string matching on key comments (`grep "id_rsa\|id_ed25519"`, `grep "kmarsh@etsy.com"`)
+   - Separate `add-personal-keys` and `add-employer-keys` functions
+   - Used string matching on key comments
    - Hardcoded key filenames and patterns
    - Machine-type branching logic in `ssh-add-keys`
    - Not fingerprint-based, so couldn't reliably detect if correct key was loaded
@@ -29,18 +29,18 @@ Set near the top of `.zshrc` during machine type detection:
 
 ```zsh
 # Set primary SSH key based on machine type
-if [[ $machine_type =~ ':etsy' ]]; then
-    primary_ssh_key="$HOME/.ssh/creidhne-etsy.rsa"
+if [[ $machine_type =~ ':employer' ]]; then
+    primary_ssh_key="$HOME/.ssh/employer.rsa"
 elif [ -f "$HOME/.ssh/id_ed25519" ]; then
-    primary_ssh_key="$HOME/.ssh/id_ed25519"
-elif [ -f "$HOME/.ssh/id_rsa" ]; then
-    primary_ssh_key="$HOME/.ssh/id_rsa"
+    primary_ssh_key="$HOME/.ssh/ephemeral"
+elif [ -f "$HOME/.ssh/fallback" ]; then
+    primary_ssh_key="$HOME/.ssh/fallback"
 fi
 ```
 
 ### 2. Created unified `unlock-ssh` function
 
-Replaced `add-personal-keys` and `add-etsy-keys` with single function that:
+Replaced `add-personal-keys` and `add-employer-keys` with single function that:
 
 1. Validates `$primary_ssh_key` is set and file exists
 2. Gets fingerprint via `ssh-keygen -lf "$primary_ssh_key"`
@@ -97,10 +97,8 @@ echo $primary_ssh_key
 
 ## Notes
 
-- **Smallstep certificates still work:** They're managed separately via SSH config
 - **No functionality removed:** Still loads same keys, just more reliably
 - **Backward compatible:** Existing workflows unchanged, just better detection
-- **The ECDSA-CERT in your agent is not from this code:** That's from Etsy's `step ssh` infrastructure
 
 ## Technical Details
 
