@@ -5,31 +5,17 @@ case `uname` in
 	Darwin) machine_type="${machine_type}:mac";;
 esac
 
-case $fullname in
-	*vimes*)
-		machine_type="${machine_type}:python:home:go"
-		;;
-	*etsy.com) ;&
-	*etsycloud.com) ;&
-	*etsy-devenv-web-prod*) ;&
-	#*etsy.com) ;&
-	#*goibniu*)
-	10162*)
-		machine_type="${machine_type}:etsy"
-		;;
-esac
+# Load in local files
+if [[ -f $HOME/dotfiles/local/local.zsh ]]; then
+    source $HOME/dotfiles/local/local.zsh
+fi
 
-# Set primary SSH key based on machine type
-if [[ $machine_type =~ ':etsy' ]]; then
-    if [ -f "$HOME/.ssh/vm-etsy-ed25519" ]; then
-        primary_ssh_key="$HOME/.ssh/vm-etsy-ed25519"
-    elif [ -f "$HOME/.ssh/creidhne-etsy.rsa" ]; then
-        primary_ssh_key="$HOME/.ssh/creidhne-etsy.rsa"
+if [[ ! -v primary_ssh_key ]]; then
+    if [ -f "$HOME/.ssh/id_ed25519" ]; then
+        primary_ssh_key="$HOME/.ssh/id_ed25519"
+    elif [ -f "$HOME/.ssh/id_rsa" ]; then
+        primary_ssh_key="$HOME/.ssh/id_rsa"
     fi
-elif [ -f "$HOME/.ssh/id_ed25519" ]; then
-    primary_ssh_key="$HOME/.ssh/id_ed25519"
-elif [ -f "$HOME/.ssh/id_rsa" ]; then
-    primary_ssh_key="$HOME/.ssh/id_rsa"
 fi
 
 # Path to your oh-my-zsh configuration.
@@ -41,21 +27,16 @@ DISABLE_AUTO_UPDATE="true" #oh-my-zsh updates
 # DISABLE_CORRECTION="true"
 
 base_plugins=(history screen virtualenv)
-etsy_plugins=()
-python_plugins=(pip virtualenvwrapper)
+python_plugins=(pip)
 mac_plugins=(battery brew asdf)
 
 plugins=($base_plugins)
 if [[ $machine_type =~ ':mac' ]]; then
 	plugins+=($mac_plugins)
 fi
-if [[ $machine_type =~ ':etsy' ]]; then
-	plugins+=($etsy_plugins)
-fi
-if [[ $machine_type =~ ':python' ]]; then
-	plugins+=($python_plugins)
-    DISABLE_VENV_CD=1
-fi
+
+plugins+=($python_plugins)
+DISABLE_VENV_CD=1
 
 source $ZSH/oh-my-zsh.sh
 fpath=($HOME/lib/zsh/functions $fpath)
@@ -142,19 +123,15 @@ fi
 
 
 # Python environment variables
-if [[ $machine_type =~ ':python' ]]; then
-	export PROJECT_HOME="$HOME/projects"
-	export PIP_REQUIRE_VIRTUALENV=true
-	export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-	function syspip {
-		PIP_REQUIRE_VIRTUALENV="" pip $@
-	}
-fi
+export PROJECT_HOME="$HOME/projects"
+export PIP_REQUIRE_VIRTUALENV=true
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+function syspip {
+    PIP_REQUIRE_VIRTUALENV="" pip $@
+}
 
 # Go environment variables
-if [[ $machine_type =~ ':go' ]]; then
-	export GOPATH="$HOME/go"
-fi
+export GOPATH="$HOME/go"
 
 # Mac (and not-mac) things
 if [[ $machine_type =~ ':mac' ]]; then
@@ -172,51 +149,6 @@ if [[ $machine_type =~ ':mac' ]]; then
 fi
 
 alias vit="vim -c Git -c only"
-
-# Work paths and aliases
-if [[ $machine_type =~ ':etsy' ]]; then
-	# Tail php logs on the VM
-	alias tl='sudo tail -f /var/log/httpd/php.log /var/log/httpd/info.log /var/log/httpd/error_log /var/log/gearman/php.log'
-    if [ -f ~/development/bin/xdebug_toggle ]; then
-        source ~/development/bin/xdebug_toggle
-    fi
-    if [ -d ~/development/Etsyweb ]; then
-        alias emods="nocorrect cd ~/development/Etsyweb/modules"
-        alias plib="nocorrect cd ~/development/Etsyweb/phplib"
-        alias plib..="nocorrect cd ~/development/Etsyweb"
-        alias punit="nocorrect cd ~/development/Etsyweb/tests/phpunit"
-        alias punit..="nocorrect cd ~/development/Etsyweb/tests"
-        alias oneoffs="nocorrect cd ~/oneoffs/"
-        alias oneoff="nocorrect cd ~/oneoffs/"
-        alias olfscript="nocorrect cd ~/development/olf-scripts"
-        alias ks="nocorrect cd ~/development/EtsyKafka/kafkastreams"
-        alias olfks="nocorrect cd ~/development/EtsyKafka/kafkastreams/olf/src/main/java/com/etsy/streams"
-        alias run-phpunit="~/development/Etsyweb/vendor/bin/run-phpunit"
-    fi
-
-    if [[ $machine_type =~ ':mac' ]]; then
-        alias serverless="docker run --pull always -t --platform linux/amd64 \
--v ~/.config/gcloud:/home/serverless/.config/gcloud \
-us-central1-docker.pkg.dev/etsy-batchjobs-prod/serverless-hub/etsy-serverless-cli:latest \
-serverless"
-        alias sparkly="docker run --pull always -t --platform linux/amd64 \
--v ~/.config/gcloud:/home/serverless/.config/gcloud \
-us-central1-docker.pkg.dev/etsy-batchjobs-prod/serverless-hub/etsy-serverless-cli:latest \
-sparkly"
-        # put Google Cloud SDK in PATH and enable shell command completion for gcloud.
-        if [ -f '/Users/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
-        if [ -f '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
-    else
-        if [ -f '/home/kmarsh/google-cloud-sdk/path.zsh.inc' ]; then . '/home/kmarsh/google-cloud-sdk/path.zsh.inc'; fi
-        if [ -f '/home/kmarsh/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/kmarsh/google-cloud-sdk/completion.zsh.inc'; fi
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    fi
-
-    alias ksd='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace kafkastreams'
-    alias ksp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace kafkastreams'
-    alias td='kubectl --cluster gke_etsy-kafka-gke-dev_us-central1_kafka-gke-dev --namespace tanuki'
-    alias tp='kubectl --cluster gke_etsy-kafka-gke-prod_us-central1_kafka-gke-prod --namespace tanuki'
-fi
 
 ################
 # SSH-y things #
